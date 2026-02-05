@@ -14,16 +14,16 @@ Generate response reports that mimic how student teams respond to crisis injects
 
 ## Inputs
 
-- `sim_overview.md` - Team roles, budgets, constraints
-- `phase_#_overview.md` - Current situation
-- `phase_#_roles.csv` - Team-to-role assignments for this phase
-- `phase_#_injects.csv` - Active incidents
-- `sim_actions.csv` - Available actions with costs
+- `sim_overview.md` - Team roles, budgets, constraints (in simulation root)
+- `phase_#/overview.md` - Current situation
+- `phase_#/roles.csv` - Team-to-role assignments for this phase
+- `phase_#/injects.csv` - Active incidents
+- `phase_#/actions.csv` - Available actions with costs
 
 ## How to Respond
 
 ### 0. Identify Your Role
-- Look up your team in `phase_#_roles.csv` to find your assigned role
+- Look up your team in `roles.csv` to find your assigned role
 - Your role determines which actions you can take and which injects you see
 - Include your role at the top of your response report
 
@@ -38,7 +38,7 @@ Generate response reports that mimic how student teams respond to crisis injects
 - Document who you worked with
 
 ### 3. Take Catalog Actions
-- Choose actions from `sim_actions.csv` where your **role** is in `available_to`
+- Choose actions from `actions.csv` where your **role** is in `available_to`
 - Consider costs vs. budget
 - Explain why you chose each action (brief)
 
@@ -58,8 +58,15 @@ The facilitator (sim-inject) will evaluate feasibility and may:
 - Deny (explain why it's not feasible)
 
 ### 5. Track Resources
-- Record spending and transfers
-- Update remaining budget
+- Record action costs (from `actions.csv` cost column)
+- Record any budget transfers to other teams (with purpose)
+- Calculate remaining budget: starting budget - action costs - transfers out + transfers in
+- Be accurate — the facilitator uses your reported numbers to update the simulation
+
+**Budget Transfers:**
+Teams can transfer funds to other teams to enable actions they can't take themselves. For example, a county government might fund a telecom company to execute emergency routing. Document transfers clearly:
+- From team, To team, Amount, Purpose
+- The receiving team must still take the action in their own report
 
 ## Report Template
 
@@ -77,7 +84,7 @@ Use `assets/templates/REPORT.md` - designed to be:
 | Collaboration | Which teams, what you did together |
 | Actions Taken (catalog) | Action ID, name, cost, brief rationale |
 | Proposed Custom Actions | Action description, est. cost, expected effect, time, risks, justification |
-| Transfers | Budget moves between teams |
+| Transfers | Budget moves between teams (From, To, Amount, Purpose) |
 | Remaining Budget | Single number |
 | Outcomes & Next Steps | Expected results, needs, risks |
 

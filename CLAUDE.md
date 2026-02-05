@@ -76,6 +76,11 @@ Generates a static web application for running simulations in class:
 - Sortable tables and modal details
 - No server required - just open HTML in browser
 
+### sim-close
+Closes a completed simulation phase:
+- Marks the phase as "Completed" on the web dashboard (green card) via sim-web Mode 3
+- No file moves needed — phase files already live in `phase_#/` subfolders from creation
+
 ### sim-canvas
 Fetches student response submissions from Canvas LMS:
 - Pulls submissions via Canvas API
@@ -117,6 +122,8 @@ skills/
       phase.html               # Phase page template
       css/styles.css           # Stylesheet
       js/app.js                # Application logic
+  sim-close/
+    SKILL.md                     # Archive completed phases
   sim-canvas/
     SKILL.md
     scripts/
@@ -132,14 +139,15 @@ examples/                      # Example inject CSVs
 simulations/                   # Generated simulations
   [simulation-name]/
     sim_overview.md
-    sim_actions.csv
-    phase_#_overview.md
-    phase_#_roles.csv          # Team-to-role assignments
-    phase_#_roles_init.csv     # Initial roles (backup)
-    phase_#_injects.csv        # Active injects (updated)
-    phase_#_injects_init.csv   # Initial injects (backup)
-    responses/                 # Team response reports
-      .gitignore               # Excludes student data from git
+    phase_#/                   # Each phase in its own subfolder
+      overview.md
+      roles.csv                # Team-to-role assignments
+      roles_init.csv           # Initial roles (backup)
+      actions.csv              # Action catalog for this phase
+      injects.csv              # Active injects (updated)
+      injects_init.csv         # Initial injects (backup)
+      responses/               # Team response reports
+        .gitignore             # Excludes student data from git
 findings.md                    # Research and discoveries
 progress.md                    # Session log and test results
 ```
@@ -152,3 +160,22 @@ Example inject files are in `examples/`:
 
 Generated simulations are stored in `simulations/`:
 - **Seattle Metro Crisis** (`simulations/seattle-metro-crisis/`): Multi-phase regional crisis scenario
+- **Virginia Cascading Crisis** (`simulations/virginia-cascading-crisis/`): Active simulation (Phase 1)
+
+## Environment Notes
+
+- **No system Python installed.** Use `uv run --with <deps>` to run Python scripts.
+- **Canvas URL parsing bug:** `parse_assignment_url()` has a regex bug. Always use explicit `--base-url`, `--course-id`, `--assignment-id` instead of `--assignment-url`.
+- **Canvas credentials:** Token in `skills/sim-canvas/references/token`, base URL is `https://canvas.vt.edu`, course ID `223104`.
+
+## Update Cycle Workflow
+
+During a live simulation phase, the facilitator runs update cycles:
+
+1. **Fetch** submissions from Canvas: `uv run --with requests --with html2text skills/sim-canvas/scripts/fetch_canvas_submissions.py --base-url https://canvas.vt.edu --course-id 223104 --assignment-id <id> --one-per-group --name-by-group --phase <N> --only-new --all-attempts --check-template --out-dir simulations/<sim>/phase_N/responses`
+2. **Read** all response `.md` files
+3. **Evaluate** actions against injects + `phase_N/actions.csv`
+4. **Update** `phase_N/injects.csv` — state changes with `[UPDATE H:MM]` explanations + new injects
+5. **Update** `phase_N/roles.csv` — budget, trust, score
+6. **Copy** both CSVs to `docs/phase_N/`
+7. **Update** `progress.md` with full accounting

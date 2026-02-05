@@ -51,7 +51,7 @@
 
 ## Team Roles This Phase
 
-**All 15 teams are active in every phase.** Roles are randomly assigned each phase. See `phase_#_roles.csv` for this phase's assignments.
+**All 15 teams are active in every phase.** Roles are randomly assigned each phase. See `roles.csv` for this phase's assignments.
 
 ### Role-Specific Objectives
 
@@ -71,7 +71,7 @@ For each of the 15 roles, list 2-3 objectives for this phase:
 
 ## Injects
 
-Injects are stored in `phase_#_injects.csv`
+Injects are stored in `injects.csv`
 
 ### Mandatory Injects (20 minimum)
 These injects represent core events that must occur during this phase.

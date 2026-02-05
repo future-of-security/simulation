@@ -11,14 +11,21 @@ Fetch student submissions from a Canvas assignment and save them as Markdown fil
 
 1. Save the assignment URL to `skills/sim-canvas/references/url`.
 2. Save your Canvas token to `skills/sim-canvas/references/token`.
-3. Run the fetch script:
+3. Run the fetch script (use `uv run` with dependencies since no system Python may be installed):
 
 ```powershell
-python skills/sim-canvas/scripts/fetch_canvas_submissions.py `
-  --out-dir simulations/virginia-cascading-crisis/responses
+uv run --with requests --with html2text `
+  skills/sim-canvas/scripts/fetch_canvas_submissions.py `
+  --base-url https://canvas.vt.edu `
+  --course-id 223104 --assignment-id 2653674 `
+  --one-per-group --name-by-group --phase 1 `
+  --only-new --all-attempts --check-template `
+  --out-dir simulations/virginia-cascading-crisis/phase_1/responses
 ```
 
-3. Review generated `.md` files in the output directory.
+4. Review generated `.md` files in the output directory.
+
+**Known issue:** The `--assignment-url` flag does not work due to a regex bug in `parse_assignment_url()` (uses `\\d+` instead of `\d+`). Always use explicit `--base-url`, `--course-id`, and `--assignment-id` instead.
 
 ## Workflow
 
@@ -66,6 +73,8 @@ python skills/sim-canvas/scripts/fetch_canvas_submissions.py `
 - Optional: `html2text` (for cleaner HTML-to-Markdown conversion)
 
 If `html2text` is missing, the script falls back to a minimal HTML strip.
+
+**Running without system Python:** Use `uv run --with requests --with html2text` to run the script in an isolated environment. This is the recommended approach when no system Python is available.
 
 ## Resources
 

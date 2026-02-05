@@ -312,6 +312,9 @@ body {
 
 /* Header Navigation */
 .header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 12px;
 }
 
@@ -327,6 +330,18 @@ body {
 
 .back-link:hover {
   color: #2563EB;
+  text-decoration: underline;
+}
+
+.help-link {
+  font-size: 14px;
+  color: #6B7280;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.help-link:hover {
+  color: #3B82F6;
   text-decoration: underline;
 }
 
@@ -397,6 +412,27 @@ body {
 
 .phase-locked .phase-status {
   color: #9CA3AF;
+}
+
+/* Completed Phase */
+.phase-card.phase-completed {
+  border-color: #22C55E;
+  background-color: #F0FDF4;
+  cursor: default;
+}
+
+.phase-card.phase-completed:hover {
+  border-color: #22C55E;
+  box-shadow: none;
+  transform: none;
+}
+
+.phase-completed .phase-number {
+  color: #16A34A;
+}
+
+.phase-completed .phase-status {
+  color: #16A34A;
 }
 
 /* Context Card */
@@ -775,10 +811,31 @@ body {
 /* Actions Card */
 .actions-card {
   margin-top: 24px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .table-scroll {
   overflow-x: auto;
+}
+
+/* Actions card scrollbar */
+.actions-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.actions-card::-webkit-scrollbar-track {
+  background: #F3F4F6;
+  border-radius: 3px;
+}
+
+.actions-card::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+.actions-card::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
 }
 
 .actions-card .data-table {
@@ -800,4 +857,86 @@ body {
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Help Page */
+.help-content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.help-content h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.help-content p {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.help-content ul, .help-content ol {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  padding-left: 24px;
+}
+
+.help-content li {
+  margin-bottom: 4px;
+}
+
+.help-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.help-content table th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.help-content table td {
+  padding: 8px 12px;
+  color: #374151;
+  border-bottom: 1px solid #F3F4F6;
+  vertical-align: top;
+}
+
+.help-content code {
+  background-color: #F3F4F6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #DC2626;
+}
+
+.help-content .template-block {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 16px;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: #374151;
+  margin-bottom: 16px;
+  overflow-x: auto;
 }

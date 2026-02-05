@@ -20,9 +20,9 @@ Process team response reports, update inject states, and generate follow-up inje
 ## Mode 1: Initial Inject Creation
 
 ### Inputs
-- `sim_overview.md` - Simulation context and constraints
-- `phase_#_roles.csv` - Team roles for this phase
-- `phase_#_overview.md` - Phase narrative and challenges
+- `sim_overview.md` - Simulation context and constraints (in simulation root)
+- `phase_#/roles.csv` - Team roles for this phase
+- `phase_#/overview.md` - Phase narrative and challenges
 
 ### Workflow
 
@@ -31,7 +31,7 @@ Process team response reports, update inject states, and generate follow-up inje
 3. **Assign to teams** - Which teams should see each inject?
 4. **All injects at time 0:00** - Initial injects all happen at simulation start
 5. **Balance distribution** - Ensure every team is involved (via visible_to)
-6. **Output CSV** - Create `phase_#_injects_init.csv` and `phase_#_injects.csv`
+6. **Output CSV** - Create `phase_#/injects_init.csv` and `phase_#/injects.csv`
 
 ### Target: 10 initial injects per phase
 - All at sim_time `0:00` (players see them at start)
@@ -43,14 +43,22 @@ Process team response reports, update inject states, and generate follow-up inje
 
 ## Mode 2: Response Processing (Update Cycle)
 
-Called by facilitator every 5 minutes during simulation. This is an **update operation**, not just appending.
+Called by facilitator during simulation. This is an **update operation**, not just appending.
 
 ### Inputs
-- `sim_overview.md` - Simulation context
-- `phase_#_roles.csv` - Current team roles, budgets, trust
-- `phase_#_overview.md` - Current phase situation
-- `phase_#_injects.csv` - Current inject list
-- `responses/*.md` - Team response reports (if any)
+- `sim_overview.md` - Simulation context (in simulation root)
+- `phase_#/roles.csv` - Current team roles, budgets, trust
+- `phase_#/overview.md` - Current phase situation
+- `phase_#/injects.csv` - Current inject list
+- `phase_#/actions.csv` - Action catalog for this phase (to validate team actions and costs)
+- `phase_#/responses/*.md` - Team response reports (fetched from Canvas via sim-canvas)
+
+### Time Tracking
+
+Simulation time (`sim_time`) advances each update cycle. Determine the current sim_time from the latest injects in `injects.csv`:
+- Read the highest `sim_time` value in the file
+- New injects in this cycle should use the next time increment (typically +15 minutes)
+- Example: if latest injects are at `0:15`, new injects go at `0:30`
 
 ### Key Principle: UPDATE, Don't Just Append
 
@@ -79,11 +87,14 @@ Each update cycle should:
 
 #### Step 1: Read Response Reports (if any)
 Extract from each report:
-- Injects addressed (by ID)
-- Catalog actions taken (with Action IDs)
+- Injects addressed (by title or ID)
+- Catalog actions taken (with Action IDs) — validate against `actions.csv` for correct costs and `available_to` eligibility
 - **Proposed custom actions** (with cost estimates, expected effects)
-- Collaborations
-- Resources spent
+- Collaborations (which teams worked together)
+- Budget transfers (from/to/amount/purpose)
+- Resources spent (calculate: starting budget - action costs - transfers out + transfers in)
+
+**Also note which teams did NOT submit** — their injects remain unaddressed and may escalate.
 
 #### Step 2: Evaluate Custom Actions
 
@@ -124,10 +135,18 @@ For unaddressed injects:
 - Time expired (sim_time + time_limit passed) → escalate
 - Time remaining → stays `open`
 
+**Teams That Did Not Submit:**
+
+Some teams may not submit a response in a given cycle. Handle as follows:
+- Their injects remain `open` (no state change without action)
+- Apply -1 trust if they had severity 4-5 injects visible to them
+- If another team transferred budget to a non-responding team, the funded action is "pending" — do not credit the action until the receiving team confirms
+- Consider generating escalation injects that pressure idle teams to act
+
 #### Step 4: Update Inject States & Check Consistency
 
 **Direct Resolution:**
-Update `state` column in `phase_#_injects.csv` for addressed injects.
+Update `state` column in `phase_#/injects.csv` for addressed injects.
 
 **Indirect Resolution:**
 Some injects are consequences of others. When root cause is resolved, check if dependent injects should also resolve:
@@ -150,36 +169,82 @@ Some injects are consequences of others. When root cause is resolved, check if d
 | **State consistency** | Resolved injects stay resolved unless reopened by new event | Don't silently unresolve |
 
 #### Step 5: Update Team Roles
-Update `phase_#_roles.csv` based on team actions:
+Update `phase_#/roles.csv` based on team actions:
 
 | Change Type | How to Update |
 |-------------|---------------|
-| **Budget spent** | Subtract action costs and transfers from team's budget |
-| **Budget received** | Add transfers received to team's budget |
+| **Budget spent (solo)** | Subtract full action cost from team's budget |
+| **Budget spent (collaborative)** | Split action cost equally among collaborating teams (see below) |
+| **Budget transferred out** | Subtract transfer amount from sending team |
+| **Budget transferred in** | Add transfer amount to receiving team |
 | **Trust gained** | Add trust_impact from successful actions (+1 to +2) |
 | **Trust lost** | Subtract trust_impact from failed actions or poor decisions (-1 to -2) |
 | **Custom action cost** | Deduct approved custom action costs |
 | **Score earned** | Add `points_resolve` from resolved injects (see below) |
+
+**Collaborative Action Cost Splitting:**
+
+When multiple teams collaborate on the **same catalog action** targeting the same inject, they split the cost equally:
+
+| Collaboration | Cost per Team |
+|---------------|---------------|
+| 2 teams | 50% each |
+| 3 teams | 33% each |
+| 4+ teams | Equal split |
+
+- Both/all teams must document the collaboration in their response reports
+- If teams take the same action **independently** on different injects (or without coordinating), each pays the full cost
+- The split applies to catalog actions only — custom action costs are evaluated per proposal
+
+**Example:** Action A1 (Network Isolation, $500K) — if VT and Carilion collaborate to isolate their shared network segment, each pays $250K. If they each independently isolate their own networks, each pays $500K.
+
+**Budget Transfers Between Teams:**
+
+Teams may transfer budget to other teams to fund actions they cannot take themselves (e.g., a county government funding a telecom company's emergency routing). When processing transfers:
+
+1. Verify the transfer is documented in the sending team's report
+2. Subtract from sender's budget, add to receiver's budget
+3. The receiving team must still take the action — the transfer alone doesn't resolve anything
+4. If the receiving team did not submit a response, the action is "pending execution" and the inject remains open
 
 **Score Calculation:**
 
 | Resolution | Points Awarded |
 |------------|----------------|
 | **Resolved** | Full `points_resolve` value |
-| **Partially Resolved** | 50% of `points_resolve` value |
+| **Partially Resolved** | 25-50% of `points_resolve` value (see contribution level) |
 | **Failed/Open** | 0 points |
+
+**Contribution Level for Partial Resolution:**
+
+Not all partial resolutions are equal. Assess how much the team's actions actually accomplished:
+
+| Contribution | % of points_resolve | Example |
+|-------------|---------------------|---------|
+| **Strong partial** (50%) | Directly addressed the inject, solved most of the problem | Hospital activated backups, transferred patients — care maintained but systems still down |
+| **Moderate partial** (25-35%) | Helped but didn't address root cause, or only took preliminary step | Sent a notification when a full report was demanded; indirect action that helped at the margins |
+| **Indirect/secondary** (10-20%) | Team's action on a *different* inject had a side effect that helped this one | Network isolation at VT happened to cut attack source for the telecom backbone, but backbone team needs to do the real containment |
+
+**Collaboration Split:**
 
 When multiple teams collaborate to resolve an inject, split points:
 
 - 2 teams: 60% each (rewards collaboration)
 - 3+ teams: 40% each
 
+**When collaborators didn't submit:** If Team A claims collaboration with Team B but Team B didn't submit a response, only credit Team A for their own contribution. Do not give Team A the full solo credit for what would normally be a joint effort — their contribution may be limited without the collaborator's actions.
+
+**Upgrading partial → resolved:** When an inject upgrades from `partially_resolved` to `resolved` in a later cycle, award the difference between total points and already-awarded points.
+
 **Trust Modifiers:**
 - Successful collaboration: +1 trust
 - Failed public communication: -1 to -2 trust
-- Ignored critical inject: -1 trust
+- Ignored critical inject (severity 4-5): -1 trust
 - Creative solution approved: +1 trust
 - Action backfired: -1 trust
+- **Team did not submit response:** -1 trust (per round with no submission, applied to severity 4+ injects visible to them)
+
+**Trust Change Cap:** Limit trust changes to +3 or -3 per update cycle to prevent runaway scores. Multiple small trust-building actions in a single round should be consolidated.
 
 #### Step 6: Generate Follow-up Injects
 
@@ -294,43 +359,58 @@ Every team must have meaningful work in EVERY phase, regardless of phase theme.
 ## Output
 
 ### Mode 1 Output (Initial Creation)
-Create two files:
-- `phase_#_injects_init.csv` - Backup of initial injects (never modified)
-- `phase_#_injects.csv` - Working copy (updated during simulation)
+Create two files in the phase subfolder:
+- `phase_#/injects_init.csv` - Backup of initial injects (never modified)
+- `phase_#/injects.csv` - Working copy (updated during simulation)
 
 ### Mode 2 Output (Response Processing)
-Update two files:
+Update two files in the phase subfolder:
 
-**`phase_#_injects.csv`:**
+**`phase_#/injects.csv`:**
 - Change `state` column for resolved/partially_resolved injects
-- Append new injects at the end of the file
+- Append `[UPDATE H:MM]` notes to the `description` field explaining **why** the state changed (e.g., which team acted, what actions were taken, what remains unresolved)
+- Append new injects at the end of the file with sequential IDs continuing from the highest existing ID
 
-**`phase_#_roles.csv`:**
+**`phase_#/roles.csv`:**
 - Update `budget` column based on spending and transfers
 - Update `trust` column based on action outcomes
 - Update `score` column based on resolved injects (points_resolve)
 
+**Inject ID Assignment:**
+- New injects get sequential IDs continuing from the highest existing ID
+- Example: If the current max ID is 18, new injects start at 19, 20, 21, etc.
+- IDs are never reused — even if an inject is resolved, its ID remains reserved
+
+**Description Update Convention:**
+- When changing an inject's state, append an `[UPDATE H:MM]` block to the description
+- Format: `[UPDATE 0:30] Team X took action Y (action_id). Result: description of what happened and what remains.`
+- Multiple updates accumulate chronologically in the description
+- This provides a built-in audit trail visible on the web dashboard
+
 ```text
 simulations/[simulation-name]/
 ├── sim_overview.md
-├── sim_actions.csv
-├── phase_1_overview.md
-├── phase_1_roles_init.csv     # Initial role assignments (backup)
-├── phase_1_roles.csv          # Working roles (budget/trust updated)
-├── phase_1_injects_init.csv   # Initial injects (backup)
-├── phase_1_injects.csv        # Working injects (updated in place)
-└── responses/
-    └── [team reports]
+├── phase_1/
+│   ├── overview.md
+│   ├── actions.csv
+│   ├── roles_init.csv             # Initial role assignments (backup)
+│   ├── roles.csv                  # Working roles (budget/trust updated)
+│   ├── injects_init.csv           # Initial injects (backup)
+│   ├── injects.csv                # Working injects (updated in place)
+│   └── responses/
+│       └── [team reports]
+└── ...
 ```
 
 **Update process:**
-1. Read `phase_#_injects.csv` and `phase_#_roles.csv`
+1. Read `phase_#/injects.csv` and `phase_#/roles.csv`
 2. Update inject states for addressed injects
 3. Update team budgets (subtract costs, apply transfers)
 4. Update team trust (apply trust_impact from actions)
 5. Update team scores (add points_resolve from resolved injects)
 6. Append new consequence/escalation injects
 7. Write back to both files
+8. **Call sim-web (Mode 2: Update)** — copy the updated `phase_#/injects.csv` and `phase_#/roles.csv` to `docs/phase_#/`
 
 ---
 
@@ -342,7 +422,7 @@ simulations/[simulation-name]/
 - Inject #1 (Unusual Traffic) → `partially_resolved` (stopped spread, but data already gone)
 - Inject #33 (Classified Research Stolen) → `open` (isolation doesn't recover data)
 
-**Update `phase_1_injects.csv`:**
+**Update `phase_1/injects.csv`:**
 1. Change inject #1 state from `open` to `partially_resolved`
 2. Append new consequence injects:
 

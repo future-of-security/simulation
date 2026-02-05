@@ -79,25 +79,27 @@ Define 15 roles that will rotate among teams each phase:
 - Cascading mechanics (how early decisions affect later phases)
 
 ### Step 5: Generate Phase Overviews and Roles
-For each phase, create:
+For each phase, create a `phase_#/` subfolder under the simulation directory and generate:
 
-**`phase_#_overview.md`:**
+**`phase_#/overview.md`:**
 - Phase title and topic
 - Narrative situation
 - Key challenges
 - Role-specific objectives (2-3 per role)
 - Connections to previous/next phases
 
-**`phase_#_roles_init.csv`** and **`phase_#_roles.csv`:**
+**`phase_#/roles_init.csv`** and **`phase_#/roles.csv`:**
 - Randomly assign 15 teams to 15 roles for this phase
 - Each team gets a different role than previous phase (when possible)
 - Columns: team, role, sector, budget, trust, score
+
+**`phase_#/responses/`** — empty directory for team response reports (used by sim-canvas)
 
 **Random Role Assignment:**
 - Shuffle team-role assignments each phase
 - Budget/trust may vary based on role and phase context
 - Score starts at 0 for each phase
-- sim-inject updates `phase_#_roles.csv` based on team actions (budget, trust, score)
+- sim-inject updates `phase_#/roles.csv` based on team actions (budget, trust, score)
 
 **CRITICAL: All Roles Active in Every Phase**
 
@@ -113,17 +115,26 @@ Every role has meaningful work regardless of phase theme:
 | Environmental | All facilities affected; public health is cross-sector |
 | Disaster Mgmt | Recovery involves all sectors; funding decisions are cross-cutting |
 
-### Step 6: Create Action Catalog
-Create `sim_actions.csv` with available actions:
+### Step 6: Create Per-Phase Action Catalogs
+For each phase, create `phase_#/actions.csv` with actions tailored to that phase's theme:
 
 `action_id, action_name, available_to, cost, delay_mins, requires_approval, trust_impact, description`
 
-Include actions for:
-- Communication (press releases, alerts, social media)
-- Resource deployment (personnel, equipment, funds)
-- Coordination (meetings, joint operations)
-- Technical responses (system isolation, repairs)
-- Requests (mutual aid, federal assistance)
+Each phase should include:
+- **Universal actions** that apply across all phases (communication, intelligence sharing, EOC activation, volunteer networks)
+- **Phase-specific actions** relevant to the current theme (e.g., network isolation for cyber, rumor control for misinformation, supply chain rerouting for economic)
+
+Action IDs restart at A1 for each phase (they are phase-local).
+
+| Phase | Example Phase-Specific Actions |
+|-------|-------------------------------|
+| 1 (Cyber) | Network isolation, forensic investigation, grid hardening, backup activation |
+| 2 (Misinfo) | Deepfake detection, trusted messenger campaigns, platform coordination |
+| 3 (Economic) | Supply chain rerouting, emergency unemployment, price controls |
+| 4 (Political) | Mediation services, emergency governance, protest management |
+| 5 (Health) | Triage protocols, medication airlifts, mental health crisis teams |
+| 6 (Environmental) | Hazmat containment, water testing, environmental monitoring |
+| 7 (Disaster) | Rebuilding contracts, relocation assistance, resilience investment |
 
 ### Step 7: Generate Injects (Use sim-inject)
 
@@ -132,21 +143,38 @@ After creating the story framework, use **sim-inject** to generate initial injec
 ```
 Use sim-inject to create initial injects for phase X based on:
 - sim_overview.md
-- phase_#_roles.csv
-- phase_#_overview.md
+- phase_#/roles.csv
+- phase_#/overview.md
+- phase_#/actions.csv
 ```
 
 ## Output Files
 
+```
+simulations/<sim>/
+├── sim_overview.md              # Simulation overview (one per sim)
+├── phase_1/
+│   ├── overview.md              # Phase narrative
+│   ├── roles_init.csv           # Initial role assignments (backup)
+│   ├── roles.csv                # Working roles (updated by sim-inject)
+│   ├── actions.csv              # Action catalog for this phase
+│   ├── injects_init.csv         # Initial injects (created by sim-inject)
+│   ├── injects.csv              # Working injects (created by sim-inject)
+│   └── responses/               # Team response reports (from sim-canvas)
+├── phase_2/
+│   └── ...
+└── ...
+```
+
 | File | Description |
 |------|-------------|
-| `sim_overview.md` | Simulation overview (setting, timeline, constraints) |
-| `sim_actions.csv` | Action catalog |
-| `phase_#_overview.md` | Phase narratives (1-7) |
-| `phase_#_roles_init.csv` | Initial role assignments (backup) |
-| `phase_#_roles.csv` | Working roles file (budget/trust updated by sim-inject) |
-| `phase_#_injects_init.csv` | Initial injects backup - created by sim-inject |
-| `phase_#_injects.csv` | Working injects file - created by sim-inject |
+| `sim_overview.md` | Simulation overview (setting, timeline, constraints) — in simulation root |
+| `phase_#/overview.md` | Phase narratives (1-7) |
+| `phase_#/roles_init.csv` | Initial role assignments (backup) |
+| `phase_#/roles.csv` | Working roles file (budget/trust updated by sim-inject) |
+| `phase_#/actions.csv` | Action catalog for this phase (tailored to phase theme) |
+| `phase_#/injects_init.csv` | Initial injects backup - created by sim-inject |
+| `phase_#/injects.csv` | Working injects file - created by sim-inject |
 
 ## Constraint Types
 
@@ -172,7 +200,7 @@ Use sim-inject to create initial injects for phase X based on:
 - Starts at 0 for each phase
 - Earned from `points_resolve` column when inject state changes to `resolved`
 - Partial points (50%) for `partially_resolved` injects
-- sim-inject updates score in `phase_#_roles.csv`
+- sim-inject updates score in `roles.csv`
 
 ## Action CSV Columns
 

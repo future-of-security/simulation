@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 async function initIndexPage() {
   try {
-    const overviewText = await fetchFile('data/sim_overview.md');
+    const overviewText = await fetchFile('sim_overview.md');
     parseOverview(overviewText);
 
     document.getElementById('sim-title').textContent = SIMULATION.title;
@@ -65,13 +65,26 @@ function renderPhasesList() {
 
   CONFIG.phases.forEach(phase => {
     const card = document.createElement('a');
-    card.className = `phase-card ${phase.available ? '' : 'phase-locked'}`;
-    card.href = phase.available ? `phase_${phase.num}.html` : '#';
+
+    if (phase.completed) {
+      card.className = 'phase-card phase-completed';
+      card.href = '#';
+    } else if (phase.available) {
+      card.className = 'phase-card';
+      card.href = `phase_${phase.num}/`;
+    } else {
+      card.className = 'phase-card phase-locked';
+      card.href = '#';
+    }
+
+    const status = phase.completed ? 'Completed'
+      : phase.available ? 'Available'
+      : 'Coming Soon';
 
     card.innerHTML = `
       <div class="phase-number">Phase ${phase.num}</div>
       <div class="phase-title">${phase.title}</div>
-      <div class="phase-status">${phase.available ? 'Available' : 'Coming Soon'}</div>
+      <div class="phase-status">${status}</div>
     `;
 
     container.appendChild(card);
@@ -82,12 +95,13 @@ function renderPhasesList() {
 
 async function initPhasePage(phaseNum) {
   try {
+    // Phase pages live in phase_N/ subfolder, so shared data is up one level
     const [overviewText, phaseOverviewText, rolesText, injectsText, actionsText] = await Promise.all([
-      fetchFile('data/sim_overview.md'),
-      fetchFile(`data/phase_${phaseNum}_overview.md`).catch(() => ''),
-      fetchFile(`data/phase_${phaseNum}_roles.csv`),
-      fetchFile(`data/phase_${phaseNum}_injects.csv`),
-      fetchFile('data/sim_actions.csv').catch(() => '')
+      fetchFile('../sim_overview.md'),
+      fetchFile('overview.md').catch(() => ''),
+      fetchFile('roles.csv'),
+      fetchFile('injects.csv'),
+      fetchFile('actions.csv').catch(() => '')
     ]);
 
     parseOverview(overviewText);

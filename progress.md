@@ -1,5 +1,98 @@
 # Progress Log
 
+## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
+
+### Canvas Fetch
+- Fetched 12 submissions (5 unsubmitted/skipped) via `uv run --with requests --with html2text`
+- Teams that submitted: Acadia, Banff (2 attempts), Denali, Glacier, Jasper, Redwood, Sequoia, Shenandoah, Yellowstone, Yoho, Zion
+- Teams with NO submission: Arches (CISA), Bryce (AEP), Olympic (Shentel), Yosemite (United Way)
+
+### Inject State Changes (18 → 25 injects)
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 1 (Data Exfil) | open | partially_resolved | Denali isolated network (A1), stopped bleeding but 47GB already gone |
+| 2 (Telecom) | open | partially_resolved | VT isolation cut source, but malware already spread; Shentel hasn't acted |
+| 3 (Hospital Records) | open | partially_resolved | Glacier: backups (A3), transfers (A9), prescriptions (A15) - patients safe, systems still down |
+| 4 (Power Grid) | open | partially_resolved | Jasper: generators (A16), coordinated SCADA isolation - AEP hasn't responded |
+| 7 (County Systems) | open | partially_resolved | Yellowstone: rumor control (A31), funded Shentel routing ($300K transfer) |
+| 8 (Env Monitoring) | open | partially_resolved | Yoho+Redwood: field checks (A21, A32), manual monitoring partial coverage |
+| 9 (Media Rumors) | partially_resolved | **resolved** | Acadia+Sequoia: joint A4+A31 = comprehensive public communication |
+| 10 (Hotlines) | open | **resolved** | Zion: A10+A23+A36+A13 = 4 actions deploying full community response |
+| 11 (Pentagon) | open | partially_resolved | Denali: notified partners (A24), but full breach report still pending |
+| 18 (Coal Ash) | open | partially_resolved | Yoho: manual inspection shows normal levels, but no continuous monitoring |
+
+### New Injects (0:30)
+| ID | Incident | Severity | Why |
+|----|----------|----------|-----|
+| 19 | Hospital Generators Half Fuel | 5 | Consequence of power outage + time |
+| 20 | VT Campus Blackout | 3 | Consequence of Denali's network isolation (A1) |
+| 21 | Patient Records on Dark Web | 5 | Escalation of unaddressed ransomware (Inject 12) |
+| 22 | CISA Team Denied Access | 3 | Consequence of isolation + no coordination |
+| 23 | Elderly Patient Dies | 5 | Escalation of unaddressed Inject 17 |
+| 24 | Water Treatment Fluctuating | 5 | Escalation of unaddressed Inject 15 |
+| 25 | Suspicious Vehicle at Substation | 3 | New development - physical recon |
+
+### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Denali | 0 | 134 | Inject 1 (75 strong partial), 2 (15 indirect), 11 (44 moderate partial) |
+| Zion | 0 | 75 | Inject 10 (75 resolved) |
+| Glacier | 0 | 75 | Inject 3 (75) |
+| Jasper | 0 | 75 | Inject 4 (75) |
+| Yoho | 0 | 80 | Inject 8 (30 collab), 18 (50) |
+| Acadia | 23 | 45 | Inject 9 resolved remainder (22) |
+| Sequoia | 23 | 45 | Inject 9 resolved remainder (22) |
+| Yellowstone | 0 | 38 | Inject 7 (38) |
+| Redwood | 0 | 30 | Inject 8 (30 collab) |
+
+### Budget Changes
+- Acadia: $19.9M → $19.7M (A4 $100K + $100K transfer to Sequoia)
+- Denali: $8M → $7.5M (A1 $500K)
+- Glacier: $50M → $49.15M (A3+A9+A15 = $850K)
+- Jasper: $10M → $9.6M (A16 $300K + $100K transfer to Bryce)
+- Bryce: $40M → $40.1M (received $100K from Jasper)
+- Olympic: $15M → $15.3M (received $300K from Yellowstone)
+- Sequoia: $2.925M → $2.85M (A31+A4 = $175K, +$100K transfer from Acadia)
+- Shenandoah: $14.8M → $14.6M (A17 $200K)
+- Yellowstone: $12M → $11.625M (A31 $75K + $300K transfer to Olympic)
+- Yoho: $8M → $7.75M (A21+A32 = $250K)
+- Zion: $2M → $1.75M (A10+A23+A36 = $250K)
+
+### Trust Changes
+- Arches: 6→5 (ignored critical injects)
+- Bryce: 5→4 (ignored critical grid attack)
+- Olympic: 5→4 (ignored critical telecom issues)
+- Banff: 7→8 (proactive social media communication)
+- Glacier: 7→9 (comprehensive patient care response)
+- Jasper: 7→8 (creative SCADA isolation coordination)
+- Redwood: 6→7 (collaboration with DEQ)
+- Sequoia: 7→8 (effective rumor control)
+- Shenandoah: 6→7 (collaboration with Sheriff)
+- Yellowstone: 6→7 (proactive rumor control)
+- Yoho: 5→6 (collaboration + field deployment)
+- Zion: 9→12 (4 trust-building actions deployed)
+- Acadia: 7→8 (collaboration on resolved inject)
+
+### Custom Action Evaluations
+| Team | Action | Result |
+|------|--------|--------|
+| Banff | Sheriff social media about 911 delays | **Approved** - feasible, $0, good community reach |
+| Jasper | Isolate SCADA systems ($100K) | **Approved with modification** - Jasper coordinates, AEP must execute |
+| Shenandoah | Sheriff traffic control ($200K) | **Approved** - incorporated into A17, no extra cost |
+| Yellowstone | A26 via Shentel ($300K transfer) | **Approved with modification** - catalog action funded by Yellowstone, Shentel executes |
+| Zion | Pastoral messaging ($0) | **Approved** - perfect use of faith network resources |
+
+### Current Status (sim_time 0:30)
+- **Open injects:** 14 (6 original + 1 from 0:15 + 7 new at 0:30)
+- **Partially resolved:** 9
+- **Resolved:** 2
+- **Total:** 25
+
+### Web Dashboard
+- Updated `docs/data/phase_1_injects.csv` and `docs/data/phase_1_roles.csv`
+
+---
+
 ## 2026-02-05: Score Tracking and Sortable Tables
 
 ### Completed

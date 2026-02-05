@@ -48,7 +48,7 @@
 
 ## Teams (15 National Parks)
 
-Teams are randomly assigned different roles each phase. See `phase_#_roles.csv` for each phase's role assignments.
+Teams are randomly assigned different roles each phase. See `phase_#/roles.csv` for each phase's role assignments.
 
 **Team Names:** Acadia, Arches, Banff, Bryce, Denali, Glacier, Jasper, Olympic, Redwood, Sequoia, Shenandoah, Yellowstone, Yoho, Yosemite, Zion
 
@@ -110,9 +110,9 @@ Teams are randomly assigned different roles each phase. See `phase_#_roles.csv` 
 ## Files
 
 - Simulation overview: `sim_overview.md`
-- Action catalog: `sim_actions.csv`
-- Phase overviews: `phase_#_overview.md` (1-7)
-- Phase roles (initial): `phase_#_roles_init.csv` (1-7)
-- Phase roles (working): `phase_#_roles.csv` (1-7)
-- Injects (initial): `phase_#_injects_init.csv` (1-7)
-- Injects (working): `phase_#_injects.csv` (1-7)
+- Phase overviews: `phase_#/overview.md` (1-7)
+- Phase roles (initial): `phase_#/roles_init.csv` (1-7)
+- Phase roles (working): `phase_#/roles.csv` (1-7)
+- Phase actions: `phase_#/actions.csv` (1-7)
+- Injects (initial): `phase_#/injects_init.csv` (1-7)
+- Injects (working): `phase_#/injects.csv` (1-7)
