@@ -15,14 +15,20 @@ Generate response reports that mimic how student teams respond to crisis injects
 ## Inputs
 
 - `sim_overview.md` - Team roles, budgets, constraints
-- `phase_X_overview.md` - Current situation
-- `injects_phase_X.csv` - Active incidents
-- `actions.csv` - Available actions with costs
+- `phase_#_overview.md` - Current situation
+- `phase_#_roles.csv` - Team-to-role assignments for this phase
+- `phase_#_injects.csv` - Active incidents
+- `sim_actions.csv` - Available actions with costs
 
 ## How to Respond
 
+### 0. Identify Your Role
+- Look up your team in `phase_#_roles.csv` to find your assigned role
+- Your role determines which actions you can take and which injects you see
+- Include your role at the top of your response report
+
 ### 1. Select Injects
-- Pick injects where your team is in `visible_to`
+- Pick injects where your **role** is in `visible_to`
 - Prioritize by severity (5 = critical) and time limit
 - Can respond to multiple related injects
 
@@ -32,7 +38,7 @@ Generate response reports that mimic how student teams respond to crisis injects
 - Document who you worked with
 
 ### 3. Take Catalog Actions
-- Choose actions from `actions.csv`
+- Choose actions from `sim_actions.csv` where your **role** is in `available_to`
 - Consider costs vs. budget
 - Explain why you chose each action (brief)
 
@@ -58,14 +64,15 @@ The facilitator (sim-inject) will evaluate feasibility and may:
 ## Report Template
 
 Use `assets/templates/REPORT.md` - designed to be:
-- **Quick to fill out** (students have ~10-15 min per round)
+- **Quick to fill out** (students submit responses throughout the 60-min phase)
 - **Informative enough** for facilitator to evaluate and for sim-inject to generate follow-up injects
 
 ## Key Sections
 
 | Section | What to Include |
 |---------|----------------|
-| Incidents Addressed | Just the inject IDs |
+| Team & Role | Team name and assigned role for this phase |
+| Incidents Addressed | Incident titles from dashboard |
 | Situation Summary | 1-2 sentences on the problem |
 | Collaboration | Which teams, what you did together |
 | Actions Taken (catalog) | Action ID, name, cost, brief rationale |

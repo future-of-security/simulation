@@ -1,6 +1,7 @@
 # Response Report
 
 **Team:** [Team Name]
+**Role:** [Role Name]
 **Phase:** [#]
 
 ---
