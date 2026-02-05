@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sim Canvas"
+  short_description: "Fetch Canvas submissions to markdown"
+  default_prompt: "Fetch submissions from a Canvas assignment and save per-student markdown files. Ask for course ID, assignment ID, output folder, and Canvas token/base URL if missing."

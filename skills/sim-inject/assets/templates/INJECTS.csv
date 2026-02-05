@@ -1,0 +1,2 @@
+id,phase,sim_time,incident,description,location,severity,visible_to,time_limit,state,points_resolve
+1,1,[HH:MM],[Incident Title],[Detailed description],[Place name],[1-5],[Role1;Role2 or ALL],[minutes],open,[points]

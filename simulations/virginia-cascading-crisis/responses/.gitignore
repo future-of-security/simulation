@@ -1,0 +1,5 @@
+# Ignore all student response files
+*
+
+# But keep this .gitignore
+!.gitignore
