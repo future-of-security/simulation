@@ -69,13 +69,21 @@ Processes participant response reports and advances the simulation:
 - Generates new injects to maintain simulation complexity
 
 ### sim-web
-Generates a single-page web application for running simulations in class:
-- Overview tab with simulation summary, timeline, team list
-- Phase tabs (1-7) with inject list, interactive map, team leaderboard
-- Response submission form for teams
-- Facilitator controls (password-protected)
-- State persistence via LocalStorage
+Generates a static web application for running simulations in class:
+- Index page with simulation overview and phase navigation
+- Phase pages with incidents, teams, and action catalog
+- Filter incidents by role, filter actions by role
+- Sortable tables and modal details
 - No server required - just open HTML in browser
+
+### sim-canvas
+Fetches student response submissions from Canvas LMS:
+- Pulls submissions via Canvas API
+- Converts HTML to Markdown
+- Saves to `responses/` folder for processing by sim-inject
+- Supports group assignments with `--one-per-group`
+- Names files as `<team>_phase<#>_attempt_<#>.md`
+- Can validate against REPORT.md template with `--check-template`
 
 ## File Structure
 
@@ -92,43 +100,46 @@ skills/
     assets/templates/
       SIM_OVERVIEW.md          # Overall simulation structure
       SIM_PHASE.md             # Phase template
-      INJECTS.csv              # Inject format
-      ACTIONS.csv              # Action catalog format
+      SIM_ROLES.csv            # Team roles format
+      SIM_ACTIONS.csv          # Action catalog format
   sim-inject/
     SKILL.md
     assets/templates/
-      INJECTS.csv
+      INJECTS.csv              # Inject format
   sim-respond/
     SKILL.md
     assets/templates/
-      REPORT.md
+      REPORT.md                # Team response template
   sim-web/
     SKILL.md
     assets/templates/
       index.html               # Main page template
-      facilitator.html         # Facilitator controls
       phase.html               # Phase page template
-      data.js                  # Data structure template
       css/styles.css           # Stylesheet
-      js/config.js             # Configuration
-      js/canvas-client.js      # Canvas LMS integration
+      js/app.js                # Application logic
+  sim-canvas/
+    SKILL.md
+    scripts/
+      fetch_canvas_submissions.py  # Fetch submissions from Canvas
+    references/
+      canvas_api.md            # Canvas API reference
+      token                    # Canvas API token (gitignored)
+      url                      # Assignment URL
 examples/                      # Example inject CSVs
   nyc_crisis_injects.csv
   covid_sim_geospatial_injects.csv
   covid_sim_media_injects.csv
-simulations/                          # Generated simulations
+simulations/                   # Generated simulations
   [simulation-name]/
     sim_overview.md
-    phase_[1-7]_overview.md
-    actions.csv
-    injects_phase_[1-7].csv
-    web/                       # Generated website
-      index.html
-      facilitator.html
-      phase-[1-7].html
-      data.js
-      css/
-      js/
+    sim_actions.csv
+    phase_#_overview.md
+    phase_#_roles.csv          # Team-to-role assignments
+    phase_#_roles_init.csv     # Initial roles (backup)
+    phase_#_injects.csv        # Active injects (updated)
+    phase_#_injects_init.csv   # Initial injects (backup)
+    responses/                 # Team response reports
+      .gitignore               # Excludes student data from git
 findings.md                    # Research and discoveries
 progress.md                    # Session log and test results
 ```
