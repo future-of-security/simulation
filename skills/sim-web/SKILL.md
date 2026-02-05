@@ -140,7 +140,7 @@ const CONFIG = {
 | State | Config | Card Appearance |
 |-------|--------|----------------|
 | Available | `available: true` | Blue hover, clickable, links to `phase_N/` |
-| Completed | `completed: true` | Green border/background, "Completed" label |
+| Completed | `completed: true` | Green border/background, "Completed" label, clickable (links to `phase_N/`) |
 | Locked | neither flag | Dimmed, "Coming Soon" |
 
 ## Data Sources

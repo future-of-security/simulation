@@ -68,7 +68,7 @@ function renderPhasesList() {
 
     if (phase.completed) {
       card.className = 'phase-card phase-completed';
-      card.href = '#';
+      card.href = `phase_${phase.num}/`;
     } else if (phase.available) {
       card.className = 'phase-card';
       card.href = `phase_${phase.num}/`;
