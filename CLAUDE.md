@@ -173,7 +173,7 @@ Generated simulations are stored in `simulations/`:
 During a live simulation phase, the facilitator runs update cycles:
 
 1. **Fetch** submissions from Canvas: `uv run --with requests --with html2text skills/sim-canvas/scripts/fetch_canvas_submissions.py --base-url https://canvas.vt.edu --course-id 223104 --assignment-id <id> --one-per-group --name-by-group --phase <N> --only-new --all-attempts --check-template --out-dir simulations/<sim>/phase_N/responses`
-2. **Read** all response `.md` files
+2. **Read** new (unprocessed) response `.md` files from `phase_N/responses/` — skip files already logged in `progress.md`
 3. **Evaluate** actions against injects + `phase_N/actions.csv`
 4. **Update** `phase_N/injects.csv` — state changes with `[UPDATE H:MM]` explanations + new injects
 5. **Update** `phase_N/roles.csv` — budget, trust, score

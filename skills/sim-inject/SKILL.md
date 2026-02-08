@@ -96,6 +96,8 @@ Extract from each report:
 
 **Also note which teams did NOT submit** — their injects remain unaddressed and may escalate.
 
+**Skip already-processed submissions:** Before reading response files, check `progress.md` for submissions processed in prior update cycles. Only process response files that are new since the last cycle. The `--only-new` flag on sim-canvas fetches only new attempts, but if old files still exist in the responses folder, match filenames against the teams+attempts already logged in `progress.md` and skip them.
+
 #### Step 2: Evaluate Custom Actions
 
 Teams may propose actions not in the catalog. Evaluate each proposed action:
@@ -242,9 +244,9 @@ When multiple teams collaborate to resolve an inject, split points:
 - Ignored critical inject (severity 4-5): -1 trust
 - Creative solution approved: +1 trust
 - Action backfired: -1 trust
-- **Team did not submit response:** -1 trust (per round with no submission, applied to severity 4+ injects visible to them)
+- **Team did not submit response:** -1 trust (per update cycle with no submission, applied to severity 4+ injects visible to them)
 
-**Trust Change Cap:** Limit trust changes to +3 or -3 per update cycle to prevent runaway scores. Multiple small trust-building actions in a single round should be consolidated.
+**Trust Change Cap:** Limit trust changes to +3 or -3 per update cycle to prevent runaway scores. Multiple small trust-building actions in a single update cycle should be consolidated.
 
 #### Step 6: Generate Follow-up Injects
 
