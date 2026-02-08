@@ -1,3 +1,5 @@
+/* Crisis Simulation Dashboard */
+
 /* Reset and Base Styles */
 * {
   margin: 0;
@@ -33,6 +35,41 @@ body {
 .header-subtitle {
   font-size: 14px;
   color: #6B7280;
+}
+
+/* Header Navigation */
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #3B82F6;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: #2563EB;
+  text-decoration: underline;
+}
+
+.help-link {
+  font-size: 14px;
+  color: #6B7280;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.help-link:hover {
+  color: #3B82F6;
+  text-decoration: underline;
 }
 
 /* Cards */
@@ -137,6 +174,27 @@ body {
   height: 16px;
 }
 
+/* Toggle Button */
+.btn-toggle {
+  background-color: #F3F4F6;
+  color: #374151;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+.btn-toggle:hover {
+  background-color: #E5E7EB;
+}
+
+.btn-toggle.active {
+  background-color: #DBEAFE;
+  color: #1D4ED8;
+}
+
+.btn-toggle.active:hover {
+  background-color: #BFDBFE;
+}
+
 /* Two-column layout */
 .columns {
   display: grid;
@@ -235,6 +293,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .state-pending .state-dot {
@@ -247,6 +306,12 @@ body {
 
 .state-escalated .state-dot {
   background-color: #DC2626;
+  animation: pulse-escalated 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-escalated {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6); }
+  50% { box-shadow: 0 0 10px 4px rgba(220, 38, 38, 0.3); }
 }
 
 .state-resolved .state-dot {
@@ -289,60 +354,29 @@ body {
 
 /* Scrollbar styling */
 .teams-card::-webkit-scrollbar,
-.incidents-card::-webkit-scrollbar {
+.incidents-card::-webkit-scrollbar,
+.actions-card::-webkit-scrollbar {
   width: 6px;
 }
 
 .teams-card::-webkit-scrollbar-track,
-.incidents-card::-webkit-scrollbar-track {
+.incidents-card::-webkit-scrollbar-track,
+.actions-card::-webkit-scrollbar-track {
   background: #F3F4F6;
   border-radius: 3px;
 }
 
 .teams-card::-webkit-scrollbar-thumb,
-.incidents-card::-webkit-scrollbar-thumb {
+.incidents-card::-webkit-scrollbar-thumb,
+.actions-card::-webkit-scrollbar-thumb {
   background: #D1D5DB;
   border-radius: 3px;
 }
 
 .teams-card::-webkit-scrollbar-thumb:hover,
-.incidents-card::-webkit-scrollbar-thumb:hover {
+.incidents-card::-webkit-scrollbar-thumb:hover,
+.actions-card::-webkit-scrollbar-thumb:hover {
   background: #9CA3AF;
-}
-
-/* Header Navigation */
-.header-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #3B82F6;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.back-link:hover {
-  color: #2563EB;
-  text-decoration: underline;
-}
-
-.help-link {
-  font-size: 14px;
-  color: #6B7280;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.help-link:hover {
-  color: #3B82F6;
-  text-decoration: underline;
 }
 
 /* Phases Grid */
@@ -360,6 +394,8 @@ body {
   padding: 20px;
   text-decoration: none;
   transition: all 0.15s ease;
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
 }
 
 .phase-card:hover {
@@ -369,14 +405,20 @@ body {
 }
 
 .phase-card.phase-locked {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* After animation completes, locked cards stay dim */
+.phase-card.phase-locked.revealed {
   opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .phase-card.phase-locked:hover {
   border-color: #E5E7EB;
   box-shadow: none;
   transform: none;
+  cursor: not-allowed;
 }
 
 .phase-number {
@@ -590,25 +632,10 @@ body {
   margin-bottom: 0;
 }
 
-/* Toggle Button */
-.btn-toggle {
-  background-color: #F3F4F6;
-  color: #374151;
-  font-size: 13px;
-  padding: 6px 12px;
-}
-
-.btn-toggle:hover {
-  background-color: #E5E7EB;
-}
-
-.btn-toggle.active {
-  background-color: #DBEAFE;
-  color: #1D4ED8;
-}
-
-.btn-toggle.active:hover {
-  background-color: #BFDBFE;
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* Resolved Rows */
@@ -682,6 +709,28 @@ body {
   background-color: #EFF6FF !important;
 }
 
+/* Filter Select */
+.filter-select {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  color: #374151;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+.filter-select:hover {
+  border-color: #D1D5DB;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
 /* Modal */
 .modal {
   display: none;
@@ -698,6 +747,15 @@ body {
 
 .modal.active {
   display: flex;
+}
+
+.modal.active .modal-content {
+  animation: modal-scale-in 0.25s ease forwards;
+}
+
+@keyframes modal-scale-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 .modal-content {
@@ -779,35 +837,6 @@ body {
   font-weight: 500;
 }
 
-/* Card Actions (filter + toggle) */
-.card-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Filter Select */
-.filter-select {
-  padding: 6px 12px;
-  font-size: 13px;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  background-color: #FFFFFF;
-  color: #374151;
-  cursor: pointer;
-  min-width: 140px;
-}
-
-.filter-select:hover {
-  border-color: #D1D5DB;
-}
-
-.filter-select:focus {
-  outline: none;
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
 /* Actions Card */
 .actions-card {
   margin-top: 24px;
@@ -817,25 +846,6 @@ body {
 
 .table-scroll {
   overflow-x: auto;
-}
-
-/* Actions card scrollbar */
-.actions-card::-webkit-scrollbar {
-  width: 6px;
-}
-
-.actions-card::-webkit-scrollbar-track {
-  background: #F3F4F6;
-  border-radius: 3px;
-}
-
-.actions-card::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: 3px;
-}
-
-.actions-card::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
 }
 
 .actions-card .data-table {
@@ -894,6 +904,10 @@ body {
   margin-bottom: 4px;
 }
 
+.help-content li strong {
+  color: #111827;
+}
+
 .help-content table {
   width: 100%;
   border-collapse: collapse;
@@ -946,7 +960,25 @@ body {
   text-align: center;
   padding: 24px 16px;
   margin-top: 32px;
-  color: #9CA3AF;
+  color: #6B7280;
   font-size: 12px;
   border-top: 1px solid #E5E7EB;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger class applied by JS */
+.stagger-in {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
 }

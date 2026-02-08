@@ -63,7 +63,7 @@ function renderPhasesList() {
   const container = document.getElementById('phases-list');
   container.innerHTML = '';
 
-  CONFIG.phases.forEach(phase => {
+  CONFIG.phases.forEach((phase, index) => {
     const card = document.createElement('a');
 
     if (phase.completed) {
@@ -86,6 +86,12 @@ function renderPhasesList() {
       <div class="phase-title">${phase.title}</div>
       <div class="phase-status">${status}</div>
     `;
+
+    // Staggered reveal animation
+    card.style.animationDelay = `${index * 0.07}s`;
+    if (phase.locked || (!phase.completed && !phase.available)) {
+      card.addEventListener('animationend', () => card.classList.add('revealed'));
+    }
 
     container.appendChild(card);
   });
@@ -348,6 +354,7 @@ function renderTeamsTable() {
     tbody.appendChild(tr);
   });
 
+  staggerRows(tbody);
   updateSortIndicators('teams-table', teamSort);
 }
 
@@ -461,6 +468,8 @@ function renderIncidentsTable() {
     tbody.appendChild(tr);
   });
 
+  staggerRows(tbody);
+
   // Update toggle button text
   updateResolvedToggle();
   updateSortIndicators('incidents-table', incidentSort);
@@ -513,7 +522,7 @@ function renderActionsTable() {
 
   if (actions.length === 0) {
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="8" style="text-align: center; color: #6B7280;">No actions available</td>';
+    tr.innerHTML = '<td colspan="8" style="text-align: center; color: var(--text-muted, #6B7280);">No actions available</td>';
     tbody.appendChild(tr);
     return;
   }
@@ -540,6 +549,18 @@ function renderActionsTable() {
       <td class="description-cell">${escapeHtml(action.description)}</td>
     `;
     tbody.appendChild(tr);
+  });
+
+  staggerRows(tbody);
+}
+
+// ==================== ANIMATION HELPERS ====================
+
+function staggerRows(tbody) {
+  const rows = tbody.querySelectorAll('tr');
+  rows.forEach((row, i) => {
+    row.classList.add('stagger-in');
+    row.style.animationDelay = `${i * 0.03}s`;
   });
 }
 
