@@ -32,9 +32,8 @@
 | 2 | Data, Privacy, Surveillance, & Misinformation | [Title] | [e.g., Day 3-5] |
 | 3 | Economic Security | [Title] | [e.g., Day 6-10] |
 | 4 | Political & Societal Security | [Title] | [e.g., Day 11-15] |
-| 5 | Health & Biosecurity | [Title] | [e.g., Day 16-21] |
-| 6 | Environmental Security | [Title] | [e.g., Day 22-28] |
-| 7 | Disaster Management | [Title] | [e.g., Day 29-35] |
+| 5 | Health, Environmental, & Biosecurity | [Title] | [e.g., Day 16-25] |
+| 6 | Disaster Management | [Title] | [e.g., Day 26-35] |
 
 ## Phase Summaries
 
@@ -44,7 +43,7 @@
 ### Phase 2: [Title]
 [Brief narrative]
 
-(Continue for all 7 phases)
+(Continue for all 6 phases)
 
 ## Teams (15 National Parks)
 
@@ -110,9 +109,9 @@ Teams are randomly assigned different roles each phase. See `phase_#/roles.csv` 
 ## Files
 
 - Simulation overview: `sim_overview.md`
-- Phase overviews: `phase_#/overview.md` (1-7)
-- Phase roles (initial): `phase_#/roles_init.csv` (1-7)
-- Phase roles (working): `phase_#/roles.csv` (1-7)
-- Phase actions: `phase_#/actions.csv` (1-7)
-- Injects (initial): `phase_#/injects_init.csv` (1-7)
-- Injects (working): `phase_#/injects.csv` (1-7)
+- Phase overviews: `phase_#/overview.md` (1-6)
+- Phase roles (initial): `phase_#/roles_init.csv` (1-6)
+- Phase roles (working): `phase_#/roles.csv` (1-6)
+- Phase actions: `phase_#/actions.csv` (1-6)
+- Injects (initial): `phase_#/injects_init.csv` (1-6)
+- Injects (working): `phase_#/injects.csv` (1-6)

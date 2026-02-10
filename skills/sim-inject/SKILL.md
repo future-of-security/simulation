@@ -283,7 +283,7 @@ When multiple teams collaborate to resolve an inject, split points:
 | Column | Description |
 |--------|-------------|
 | id | Unique number |
-| phase | Phase number (1-7) |
+| phase | Phase number (1-6) |
 | sim_time | HH:MM format, chronological |
 | incident | Short title |
 | description | Problem description (not solution) |

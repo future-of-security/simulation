@@ -253,7 +253,7 @@ Injects are stored in `injects.csv`
 ### To Next Phase
 - **Economic impact:** Misinformation about infrastructure safety will compound Phase 3 supply chain failures
 - **Political tensions:** Deepfake damage to official credibility sets up Phase 4 political crisis
-- **Healthcare avoidance:** Patients avoiding care due to privacy fears worsens Phase 5 health crisis
+- **Healthcare avoidance:** Patients avoiding care due to privacy fears worsens Phase 5 health and environmental crisis
 - **Community cohesion:** How misinformation is handled determines community resilience for later phases
 
 ### Branching Scenarios
@@ -262,8 +262,8 @@ Injects are stored in `injects.csv`
 |--------------------|----------------------|
 | Quickly debunk deepfake with evidence | Phase 4: Moderate political tensions, officials retain some credibility |
 | Fail to address deepfake | Phase 4: Severe political crisis, officials have no credibility |
-| Provide strong patient support | Phase 5: Healthcare utilization recovers, patients trust system |
-| Ignore patient data victims | Phase 5: Healthcare avoidance crisis, preventable deaths |
+| Provide strong patient support | Phase 5: Healthcare utilization recovers, patients trust system for health and environmental response |
+| Ignore patient data victims | Phase 5: Healthcare avoidance crisis, preventable deaths, environmental damage unreported |
 | Address surveillance transparently | Phase 4: Civil liberties debate but trust maintained |
 | Cover up surveillance | Phase 4: Massive backlash when full scope revealed |
 

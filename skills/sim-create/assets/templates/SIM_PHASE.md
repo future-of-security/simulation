@@ -1,6 +1,6 @@
 # Simulation Phase [X]: [Phase Title]
 
-**Course Topic:** [Cybersecurity & AI Threats / Data, Privacy, Surveillance, & Misinformation / Economic Security / Political & Societal Security / Health & Biosecurity / Environmental Security / Disaster Management]
+**Course Topic:** [Cybersecurity & AI Threats / Data, Privacy, Surveillance, & Misinformation / Economic Security / Political & Societal Security / Health, Environmental, & Biosecurity / Disaster Management]
 
 **Time Period:** [e.g., Day 3-4 of crisis]
 

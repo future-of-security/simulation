@@ -46,9 +46,8 @@ As the attack disrupts hospital systems and university operations, misinformatio
 | 2 | Data, Privacy, Surveillance, & Misinformation | "Rumors Spread" | Day 3-5: Disinfo in close-knit communities |
 | 3 | Economic Security | "Supply Lines Cut" | Day 6-10: Coal shutdown, food/fuel shortages |
 | 4 | Political & Societal Security | "Forgotten Country" | Day 11-15: Rural vs state tensions, protests |
-| 5 | Health & Biosecurity | "Breaking Point" | Day 16-21: Hospital system collapse |
-| 6 | Environmental Security | "Hidden Damage" | Day 22-28: Coal ash, water contamination revealed |
-| 7 | Disaster Management | "Mountain Resilience" | Day 29-35: Recovery and long-term decisions |
+| 5 | Health, Environmental, & Biosecurity | "Hidden Damage" | Day 16-25: Hospital collapse, coal ash, water contamination |
+| 6 | Disaster Management | "Mountain Resilience" | Day 26-35: Recovery and long-term decisions |
 
 ## Phase Summaries
 
@@ -64,13 +63,10 @@ Extended disruptions halt coal mining operations—the economic backbone of seve
 ### Phase 4: Forgotten Country (Political & Societal Security)
 Frustration boils over as rural communities feel state response prioritizes Roanoke over coalfield counties. A protest in Wise County blocks I-81. Conspiracy theories about the attack's origins fuel social divisions. Local officials challenge state authority. AI-generated political content deepens polarization. Teams must navigate political tensions while maintaining unified response.
 
-### Phase 5: Breaking Point (Health & Biosecurity)
-Carilion's rural clinics, already understaffed, face critical shortages. Dialysis patients must travel hours for treatment. Medication supplies for chronic conditions run low. Mental health crises surge—overdose calls increase 40%. A cluster of respiratory illness emerges in a coal community. Teams must triage healthcare across a region with limited capacity.
+### Phase 5: Hidden Damage (Health, Environmental, & Biosecurity)
+Carilion's rural clinics, already understaffed, face critical shortages. Dialysis patients must travel hours for treatment. Medication supplies run low and overdose calls increase 40%. Meanwhile, environmental monitoring systems—offline since the attack—reveal concerning data. Coal ash pond sensors in Wise County show potential breaches. Water treatment facilities operated on manual backup with unknown impacts. A cluster of respiratory illness emerges in a coal community, and mining operations restart without proper monitoring. Teams must triage healthcare while assessing environmental damage and managing public communication about risks.
 
-### Phase 6: Hidden Damage (Environmental Security)
-Environmental monitoring systems, offline since the attack, reveal concerning data. Coal ash pond sensors in Wise County show potential breaches. Water treatment facilities operated on manual backup with unknown impacts. Mining operations restarting without proper monitoring. Teams must assess environmental damage while managing public communication about risks.
-
-### Phase 7: Mountain Resilience (Disaster Management)
+### Phase 6: Mountain Resilience (Disaster Management)
 Recovery decisions shape the region's future. Federal disaster assistance is contested—does a cyber attack qualify? Communities debate rebuilding vulnerable systems versus investing in resilience. Brain drain accelerates as young people leave. Teams must balance immediate recovery with long-term transformation of a region already facing economic transition.
 
 ## Roles (15 Teams - National Parks)
@@ -131,9 +127,8 @@ See `sim_roles.csv` for team definitions (name, role, sector, starting budget, s
 | 1 | Speed vs. thoroughness of cyber response | Phase 2 data breach severity |
 | 2 | Transparency vs. controlling narrative | Phase 4 political tensions |
 | 3 | Urban vs. rural resource allocation | Phase 5 healthcare disparities |
-| 4 | State vs. local authority balance | Phase 7 recovery funding |
-| 5 | Triage decisions | Phase 7 community trust |
-| 6 | Environmental transparency | Phase 7 long-term health costs |
+| 4 | State vs. local authority balance | Phase 6 recovery funding |
+| 5 | Triage + environmental transparency | Phase 6 community trust, long-term health costs |
 
 ## Regional Context
 
@@ -156,6 +151,6 @@ See `sim_roles.csv` for team definitions (name, role, sector, starting budget, s
 
 - Team roles: `sim_roles.csv`
 - Action catalog: `sim_actions.csv`
-- Phase overviews: `phase_#_overview.md` (1-7)
-- Injects (initial): `phase_#_injects_init.csv` (1-7)
-- Injects (working): `phase_#_injects.csv` (1-7)
+- Phase overviews: `phase_#_overview.md` (1-6)
+- Injects (initial): `phase_#_injects_init.csv` (1-6)
+- Injects (working): `phase_#_injects.csv` (1-6)

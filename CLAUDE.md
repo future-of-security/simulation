@@ -36,21 +36,20 @@ The skills in this project enable instructors and facilitators to:
 - **Students**: ~60 per session
 - **Teams**: 15 teams (4 students each), named after national parks
 - **Duration**: 60 minutes max per phase
-- **Phases**: 7 phases aligned to course topics
+- **Phases**: 6 phases aligned to course topics
 
 ## Skills Overview
 
 All skills are located in the `skills/` folder:
 
 ### sim-create
-Creates new crisis management simulations with 7 phases aligned to course topics:
+Creates new crisis management simulations with 6 phases aligned to course topics:
 1. Cybersecurity & AI Threats
 2. Data, Privacy, Surveillance, & Misinformation
 3. Economic Security
 4. Political & Societal Security
-5. Health & Biosecurity
-6. Environmental Security
-7. Disaster Management
+5. Health, Environmental, & Biosecurity
+6. Disaster Management
 
 Uses the Crisis Engine logic: **Trigger → System Stress → Human Impact → Decision Under Constraint → Cascading Effects**
 

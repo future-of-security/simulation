@@ -8,9 +8,8 @@ const CONFIG = {
     { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", available: false },
     { num: 3, title: "Economic Security", available: false },
     { num: 4, title: "Political & Societal Security", available: false },
-    { num: 5, title: "Health & Biosecurity", available: false },
-    { num: 6, title: "Environmental Security", available: false },
-    { num: 7, title: "Disaster Management", available: false }
+    { num: 5, title: "Health, Environmental, & Biosecurity", available: false },
+    { num: 6, title: "Disaster Management", available: false }
   ]
 };
 

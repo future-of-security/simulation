@@ -243,7 +243,7 @@ N/A - This is Phase 1
 ### To Next Phase
 - **Data compromised:** Stolen patient data will appear in Phase 2, fueling privacy crisis
 - **Communication established/failed:** Sets tone for Phase 2 information environment
-- **Rural clinic status:** Determines healthcare baseline for Phase 5
+- **Rural clinic status:** Determines healthcare and environmental response baseline for Phase 5
 - **Trust built/lost:** Affects community cooperation in later phases
 
 ### Branching Scenarios
@@ -254,7 +254,7 @@ N/A - This is Phase 1
 | Contain quickly, poor communication | Phase 2: Severe rumors, "what are they hiding?" |
 | Slow containment, good communication | Phase 2: More data stolen, but community trusts response |
 | Slow containment, poor communication | Phase 2: Severe data breach + distrust crisis |
-| Neglect rural clinics | Phase 5: Healthcare collapse in coalfields |
+| Neglect rural clinics | Phase 5: Healthcare collapse and undetected environmental damage in coalfields |
 
 ---
 

@@ -14,7 +14,7 @@ Create the story and structure for crisis management simulations (overview, phas
 - **Students**: ~60 per session
 - **Teams**: 15 teams (4 students each), named after national parks
 - **Duration**: 60 minutes max per phase
-- **Phases**: 7 phases aligned to course topics
+- **Phases**: 6 phases aligned to course topics
 
 ## Team Names (National Parks)
 
@@ -36,9 +36,8 @@ Teams are identified by their national park name (no numeric IDs):
 | 2 | Data, Privacy, Surveillance, & Misinformation |
 | 3 | Economic Security |
 | 4 | Political & Societal Security |
-| 5 | Health & Biosecurity |
-| 6 | Environmental Security |
-| 7 | Disaster Management |
+| 5 | Health, Environmental, & Biosecurity |
+| 6 | Disaster Management |
 
 ## Templates
 
@@ -72,7 +71,7 @@ Define 15 roles that will rotate among teams each phase:
 **`sim_overview.md`** (from SIM_OVERVIEW.md):
 - Summary of the crisis scenario
 - Setting details (no infrastructure IDs)
-- Timeline across 7 phases
+- Timeline across 6 phases
 - Phase summaries (brief narrative for each)
 - List of 15 available roles (teams assigned randomly each phase)
 - Global constraints (actions, information, authority, trust)
@@ -111,8 +110,7 @@ Every role has meaningful work regardless of phase theme:
 | Misinformation | All roles face disinfo about their sector; stakeholder pressure |
 | Economic | All roles face budget impacts; supply chain affects everyone |
 | Political | All roles have stakeholders with opinions; protests affect operations |
-| Health | Non-health roles support logistics, communication, resource allocation |
-| Environmental | All facilities affected; public health is cross-sector |
+| Health/Environmental | Non-health roles support logistics, communication; all facilities affected by environmental damage |
 | Disaster Mgmt | Recovery involves all sectors; funding decisions are cross-cutting |
 
 ### Step 6: Create Per-Phase Action Catalogs
@@ -132,9 +130,8 @@ Action IDs restart at A1 for each phase (they are phase-local).
 | 2 (Misinfo) | Deepfake detection, trusted messenger campaigns, platform coordination |
 | 3 (Economic) | Supply chain rerouting, emergency unemployment, price controls |
 | 4 (Political) | Mediation services, emergency governance, protest management |
-| 5 (Health) | Triage protocols, medication airlifts, mental health crisis teams |
-| 6 (Environmental) | Hazmat containment, water testing, environmental monitoring |
-| 7 (Disaster) | Rebuilding contracts, relocation assistance, resilience investment |
+| 5 (Health/Env) | Triage protocols, medication airlifts, hazmat containment, water testing |
+| 6 (Disaster) | Rebuilding contracts, relocation assistance, resilience investment |
 
 ### Step 7: Generate Injects (Use sim-inject)
 
@@ -169,7 +166,7 @@ simulations/<sim>/
 | File | Description |
 |------|-------------|
 | `sim_overview.md` | Simulation overview (setting, timeline, constraints) — in simulation root |
-| `phase_#/overview.md` | Phase narratives (1-7) |
+| `phase_#/overview.md` | Phase narratives (1-6) |
 | `phase_#/roles_init.csv` | Initial role assignments (backup) |
 | `phase_#/roles.csv` | Working roles file (budget/trust updated by sim-inject) |
 | `phase_#/actions.csv` | Action catalog for this phase (tailored to phase theme) |
