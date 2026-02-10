@@ -354,7 +354,8 @@ Every team must have meaningful work in EVERY phase, regardless of phase theme.
 
 ### Scoring
 - `points_resolve` only (no penalties)
-- Higher points for harder injects
+- **Equal opportunity:** All initial injects in a phase should have the same `points_resolve` value so every team starts with equal scoring potential. Severity indicates urgency/danger for narrative purposes but must not create scoring inequality between teams.
+- Follow-up injects added during the simulation may vary in points based on difficulty, but aim to keep cumulative point opportunities balanced across teams throughout the phase.
 
 ---
 
