@@ -75,7 +75,7 @@ $[amount]
 
 ## Disputes & Feedback
 
-*Optional: Flag anything from the previous update cycle that seems unreasonable — e.g., how your actions were evaluated, scoring, trust changes, inject outcomes, or custom action rulings. The facilitator will review and may adjust.*
+*Optional: Flag anything from the previous update cycle that seems unreasonable — e.g., how your actions were evaluated, scoring, trust changes, inject outcomes, or custom action rulings.*
 
 | What | Why You Disagree |
 |------|-----------------|
