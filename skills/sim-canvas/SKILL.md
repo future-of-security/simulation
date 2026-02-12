@@ -9,9 +9,8 @@ Fetch student submissions from a Canvas assignment and save them as Markdown fil
 
 ## Quick Start
 
-1. Save the assignment URL to `skills/sim-canvas/references/url`.
-2. Save your Canvas token to `skills/sim-canvas/references/token`.
-3. Run the fetch script (use `uv run` with dependencies since no system Python may be installed):
+1. **Check for credentials** — before fetching, verify that `skills/sim-canvas/references/token` and `skills/sim-canvas/references/url` exist. If either file is missing, ask the user for the Canvas API token and/or base URL, then save the values to those files.
+2. Run the fetch script (use `uv run` with dependencies since no system Python may be installed):
 
 ```powershell
 uv run --with requests --with html2text `
