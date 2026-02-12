@@ -313,7 +313,7 @@ function updateOverviewStats() {
 
   // Average trust
   const avgTrust = teams.length > 0 ? teams.reduce((sum, t) => sum + t.trust, 0) / teams.length : 0;
-  document.getElementById('avg-trust').textContent = avgTrust.toFixed(1);
+  document.getElementById('avg-trust').textContent = `${Math.round(avgTrust * 10)}%`;
 
   // Total budget
   document.getElementById('total-budget').textContent = formatCurrency(teams.reduce((sum, t) => sum + t.budget, 0));
@@ -347,7 +347,7 @@ function renderTeamsTable() {
       <td>${escapeHtml(team.name)}</td>
       <td>${escapeHtml(team.role)}</td>
       <td>${formatCurrency(team.budget)}</td>
-      <td>${team.trust}</td>
+      <td>${Math.round(team.trust * 10)}%</td>
       <td>${team.score}</td>
     `;
     tbody.appendChild(tr);

@@ -252,15 +252,17 @@ When multiple teams collaborate to resolve an inject, split points:
 
 **Upgrading partial → resolved:** When an inject upgrades from `partially_resolved` to `resolved` in a later cycle, award the difference between total points and already-awarded points.
 
-**Trust Modifiers:**
-- Successful collaboration: +1 trust
-- Failed public communication: -1 to -2 trust
-- Ignored critical inject (severity 4-5): -1 trust
-- Creative solution approved: +1 trust
-- Action backfired: -1 trust
-- **Team did not submit response:** -1 trust (per update cycle with no submission, applied to severity 4+ injects visible to them)
+**Trust Modifiers** (each point = 10% on the dashboard):
+- Successful collaboration: +10% trust
+- Failed public communication: -10% to -20% trust
+- Ignored critical inject (severity 4-5): -10% trust
+- Creative solution approved: +10% trust
+- Action backfired: -10% trust
+- **Team did not submit response:** -10% trust (per update cycle with no submission, applied to severity 4+ injects visible to them)
 
-**Trust Change Cap:** Limit trust changes to +3 or -3 per update cycle to prevent runaway scores. Multiple small trust-building actions in a single update cycle should be consolidated.
+**Trust Change Cap:** Limit trust changes to +30% or -30% per update cycle to prevent runaway scores. Multiple small trust-building actions in a single update cycle should be consolidated.
+
+**Storage vs Display:** Trust is stored as an integer in `roles.csv` (e.g., 11) and displayed as a percentage on the dashboard (110%). Each +1 in the CSV = +10% displayed. The `trust_impact` values in `actions.csv` use the integer scale (e.g., +1 means +10%).
 
 #### Step 6: Generate Follow-up Injects
 
