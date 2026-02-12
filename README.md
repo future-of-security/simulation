@@ -1,4 +1,4 @@
-# Simulation Skills
+# Simulation
 
 Scenario-driven role-playing simulation for crisis management.
 
