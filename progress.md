@@ -22,6 +22,71 @@
 | No surveillance response | 0:15 | 12:53 |
 | No attribution response | 0:20 | 12:58 |
 
+### Update Cycle 1 (sim_time 0:15)
+
+#### Canvas Fetch
+- Fetched 4 submissions (12 unsubmitted/skipped)
+- Teams that submitted: Acadia, Arches, Banff, Glacier
+- Teams with NO submission: Bryce, Denali, Jasper, Olympic, Redwood, Sequoia, Shenandoah, Yellowstone, Yoho, Yosemite, Zion
+
+#### Inject State Changes (5 → 7 injects)
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 1 (Deepfake Video) | open | partially_resolved | Glacier: A1 deepfake analysis ($500K) + A20 intelligence sharing ($0). Arches: A2 official video rebuttal ($200K). Video debunked with forensic evidence, rebuttal distributed. Still spreading in low-internet coalfield communities. |
+| 2 (Spoofed Portal) | open | partially_resolved | Acadia: A4 HIPAA breach notification ($1M), A5 credit monitoring ($500K), A6 patient hotline ($250K). Strong victim support but fake portal still active — no takedown initiated. |
+| 3 (Infrastructure Misinfo) | open | partially_resolved | Banff: A10 fake alert detection/blocking ($400K), A3 platform takedown requests ($100K). Collab with Redwood on rumor tracking dashboard. Spoofed texts intercepted but I-81 signs still compromised, boil order screenshot still viral. |
+| 4 (Surveillance) | open | open (ESCALATED) | No teams responded. ACLU filed emergency injunction (→ Inject 6). |
+| 5 (Attribution) | open | open | No response yet. Deadline 0:20 approaching. |
+
+#### New Injects (0:15)
+| ID | Incident | Severity | Why |
+|----|----------|----------|-----|
+| 6 | ACLU Files Emergency Injunction Against Surveillance | 5 | Escalation of unaddressed Inject 4 — court freezes surveillance data |
+| 7 | Panic Buying Empties Shelves Across Region | 3 | Consequence of Inject 3 — fake alerts triggered panic before Banff's blocking came online |
+
+#### Escalation Status
+| Trigger | Status |
+|---------|--------|
+| Deepfake debunking by 0:15 | PREVENTED — Glacier (A1) + Arches (A2) |
+| Patient notification by 0:15 | PREVENTED — Acadia (A4) |
+| Counter fake alerts by 0:10 | PREVENTED — Banff (A10, A3) |
+| Surveillance response by 0:15 | TRIGGERED — No response → Inject 6 |
+| Attribution response by 0:20 | PENDING — No response yet |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Acadia | 0 | 88 | Inject 2 partial (175×50% = 88, single team) |
+| Glacier | 0 | 53 | Inject 1 partial (175×50%×60% = 53, 2-team collab with Arches) |
+| Arches | 0 | 53 | Inject 1 partial (175×50%×60% = 53, 2-team collab with Glacier) |
+| Banff | 0 | 53 | Inject 3 partial (175×50%×60% = 53, 2-team collab with Redwood) |
+| Redwood | 0 | 53 | Inject 3 partial (175×50%×60% = 53, 2-team collab with Banff) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Acadia | $19.7M | $17.95M | A4 ($1M) + A5 ($500K) + A6 ($250K) |
+| Arches | $15M | $14.8M | A2 ($200K) |
+| Banff | $7.8M | $7.3M | A10 ($400K) + A3 ($100K) |
+| Glacier | $49.15M | $48.65M | A1 ($500K) + A20 ($0) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Acadia | 8 | 11 | A4 (+1), A5 (+1), A6 (+1) = +3 (capped) |
+| Arches | 5 | 7 | A2 (+2, timely rebuttal) |
+| Banff | 8 | 9 | A10 (0), A3 (0), collab bonus (+1) |
+| Glacier | 9 | 11 | A1 (+1), A20 (+1) = +2 |
+| Redwood | 7 | 8 | Collaboration bonus (+1) |
+| Olympic | 4 | 3 | Ignored critical Inject 4, escalated to ACLU injunction (-1) |
+| Sequoia | 8 | 7 | Ignored critical Inject 4, escalated (-1) |
+| Shenandoah | 7 | 6 | Ignored critical Inject 4, escalated (-1) |
+
+#### Current Status (sim_time 0:15)
+- **Open injects:** 4 (Inject 4, 5, 6, 7)
+- **Partially resolved:** 3 (Inject 1, 2, 3)
+- **Total:** 7
+
 ---
 
 ## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
