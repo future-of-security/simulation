@@ -87,6 +87,68 @@
 - **Partially resolved:** 3 (Inject 1, 2, 3)
 - **Total:** 7
 
+### Update Cycle 2 (sim_time 0:25)
+
+#### Canvas Fetch
+- Fetched 6 new submissions (6 unsubmitted/skipped)
+- New teams: Jasper, Olympic, Redwood, Sequoia, Shenandoah, Yellowstone
+- Teams still without submission: Bryce, Denali, Yoho, Yosemite, Zion
+
+#### Inject State Changes (7 injects)
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 3 (Infrastructure Misinfo) | partially_resolved | partially_resolved (improved) | Redwood: A9 multilingual alerts ($150K), A21 rumor tracking ($150K), A20 intel sharing. Jasper: custom channel blocking ($100K). Highway signs partially contained, but nav apps/boil order still circulating. |
+| 4 (Surveillance) | open | partially_resolved | Olympic: A12 disclosure ($0), A16 Hispanic liaison ($75K), A14 warrant ($100K), A15 evidence destruction (BLOCKED by court order). Sequoia: A7 counter-disinfo ($300K), A9 multilingual ($150K), A12 disclosure. Shenandoah: A13 review board ($50K), A16 liaison ($75K), A8 church campaign ($75K). Comprehensive 3-team response. |
+| 5 (Attribution) | open | partially_resolved | Yellowstone: A19 breach assessment ($200K). Assessment started but no public communication yet. |
+| 6 (ACLU Injunction) | open | partially_resolved | Olympic's disclosure + warrant, Sequoia's counter-disinfo, Shenandoah's review board address ACLU concerns. Court order still in effect but narrative improving. |
+| 7 (Panic Buying) | open | open | No teams directly addressed. Shelves still empty, fuel shortages worsening. |
+
+#### Escalation Status
+| Trigger | Status |
+|---------|--------|
+| Attribution response by 0:20 | PREVENTED — Yellowstone (A19) submitted at ~0:17 |
+
+#### Notable Events
+- **Olympic attempted A15 (Warrant-Free Evidence Destruction) but BLOCKED by ACLU court order** from Inject 6. The court order freezing surveillance data was filed at 0:15; Olympic's attempt to destroy evidence at ~0:21 was too late. Data remains frozen pending judicial review.
+- **Olympic transferred $100K to Sequoia** (warrant costs) and **$75K to Shenandoah** (Hispanic liaison funding).
+- **Jasper's custom action approved:** "Block compromised infrastructure channels" ($100K) — AEP has authority over power infrastructure feeding highway sign systems.
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Olympic | 0 | 75 | Inject 4 partial (35, 3-team) + Inject 6 partial (40, 3-team) |
+| Sequoia | 0 | 75 | Inject 4 partial (35, 3-team) + Inject 6 partial (40, 3-team) |
+| Shenandoah | 0 | 75 | Inject 4 partial (35, 3-team) + Inject 6 partial (40, 3-team) |
+| Yellowstone | 0 | 88 | Inject 5 partial (88, single team) |
+| Jasper | 0 | 35 | Inject 3 (35, 3rd team joining partially_resolved inject) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Jasper | $9.6M | $9.5M | Custom: block channels ($100K) |
+| Olympic | $15.3M | $15.125M | A16 ($75K) + A14 ($100K) via transfers |
+| Redwood | $25M | $24.7M | A9 ($150K) + A21 ($150K) |
+| Sequoia | $2.85M | $2.5M | A7 ($300K) + A9 ($150K), received $100K from Olympic |
+| Shenandoah | $14.6M | $14.55M | A13 ($50K) + A8 ($75K), received $75K from Olympic for A16 |
+| Yellowstone | $11.625M | $11.425M | A19 ($200K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Olympic | 3 | 6 | A12 (+2 transparent disclosure), A16 (+1), A14 (0), collab (+1) = +3 capped |
+| Sequoia | 7 | 10 | A7 (+1), A9 (+1), A12 (+2), A20 (+1), collab (+1) = +3 capped |
+| Shenandoah | 6 | 9 | A13 (+1), A16 (+1), A8 (+2), A20 (+1), collab (+1) = +3 capped |
+| Redwood | 8 | 11 | A9 (+1), A20 (+1), A21 (0), collab (+1) = +3 capped |
+| Yellowstone | 7 | 8 | A19 (0), collab (+1) |
+| Jasper | 8 | 9 | Custom action (0), collab (+1) |
+
+#### Current Status (sim_time 0:25)
+- **Open injects:** 1 (Inject 7: Panic Buying)
+- **Partially resolved:** 6 (Injects 1, 2, 3, 4, 5, 6)
+- **Total:** 7
+- **Teams submitted:** 10 of 15
+- **Teams remaining:** Bryce, Denali, Yoho, Yosemite, Zion
+
 ---
 
 ## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
