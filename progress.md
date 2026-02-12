@@ -236,6 +236,80 @@
 | 13 | Yoho | 35 | 7 |
 | 15 | Zion | 0 | 12 |
 
+### Update Cycle 4 (sim_time 0:36–0:46, per submitted_at timestamps)
+
+#### Canvas Fetch
+- 0 new submissions from Canvas (4 already fetched in interrupted cycles)
+- Processed 4 previously-read but unprocessed submissions:
+  - Zion attempt 1 (submitted 0:43)
+  - Banff attempt 2 (submitted 0:36)
+  - Sequoia attempt 2 (submitted 0:43)
+  - Arches attempt 3 (submitted 0:46)
+- **All 15 teams have now submitted.** Only 1 unsubmitted group remains on Canvas.
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 3 (Infrastructure Misinfo) | partially_resolved | **RESOLVED** | Banff attempt 2: A3 takedown for boil water screenshot ($100K), A20 alerted VDOT. Zion: A8 church campaign ($75K), A22 community info centers ($100K), custom Deepfake & Scam Toolkit ($15K). 5-team comprehensive resolution (Banff, Redwood, Jasper, Zion + Arches indirect). |
+
+#### Notable Events
+- **Zion finally submitted** (attempt 1, 0:43) — addressed 3 injects simultaneously (Deepfake, Misinfo, Surveillance) with A8 church campaign, A22 community centers, custom toolkit. Late but impactful.
+- **Zion custom action approved:** Deepfake & Scam One-Page Toolkit ($15K) — simple PDF distributed through church networks to help rural residents identify fake portals/alerts. Very cost-effective.
+- **Arches attempt 3** added A7 Counter-Disinformation Campaign ($300K) — multi-platform fact-check across TV, website, push alerts, and social media.
+- **Banff attempt 2** specifically targeted the persistent boil water screenshot with a second A3 takedown and alerted VDOT about highway signs (A20).
+- **Sequoia attempt 2** continued coordination on ACLU response with A20.
+
+#### Score Updates (Inject 3 partial→resolved upgrade)
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Zion | 0 | 70 | Inject 3 resolved (70, 5-team 40%) |
+| Banff | 53 | 70 | Inject 3 upgrade (+17) |
+| Redwood | 53 | 70 | Inject 3 upgrade (+17) |
+| Jasper | 35 | 70 | Inject 3 upgrade (+35) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Zion | $1.75M | $1.56M | A8 ($75K) + A22 ($100K) + custom toolkit ($15K) |
+| Banff | $7.3M | $7.2M | A3 ($100K) |
+| Arches | $14.8M | $14.5M | A7 ($300K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Zion | 12 | 15 | A8 (+2), A22 (+1), A20 (+1), custom (+1), collab (+1) = +3 capped |
+| Banff | 9 | 10 | A20 (+1) |
+| Arches | 8 | 10 | A7 (+1), collab (+1) = +2 |
+| Sequoia | 10 | 11 | A20 (+1) |
+
+#### Current Status (sim_time 0:46)
+- **Resolved:** 5 (Injects 1, 2, 3, 4, 6)
+- **Partially resolved:** 1 (Inject 5: Attribution)
+- **Open:** 1 (Inject 7: Panic Buying — unaddressed all phase)
+- **Total:** 7
+
+#### Final Leaderboard (Phase 2)
+| Rank | Team | Score | Trust | Budget |
+|------|------|-------|-------|--------|
+| 1 | Denali | 220 | 11 | $7.1M |
+| 2 | Olympic | 150 | 6 | $15.125M |
+| 2 | Sequoia | 150 | 11 | $2.5M |
+| 2 | Shenandoah | 150 | 10 | $14.35M |
+| 5 | Acadia | 105 | 11 | $17.95M |
+| 5 | Yosemite | 105 | 10 | $5.5M |
+| 7 | Yellowstone | 88 | 8 | $11.425M |
+| 8 | Arches | 70 | 10 | $14.5M |
+| 8 | Banff | 70 | 10 | $7.2M |
+| 8 | Glacier | 70 | 11 | $48.65M |
+| 8 | Jasper | 70 | 9 | $9.5M |
+| 8 | Redwood | 70 | 11 | $24.7M |
+| 8 | Zion | 70 | 15 | $1.56M |
+| 14 | Bryce | 53 | 6 | $39.8M |
+| 15 | Yoho | 35 | 7 | $7.45M |
+
+#### Note for Future Cycles
+- Use `submitted_at` timestamp from each report as the action time, not the Canvas fetch time.
+
 ---
 
 ## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
