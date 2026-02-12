@@ -102,8 +102,11 @@ Extract from each report:
 - Collaborations (which teams worked together)
 - Budget transfers (from/to/amount/purpose)
 - Resources spent (calculate: starting budget - action costs - transfers out + transfers in)
+- **Disputes & feedback** (optional section) — teams may flag evaluations they find unreasonable
 
 **Also note which teams did NOT submit** — their injects remain unaddressed and may escalate.
+
+**Processing disputes:** If a team's report includes a "Disputes & Feedback" section, review each item. If the dispute is valid (e.g., a miscalculation, misattributed action, or unfair custom action ruling), correct the affected inject/role values in this cycle's update. Log the correction in `progress.md` with a note like "Dispute from [Team]: [issue] — corrected." If the dispute is not valid, note why in `progress.md` but do not change values.
 
 **Skip already-processed submissions:** Before reading response files, check `progress.md` for submissions processed in prior update cycles. Only process response files that are new since the last cycle. The `--only-new` flag on sim-canvas fetches only new attempts, but if old files still exist in the responses folder, match filenames against the teams+attempts already logged in `progress.md` and skip them.
 
