@@ -9,8 +9,9 @@ Fetch student submissions from a Canvas assignment and save them as Markdown fil
 
 ## Quick Start
 
-1. **Check for credentials** — before fetching, verify that `skills/sim-canvas/references/token` and `skills/sim-canvas/references/url` exist. If either file is missing, ask the user for the Canvas API token and/or base URL, then save the values to those files.
-2. Run the fetch script (use `uv run` with dependencies since no system Python may be installed):
+1. **Check for `uv`** — run `uv --version` to verify it's installed. If not found, ask the user to install it first (see https://docs.astral.sh/uv/getting-started/installation/).
+2. **Check for credentials** — verify that `skills/sim-canvas/references/token` and `skills/sim-canvas/references/url` exist. If either file is missing, ask the user for the Canvas API token and/or base URL, then save the values to those files.
+3. Run the fetch script:
 
 ```powershell
 uv run --with requests --with html2text `
