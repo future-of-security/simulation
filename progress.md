@@ -1,5 +1,29 @@
 # Progress Log
 
+## 2026-02-12: Phase 2 — Rumors Spread (Data, Privacy, Surveillance, & Misinformation)
+
+### Phase Start
+- **Real time start:** 12:38
+- **Sim time 0:00 = 12:38 real time**
+- Phase duration: 60 minutes (ends ~13:38)
+- Escalation checkpoints: 0:10 (12:48), 0:15 (12:53), 0:20 (12:58)
+
+### Initial State
+- 5 open injects (IDs 1-5), all severity 4-5
+- 15 teams active, roles shuffled from Phase 1
+- Budgets and trust carry over from Phase 1
+
+### Escalation Triggers
+| Trigger | Deadline | Real Time |
+|---------|----------|-----------|
+| No deepfake debunking | 0:15 | 12:53 |
+| No patient notification | 0:15 | 12:53 |
+| No counter to fake alerts | 0:10 | 12:48 |
+| No surveillance response | 0:15 | 12:53 |
+| No attribution response | 0:20 | 12:58 |
+
+---
+
 ## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
 
 ### Canvas Fetch
