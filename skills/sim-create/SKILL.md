@@ -122,6 +122,8 @@ Each phase should include:
 - **Universal actions** that apply across all phases (communication, intelligence sharing, EOC activation, volunteer networks)
 - **Phase-specific actions** relevant to the current theme (e.g., network isolation for cyber, rumor control for misinformation, supply chain rerouting for economic)
 
+**Minimum coverage: every role must have at least 3 dedicated actions** (excluding ALL-team actions like Intelligence Sharing). After drafting the catalog, audit the `available_to` column and add role-specific actions for any role with fewer than 3. Teams with very few catalog options are forced to rely entirely on custom actions, which slows gameplay.
+
 Action IDs restart at A1 for each phase (they are phase-local).
 
 | Phase | Example Phase-Specific Actions |
