@@ -1,16 +1,16 @@
 team,role,sector,budget,trust,score
-Acadia,Carilion Clinic System,Healthcare,$17.95M,11,88
-Arches,WDBJ7 News,Media,$14.8M,7,53
+Acadia,Carilion Clinic System,Healthcare,$17.95M,11,105
+Arches,WDBJ7 News,Media,$14.8M,8,70
 Banff,Shentel Communications,Telecommunications,$7.3M,9,53
-Bryce,VA DEQ SW Regional Office,Environmental,$40.1M,4,0
-Denali,Governor's SW Virginia Liaison,State Executive,$7.5M,8,0
-Glacier,Virginia Tech Crisis Response,Academic/Research,$48.65M,11,53
+Bryce,VA DEQ SW Regional Office,Environmental,$39.8M,6,53
+Denali,Governor's SW Virginia Liaison,State Executive,$7.1M,11,220
+Glacier,Virginia Tech Crisis Response,Academic/Research,$48.65M,11,70
 Jasper,AEP Appalachian Power,Energy/Utilities,$9.5M,9,35
-Olympic,SW Virginia Sheriff's Coalition,Law Enforcement,$15.125M,6,75
+Olympic,SW Virginia Sheriff's Coalition,Law Enforcement,$15.125M,6,150
 Redwood,SW Virginia EMA,Emergency Mgmt,$24.7M,11,53
-Sequoia,Montgomery County Government,Local Government,$2.5M,10,75
-Shenandoah,United Way SW Virginia,Humanitarian NGO,$14.55M,9,75
+Sequoia,Montgomery County Government,Local Government,$2.5M,10,150
+Shenandoah,United Way SW Virginia,Humanitarian NGO,$14.35M,10,150
 Yellowstone,Food City / Regional Supply Chain,Business/Supply,$11.425M,8,88
-Yoho,VDOT SW Region,Transportation,$7.75M,6,0
-Yosemite,CISA Regional Coordinator,Federal Cyber,$6M,8,0
+Yoho,VDOT SW Region,Transportation,$7.45M,7,35
+Yosemite,CISA Regional Coordinator,Federal Cyber,$5.5M,10,105
 Zion,Appalachian Faith & Community Network,Community/Faith,$1.75M,12,0

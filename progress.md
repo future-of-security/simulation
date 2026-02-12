@@ -149,6 +149,93 @@
 - **Teams submitted:** 10 of 15
 - **Teams remaining:** Bryce, Denali, Yoho, Yosemite, Zion
 
+### Update Cycle 3 (sim_time 0:35)
+
+#### Canvas Fetch
+- Fetched 6 new submissions
+- New first-time teams: Denali, Yosemite, Bryce, Yoho
+- Second attempts: Shenandoah (attempt 2), Arches (attempt 2)
+- **All 15 teams have now submitted** (14 with at least 1 attempt; Zion is the only team with no submission)
+
+#### Inject State Changes (7 injects)
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 1 (Deepfake) | partially_resolved | **RESOLVED** | Denali (actual official in deepfake): A2 official statement ($200K), A7 counter-disinfo ($300K), A11 community meeting ($100K), A12 surveillance disclosure, A20 intel sharing. Arches attempt 2: A3 platform takedown ($100K). Yoho: funded Arches ($100K) and Denali ($200K). Combined with Glacier A1 + Arches A2 from cycle 1 = comprehensive resolution. |
+| 2 (Spoofed Portal) | partially_resolved | **RESOLVED** | Yosemite (CISA): A3 platform takedown ($100K), A10 network blocking ($400K), A20 intel sharing. Collaborated with Zion and Acadia. Critical gap (takedown + blocking) now filled. Combined with Acadia's A4/A5/A6 from cycle 1. |
+| 4 (Surveillance) | partially_resolved | **RESOLVED** | Denali: A12 (reprimanded Sheriff), A11 (community meeting), A7 (counter-disinfo). Governor's direct authority adds legitimacy to Olympic/Sequoia/Shenandoah's response from cycle 2. 4-team comprehensive resolution. |
+| 5 (Attribution) | partially_resolved | partially_resolved (improved) | Bryce: A19 assessment ($200K), custom Systems Security Review ($100K), A20 intel sharing. Joins Yellowstone. 2 teams assessing but still no public communication. |
+| 6 (ACLU Injunction) | partially_resolved | **RESOLVED** | Denali's government-level accountability completes the response. ACLU agrees to 30-day stay. National media narrative shifts positive. |
+| 7 (Panic Buying) | open | open (worsening) | Still no direct response. Fuel shortages affecting emergency vehicles. Third altercation at grocery store. |
+
+#### Notable Events
+- **Denali addressed 3 injects simultaneously** — deepfake (A2, A7, A11), surveillance (A12, A11), and ACLU (A12). Highest single-cycle contribution of the phase.
+- **Yoho addressed wrong inject** — VDOT tackled the deepfake (Inject 1) instead of foreign attribution (Inject 5, their visible inject). Transferred $300K to fund Arches and Denali.
+- **Arches attempt 2** added A3 platform takedown request for deepfake.
+- **Shenandoah attempt 2** added A24 Victim Advocacy Program ($200K) for surveillance/breach victims.
+- **Bryce custom action approved:** Systems Security Review ($100K) — DEQ reviewing monitoring system vulnerabilities.
+- **Olympic's A15 (evidence destruction) remains blocked** by court order from Inject 6.
+
+#### Score Updates (partial→resolved upgrades)
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Denali | 0 | 220 | Inject 1 resolved (70, 3-team 40%) + Inject 4 resolved (70, 4-team 40%) + Inject 6 resolved (80, 4-team 40%) |
+| Yosemite | 0 | 105 | Inject 2 resolved (105, 2-team 60%) |
+| Acadia | 88 | 105 | Inject 2 upgrade partial→resolved (+17) |
+| Glacier | 53 | 70 | Inject 1 upgrade partial→resolved (+17) |
+| Arches | 53 | 70 | Inject 1 upgrade partial→resolved (+17) |
+| Olympic | 75 | 150 | Inject 4 upgrade (+35) + Inject 6 upgrade (+40) |
+| Sequoia | 75 | 150 | Inject 4 upgrade (+35) + Inject 6 upgrade (+40) |
+| Shenandoah | 75 | 150 | Inject 4 upgrade (+35) + Inject 6 upgrade (+40) |
+| Bryce | 0 | 53 | Inject 5 partial (53, 2-team 60%) |
+| Yoho | 0 | 35 | Inject 1 funding support (half-rate collaboration) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Denali | $7.5M | $7.1M | A2 ($200K) + A7 ($300K) + A11 ($100K), received $200K from Yoho |
+| Yosemite | $6M | $5.5M | A3 ($100K) + A10 ($400K) |
+| Bryce | $40.1M | $39.8M | A19 ($200K) + custom ($100K) |
+| Yoho | $7.75M | $7.45M | Transfers: $100K to Arches + $200K to Denali |
+| Arches | $14.8M | $14.8M | A3 ($100K), received $100K from Yoho (net zero) |
+| Shenandoah | $14.55M | $14.35M | A24 ($200K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Denali | 8 | 11 | A2 (+2), A7 (+1), A11 (+1), A12 (+2), A20 (+1), collab (+1) = +3 capped |
+| Yosemite | 8 | 10 | A20 (+1), collab (+1) = +2 |
+| Bryce | 4 | 6 | A20 (+1), collab (+1) = +2 |
+| Arches | 7 | 8 | A3 (0), collab (+1) = +1 |
+| Yoho | 6 | 7 | Collab (+1) = +1 |
+| Shenandoah | 9 | 10 | A24 (+1) = +1 |
+
+#### Current Status (sim_time 0:35)
+- **Resolved:** 4 (Injects 1, 2, 4, 6)
+- **Partially resolved:** 2 (Injects 3, 5)
+- **Open:** 1 (Inject 7: Panic Buying)
+- **Total:** 7
+- **Teams submitted:** 14 of 15 (Zion has not submitted)
+- **Phase time remaining:** ~25 minutes
+
+#### Leaderboard (sim_time 0:35)
+| Rank | Team | Score | Trust |
+|------|------|-------|-------|
+| 1 | Denali | 220 | 11 |
+| 2 | Olympic | 150 | 6 |
+| 2 | Sequoia | 150 | 10 |
+| 2 | Shenandoah | 150 | 10 |
+| 5 | Acadia | 105 | 11 |
+| 5 | Yosemite | 105 | 10 |
+| 7 | Yellowstone | 88 | 8 |
+| 8 | Arches | 70 | 8 |
+| 8 | Glacier | 70 | 11 |
+| 10 | Banff | 53 | 9 |
+| 10 | Bryce | 53 | 6 |
+| 10 | Redwood | 53 | 11 |
+| 13 | Jasper | 35 | 9 |
+| 13 | Yoho | 35 | 7 |
+| 15 | Zion | 0 | 12 |
+
 ---
 
 ## 2026-02-05: Phase 1 Update Cycle (sim_time 0:30)
