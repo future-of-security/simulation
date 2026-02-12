@@ -159,7 +159,7 @@ Example inject files are in `examples/`:
 
 Generated simulations are stored in `simulations/`:
 - **Seattle Metro Crisis** (`simulations/seattle-metro-crisis/`): Multi-phase regional crisis scenario
-- **Virginia Cascading Crisis** (`simulations/virginia-cascading-crisis/`): Active simulation (Phase 1)
+- **Virginia Cascading Crisis** (`simulations/virginia-cascading-crisis/`): Active simulation (Phases 1-2 complete, Phase 3 next)
 
 ## Environment Notes
 
@@ -178,3 +178,10 @@ During a live simulation phase, the facilitator runs update cycles:
 5. **Update** `phase_N/roles.csv` — budget, trust, score
 6. **Copy** both CSVs to `docs/phase_N/`
 7. **Update** `progress.md` with full accounting
+
+### Key Rules
+- **Timestamps:** Use `submitted_at` from each response's YAML frontmatter (not Canvas fetch time) as the action time
+- **Invited team credit:** When Team A invites Team B and both reports confirm collaboration, both get inject credit
+- **Re-submissions:** Don't double-charge for actions already taken in earlier attempts
+- **Budget:** Always compute from last known budget in roles.csv, not team's self-reported amount
+- **Carryover:** Partially resolved injects carry to next phase with reduced consequences

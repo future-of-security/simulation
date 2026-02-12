@@ -245,6 +245,8 @@ When multiple teams collaborate to resolve an inject, split points:
 
 **When collaborators didn't submit:** If Team A claims collaboration with Team B but Team B didn't submit a response, only credit Team A for their own contribution. Do not give Team A the full solo credit for what would normally be a joint effort — their contribution may be limited without the collaborator's actions.
 
+**Invited team credit:** When Team A's report says they collaborated with Team B on a specific inject (inviting B to help), and Team B's own report confirms the collaboration, Team B receives credit for that inject — even if Team B's report focuses on a different inject. Cross-reference both teams' collaboration sections. The collaboration must be specific (naming the inject or describing the work) and plausible for the invited team's role. If only one side claims collaboration (unconfirmed), do not credit the other team.
+
 **Upgrading partial → resolved:** When an inject upgrades from `partially_resolved` to `resolved` in a later cycle, award the difference between total points and already-awarded points.
 
 **Trust Modifiers:**

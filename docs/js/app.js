@@ -5,7 +5,7 @@ const CONFIG = {
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
     { num: 1, title: "Cybersecurity & AI Threats", completed: true },
-    { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", available: true },
+    { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", completed: true },
     { num: 3, title: "Economic Security", available: false },
     { num: 4, title: "Political & Societal Security", available: false },
     { num: 5, title: "Health, Environmental, & Biosecurity", available: false },

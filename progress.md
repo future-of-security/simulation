@@ -307,8 +307,115 @@
 | 14 | Bryce | 53 | 6 | $39.8M |
 | 15 | Yoho | 35 | 7 | $7.45M |
 
+### Update Cycle 5 — FINAL (sim_time 0:45–0:58, per submitted_at timestamps)
+
+#### Canvas Fetch
+- Fetched 3 new submissions + processed 4 previously-read attempt_2 files
+- 7 total submissions processed:
+  - Yellowstone attempt 2 (submitted 0:45)
+  - Jasper attempt 2 (submitted 0:45)
+  - Redwood attempt 2 (submitted 0:54)
+  - Bryce attempt 2 (submitted 0:56)
+  - Olympic attempt 2 (submitted 0:57)
+  - Denali attempt 2 (submitted 0:58)
+  - Yoho attempt 2 (submitted 0:58)
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 5 (Attribution) | partially_resolved | **RESOLVED** | Bryce issued public statement ($0 custom) addressing media, congressional staffers, and federal authorities. Combined with Yellowstone+Bryce assessments and Denali's classified briefing (A17) via CISA. Public-facing diplomatic crisis resolved. |
+| 7 (Panic Buying) | open | **PARTIALLY_RESOLVED** | 3-team response: Yellowstone (purchase limits $200K + food desert outreach $200K), Redwood (food distribution $100K + sign coordination $100K), Jasper (grid transparency $0). Shelves still depleted but hoarding contained. Reduced consequences carry to Phase 3. |
+
+#### Custom Action Evaluations
+| Team | Action | Result |
+|------|--------|--------|
+| Yellowstone | Purchase limits at stores ($200K) | **Approved** — Food City has authority over store policies |
+| Yellowstone | Food desert outreach supply bags ($200K) | **Approved** — direct supply chain management |
+| Redwood | Emergency food distribution coordination ($100K) | **Approved** — EMA's core function |
+| Redwood | Sign repair coordination with VDOT ($100K) | **Approved** — EMA facilitating inter-agency response |
+| Jasper | Public grid status transparency update ($0) | **Approved** — AEP has real-time grid data |
+| Bryce | Public communication statement ($0) | **Approved** — DEQ issuing statement on breaches within their domain |
+| Olympic | Public apology via WDBJ7 News ($0) | **Approved** — proactive trust-building |
+| Yoho | Fix I-81 dynamic message signs ($150K) | **Approved** — VDOT owns and maintains highway signs |
+
+#### Notable Events
+- **Inject 5 finally RESOLVED** — Bryce's public statement was the missing piece (no public communication for 56 minutes). Combined with technical assessments and Denali's CISA briefing.
+- **Inject 7 finally addressed** — after being open since 0:15, Yellowstone (primary), Redwood (coordination), and Jasper (support) launched a 3-team supply crisis response.
+- **Olympic transferred $500K to Arches** to fund trust-restoration articles for Hispanic community.
+- **Denali transferred $200K to Shenandoah** as goodwill gesture — funding community programs.
+- **Yoho finally addressed their own infrastructure** — fixing I-81 signs directly (earlier attempts addressed wrong injects).
+- **Invited team credit applied:** Yellowstone invited Redwood to collaborate on Inject 7; Redwood confirmed in their own report. Both teams credited.
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Yellowstone | 88 | 130 | Inject 5 upgrade partial→resolved (+17, 2-team 60%) + Inject 7 partial (25, 3-team 40%) |
+| Bryce | 53 | 105 | Inject 5 upgrade partial→resolved (+52, 2-team 60%) |
+| Redwood | 70 | 95 | Inject 7 partial (25, 3-team 40%) |
+| Jasper | 70 | 95 | Inject 7 partial (25, 3-team 40%) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Yellowstone | $11.425M | $11.025M | Custom: purchase limits ($200K) + food outreach ($200K) |
+| Redwood | $24.7M | $24.5M | Custom: food distribution ($100K) + sign coordination ($100K) |
+| Yoho | $7.45M | $7.3M | Custom: fix I-81 signs ($150K) |
+| Olympic | $15.125M | $14.625M | Transfer: $500K to Arches |
+| Denali | $7.1M | $6.9M | Transfer: $200K to Shenandoah |
+| Arches | $14.5M | $15M | Received $500K from Olympic |
+| Shenandoah | $14.35M | $14.55M | Received $200K from Denali |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Yellowstone | 8 | 10 | Custom approved (+1), collab with Redwood (+1) = +2 |
+| Jasper | 9 | 11 | Custom approved (+1), collab (+1) = +2 |
+| Redwood | 11 | 14 | A20 (+1), collab (+1), custom approved (+1) = +3 capped |
+| Yoho | 7 | 9 | Custom approved (+1), collab (+1) = +2 |
+| Bryce | 6 | 7 | Custom approved (+1) = +1 |
+| Olympic | 6 | 7 | Custom apology (+1) = +1 |
+| Denali | 11 | 12 | Collab with CISA (+1) = +1 |
+
+#### Final Status (Phase 2 End — sim_time ~1:00)
+- **Resolved:** 6 of 7 (Injects 1, 2, 3, 4, 5, 6)
+- **Partially resolved:** 1 of 7 (Inject 7: Panic Buying)
+- **Open:** 0
+- **Resolution rate:** 86% resolved, 100% addressed
+
+### Phase 2 Final Leaderboard
+| Rank | Team | Score | Trust | Budget |
+|------|------|-------|-------|--------|
+| 1 | Denali | 220 | 12 | $6.9M |
+| 2 | Olympic | 150 | 7 | $14.625M |
+| 2 | Sequoia | 150 | 11 | $2.5M |
+| 2 | Shenandoah | 150 | 10 | $14.55M |
+| 5 | Yellowstone | 130 | 10 | $11.025M |
+| 6 | Acadia | 105 | 11 | $17.95M |
+| 6 | Bryce | 105 | 7 | $39.8M |
+| 6 | Yosemite | 105 | 10 | $5.5M |
+| 9 | Jasper | 95 | 11 | $9.5M |
+| 9 | Redwood | 95 | 14 | $24.5M |
+| 11 | Arches | 70 | 10 | $15M |
+| 11 | Banff | 70 | 10 | $7.2M |
+| 11 | Glacier | 70 | 11 | $48.65M |
+| 11 | Zion | 70 | 15 | $1.56M |
+| 15 | Yoho | 35 | 9 | $7.3M |
+
+### Phase 2 Summary
+- **Duration:** 60 minutes (12:38–13:38 EST)
+- **Update cycles:** 5
+- **Total injects:** 7 (5 initial + 2 escalation)
+- **Final resolution:** 6 resolved, 1 partially resolved
+- **Top performer:** Denali (220 pts) — addressed 3 injects simultaneously in cycle 3
+- **Most trusted:** Zion (15) — faith network activation, community toolkit
+- **Biggest budget:** Glacier ($48.65M) — mostly unspent this phase
+- **Carryover to Phase 3:** Inject 7 (Panic Buying) partially resolved — supply chain still recovering
+- **Key themes:** Misinformation cascades, surveillance ethics, inter-agency collaboration
+- **Lessons:** Teams that acted early scored highest. Panic buying was ignored too long by all teams. Olympic's surveillance overreach created the most dramatic storyline (escalation → ACLU → redemption arc).
+
 #### Note for Future Cycles
 - Use `submitted_at` timestamp from each report as the action time, not the Canvas fetch time.
+- Teams can invite other teams to collaborate; invited teams get credit if collaboration is confirmed in reports.
 
 ---
 
