@@ -55,10 +55,18 @@ Called by facilitator during simulation. This is an **update operation**, not ju
 
 ### Time Tracking
 
-Simulation time (`sim_time`) advances each update cycle. Determine the current sim_time from the latest injects in `injects.csv`:
-- Read the highest `sim_time` value in the file
-- New injects in this cycle should use the next time increment (typically +15 minutes)
-- Example: if latest injects are at `0:15`, new injects go at `0:30`
+Use the `submitted_at` YAML frontmatter timestamp from each response report to determine when that team's actions were taken. Convert UTC to local time, then subtract the phase start time to get sim_time.
+
+**Per-report timing:**
+- Each response `.md` file has a `submitted_at:` field (e.g., `2026-02-12T17:51:26Z`)
+- Convert to local time and calculate offset from phase start
+- Use this as the sim_time for that team's actions (e.g., if phase started at 12:38 and report submitted at 12:51, actions happened at sim_time 0:13)
+- This matters for escalation triggers — a team that submits at 0:09 beats a 0:10 deadline
+
+**Update cycle timing:**
+- The update cycle's sim_time is the latest `submitted_at` among all reports in the batch
+- New consequence/escalation injects use this cycle sim_time
+- Example: if reports came in at 0:13, 0:16, and 0:21, the cycle sim_time is 0:21
 
 ### Key Principle: UPDATE, Don't Just Append
 
@@ -87,6 +95,7 @@ Each update cycle should:
 
 #### Step 1: Read Response Reports (if any)
 Extract from each report:
+- **`submitted_at` timestamp** — use this (not the fetch time) as the sim_time for the team's actions
 - Injects addressed (by title or ID)
 - Catalog actions taken (with Action IDs) — validate against `actions.csv` for correct costs and `available_to` eligibility
 - **Proposed custom actions** (with cost estimates, expected effects)
