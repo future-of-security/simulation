@@ -173,6 +173,7 @@ Steps:
 7. Commit and push"
 
   claude -p "$PROMPT"
+  git push
 }
 
 # --- Run ---
