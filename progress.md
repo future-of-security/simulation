@@ -12,10 +12,92 @@
 | Trigger | Deadline | Real Time | Status |
 |---------|----------|-----------|--------|
 | No fuel response | 0:10 | 12:44 | PREVENTED — Sequoia (A35+A5) at 0:06 |
-| No food distribution response | 0:10 | 12:44 | PENDING |
-| No coal mine response | 0:15 | 12:49 | PENDING |
-| No pharmacy response | 0:15 | 12:49 | PENDING |
-| No federal qualification response | 0:20 | 12:54 | PENDING |
+| No food distribution response | 0:10 | 12:44 | TRIGGERED → Inject 9 (no response by 0:10) |
+| No coal mine response | 0:15 | 12:49 | TRIGGERED → Inject 10 (no response by 0:15) |
+| No pharmacy response | 0:15 | 12:49 | TRIGGERED → Inject 11 (Acadia responded at 0:19, too late) |
+| No federal qualification response | 0:20 | 12:54 | TRIGGERED → Inject 12 (Olympic responded at 0:22, too late) |
+
+### Phase 3 Final Leaderboard
+
+| Rank | Team | Score | Trust | Budget Remaining |
+|------|------|-------|-------|-----------------|
+| 1 | Acadia (United Way SW VA) | **238** | 15 | $17.1M |
+| 2 | Denali (SW VA Sheriff's Coalition) | **205** | 16 | $6.5M |
+| 3 | Zion (Food City / Supply Chain) | **200** | 18 | $0.56M |
+| 4 | Olympic (Virginia Tech) | **176** | 10 | $13.525M |
+| 5 | Yosemite (SW VA EMA) | **175** | 15 | $4.4M |
+| 6 | Yoho (Appalachian Faith Network) | **170** | 12 | $6.75M |
+| 7 | Yellowstone (CISA) | **158** | 11 | $10.325M |
+| 8 | Arches (AEP Appalachian Power) | **150** | 15 | $12.125M |
+| 8 | Shenandoah (Carilion Clinic) | **150** | 13 | $13.35M |
+| 10 | Jasper (WDBJ7 News) | **141** | 16 | $9.05M |
+| 11 | Banff (Montgomery County Gov) | **105** | 15 | $5.1M |
+| 11 | Sequoia (VDOT SW Region) | **105** | 12 | $2.2M |
+| 13 | Glacier (VA DEQ SW) | **80** | 14 | $47.95M |
+| 14 | Redwood (Governor's Liaison) | **70** | 20 | $23.8M |
+| 15 | Bryce (Shentel) | **0** | 7 | $39.8M |
+
+### Final Inject Summary
+
+| Inject | Incident | Final State | Teams |
+|--------|----------|-------------|-------|
+| 1 | Coal Mining Operations Halted | **partially_resolved** | 5-team (Banff+Redwood+Glacier+Arches+Denali) — cyber gap unresolved |
+| 2 | Pharmacy & Medical Supply Chain Collapse | **resolved** | 4-team (Acadia+Shenandoah+Yoho+Zion) |
+| 3 | Fuel Shortage Reaches Critical | **resolved** | 4-team (Sequoia+Yosemite+Arches+Denali) |
+| 4 | Small Business Mass Closure Wave | **resolved** | 4-team (Jasper+Yellowstone+Banff+Denali) |
+| 5 | Regional Food Distribution Breakdown | **resolved** | 4-team (Acadia+Yoho+Zion+Yosemite) |
+| 6 | Brain Drain & Community Exodus | **partially_resolved** | 3-team (Olympic+Jasper+Redwood) |
+| 7 | Federal Disaster Qualification Disputed | **partially_resolved** | Olympic A22 (impact assessment only) |
+| 8 | Payment Systems Down Across Region | **partially_resolved** | 2-team (Yellowstone+Jasper confirmed) |
+| 9 | Altercation at Salem Warehouse | **partially_resolved** | 2-team (Denali+Zion) |
+| 10 | Mine Ventilation Crisis — Collapse Risk | **partially_resolved** | 2-team (Arches+Glacier) |
+| 11 | Dialysis Patient Emergency | **partially_resolved** | 4-team (Acadia+Shenandoah+Yoho+Zion) |
+| 12 | Congressional Hearing Announced | **open** | No resolution |
+
+### Update Cycle 6 (sim_time ~0:34–0:41)
+
+#### Canvas Fetch
+- 6 new submissions
+- New teams: Zion
+- Re-submissions: Banff (attempt 2), Denali (attempt 2), Redwood (attempt 3), Arches (attempt 3), Yosemite (attempt 2)
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 4 (Small Business) | partially_resolved | **RESOLVED** | Banff A1 business loans ($1M) + A38 security ($100K). Denali A4 anti-looting. 4-team: Jasper+Yellowstone+Banff+Denali. |
+| 5 (Food Distribution) | partially_resolved | **RESOLVED** | Zion A12+A13+A20+A34. Yosemite A11 generators to warehouse. 4-team: Acadia+Yoho+Zion+Yosemite. |
+| 9 (Salem Altercation) | open→partially_resolved | partially_resolved | Denali A4 anti-looting at warehouse. Zion resumed operations with security. 2-team. |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Yellowstone | 141 | 158 | Inject 4 upgrade: 2-team→4-team resolved, max(53,70)=70 (+17) |
+| Banff | 35 | 105 | Inject 4 resolved 4-team (70) |
+| Denali | 105 | 205 | Inject 4 resolved 4-team (70) + Inject 9 partial 2-team (30) |
+| Zion | 0 | 200 | Inject 2 resolved 4-team (70) + Inject 5 resolved 4-team (70) + Inject 9 partial 2-team (30) + Inject 11 partial 4-team (30) |
+| Yoho | 153 | 170 | Inject 5 upgrade: 2-team partial→4-team resolved, max(53,70)=70 (+17) |
+| Yosemite | 105 | 175 | Inject 5 resolved 4-team (70) |
+| Redwood | 35 | 70 | Inject 6 partial 3-team (35) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Zion | $1.56M | $0.56M | A12 ($500K) + A13 ($200K) + A20 ($300K) |
+| Banff | $6.2M | $5.1M | A1 ($1M) + A38 ($100K) |
+| Denali | $6.9M | $6.5M | A4 ($200K) + A5 ($150K) + A14 ($50K) |
+| Redwood | $24M | $23.8M | A25 ($200K) |
+| Arches | $12.325M | $12.125M | A10 ($200K) |
+| Yosemite | $4.7M | $4.4M | A11 ($300K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Zion | 15 | 18 | A12 (+1) + A13 (+2) + A20 (+1) + A34 (+1) + collab (+1) = +5, capped +3 |
+| Banff | 13 | 15 | A1 (+1) + collab (+1) = +2 |
+| Denali | 14 | 16 | A34 (+1) + collab (+1) = +2 |
+| Redwood | 18 | 20 | A25 (+1) + collab (+1) = +2 |
+| Arches | 13 | 15 | A10 (+2) |
+| Yosemite | 13 | 15 | A11 (+1) + collab (+1) = +2 |
 
 ### Update Cycle 1 (sim_time ~0:06)
 
@@ -1040,3 +1122,33 @@ Backend: Supabase (recommended)
 - Facilitator password should be changed before classroom use
 \n## 2026-02-04\n- Error: init_skill.py failed because Python module 'yaml' is missing (ModuleNotFoundError).\n
 \n## 2026-02-04\n- Error: fetch_canvas_submissions.py reported missing assignment identifiers when using --assignment-url (fallback to explicit course/assignment IDs worked).\n
+
+## 2026-02-19: Two-Agent Pipeline Implementation
+
+### Completed
+- [x] Added shared helper library: `scripts/lib/agent_common.sh`
+- [x] Added fetch agent: `scripts/agent_fetch.sh`
+  - Polls Canvas on interval (default 60s)
+  - Uses `--only-new --all-attempts --one-per-group --name-by-group --check-template`
+  - Appends NDJSON events to `phase_N/agent_state/pending.queue` when new submissions are found
+- [x] Added evaluator agent: `scripts/agent_evaluate.sh`
+  - Enforces single evaluator via `flock` on `evaluator.lock`
+  - Drains queued events as a batch
+  - Runs `codex exec` prompt to process new submissions and update `injects.csv`, `roles.csv`, docs copy, and `progress.md`
+  - Restores queue on evaluator failure for retry
+- [x] Added supervisor: `scripts/agent_run.sh`
+  - Starts fetch and evaluate agents together
+  - Handles graceful shutdown on INT/TERM
+- [x] Updated ignore rules: `.gitignore` now includes `**/agent_state/`
+- [x] Set executable permissions on new shell scripts
+
+### Notes
+- Existing `scripts/update_cycle.sh` and `scripts/update_cycle.ps1` were left unchanged.
+- Assignment URL parsing bug in `fetch_canvas_submissions.py` is still avoided by passing explicit `--base-url`, `--course-id`, and `--assignment-id`.
+- [agent-fetch 2026-02-19T18:34:18Z] phase_3 fetch ok: before=43 after=43 new=0.
+- [agent-fetch 2026-02-19T18:35:22Z] phase_3 fetch ok: before=44 after=44 new=0.
+- [agent-fetch 2026-02-19T18:36:27Z] phase_3 fetch ok: before=44 after=44 new=0.
+- [agent-fetch 2026-02-19T18:37:31Z] phase_3 fetch ok: before=44 after=44 new=0.
+- [agent-fetch 2026-02-19T18:39:09Z] phase_3 fetch ok: before=44 after=44 new=0.
+- [agent-fetch 2026-02-19T18:40:12Z] phase_3 fetch ok: before=44 after=44 new=0.
+- [agent-fetch 2026-02-19T18:41:17Z] phase_3 fetch ok: before=44 after=44 new=0.
