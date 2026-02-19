@@ -45,6 +45,63 @@ None (A35=0, A5=0; collaboration bonus pending Denali confirmation)
 #### Collaboration Notes
 - Sequoia invited Denali (Sheriff's Coalition) for fuel escort. If Denali confirms in their report, both get 2-team collab rate (60% each = 105 pts). Sequoia would be upgraded from 88 → 105 (+17).
 
+### Update Cycle 3 (sim_time ~0:18–0:19)
+
+#### Canvas Fetch
+- 3 new submissions
+- New teams: Redwood (attempt 1), Jasper (attempt 1)
+- Re-submissions: Acadia (attempt 2)
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 2 (Pharmacy) | open | partially_resolved | Acadia: A8 temporary health clinics ($400K) + A30 financial assistance to Yoho ($250K). Shenandoah collab on A8 claimed (unconfirmed). Critical meds being dispensed; dialysis still critical. |
+| 4 (Small Business) | open | partially_resolved | Jasper: A34 ($0) + A39 business spotlight ($50K) + custom scheduled daily updates ($200K, approved). Community confidence improving, open businesses featured. |
+| 6 (Brain Drain) | open | open | Redwood: A34 ($0) intel exchange with Jasper/Shenandoah. Awareness only; no retention actions yet. |
+
+#### New Injects (escalations at 0:15)
+| ID | Incident | Severity | Why |
+|----|----------|----------|-----|
+| 10 | Mine Ventilation Crisis — Collapse Risk | 5 | No coal mine response by 0:15 — methane spiking, 400 residents evacuated |
+| 11 | Dialysis Patient Emergency — Hospital Overflow | 5 | No pharmacy response by 0:15 — ER at 140% capacity, patients transferring to Lynchburg |
+
+#### Escalation Status
+| Trigger | Status |
+|---------|--------|
+| Fuel response by 0:10 | PREVENTED — Sequoia (A35+A5) at 0:06 |
+| Food distribution by 0:10 | TRIGGERED → Inject 9 |
+| Coal mine by 0:15 | TRIGGERED → Inject 10 |
+| Pharmacy by 0:15 | TRIGGERED → Inject 11 (Acadia responded at 0:19, too late) |
+| Federal aid by 0:20 | PENDING (12:54) |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Acadia | 88 | 176 | Inject 2 partial (88, solo; upgrades if Shenandoah confirms collab → 105) |
+| Jasper | 0 | 88 | Inject 4 partial (88, solo) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Acadia | $17.75M | $17.1M | A8 ($400K) + A30 ($250K) |
+| Jasper | $9.5M | $9.25M | A39 ($50K) + custom updates ($200K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Acadia | 13 | 15 | A8 (+1) + A30 (+1) = +2 |
+| Jasper | 11 | 14 | A34 (+1) + A39 (+1) + custom approved (+1) = +3 |
+| Redwood | 14 | 15 | A34 (+1) |
+
+#### Custom Action Evaluations
+| Team | Action | Result |
+|------|--------|--------|
+| Jasper | Scheduled Daily Economic Updates ($200K) | **Approved** — WDBJ7 has full authority; ongoing crisis reporting builds community trust |
+
+#### Collaboration Notes
+- Acadia invited Shenandoah (Carilion) on A8. If Shenandoah confirms: both upgrade to 2-team 60% rate for Inject 2 (105 pts each; Acadia +29).
+- Redwood intel exchange with Jasper/Shenandoah — not yet confirmed by those teams.
+
 ### Update Cycle 2 (sim_time ~0:12–0:13)
 
 #### Canvas Fetch
