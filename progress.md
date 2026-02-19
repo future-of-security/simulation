@@ -45,6 +45,49 @@ None (A35=0, A5=0; collaboration bonus pending Denali confirmation)
 #### Collaboration Notes
 - Sequoia invited Denali (Sheriff's Coalition) for fuel escort. If Denali confirms in their report, both get 2-team collab rate (60% each = 105 pts). Sequoia would be upgraded from 88 → 105 (+17).
 
+### Update Cycle 2 (sim_time ~0:12–0:13)
+
+#### Canvas Fetch
+- 2 new submissions
+- New teams: Acadia (attempt 1)
+- Re-submissions: Sequoia (attempt 2)
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 5 (Food Distribution) | open | partially_resolved | Acadia: A13 food desert mobile markets ($200K). Rural communities getting mobile market access. Warehouse caravan, perishable spoilage, and warehouse lockdown ongoing. |
+| 8 (Payment Systems) | open | open | Sequoia: A34 intelligence sharing ($0) — notified CISA/Food City about toll and banking status. Awareness raised; no restoration yet. |
+
+#### New Injects (escalation)
+| ID | Incident | Severity | Why |
+|----|----------|----------|-----|
+| 9 | Altercation at Salem Warehouse | 3 | No food distribution plan by 0:10 deadline — caravan confronted Food City security, 1 hospitalized, footage viral |
+
+#### Escalation Status
+| Trigger | Status |
+|---------|--------|
+| Fuel response by 0:10 | PREVENTED — Sequoia (A35+A5) at 0:06 |
+| Food distribution by 0:10 | TRIGGERED — Acadia responded at 0:13, too late → Inject 9 |
+| Coal mine by 0:15 | PENDING (12:49) |
+| Pharmacy by 0:15 | PENDING (12:49) |
+| Federal aid by 0:20 | PENDING (12:54) |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Acadia | 0 | 88 | Inject 5 partial (175×50% = 88, solo) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Acadia | $17.95M | $17.75M | A13 ($200K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Acadia | 11 | 13 | A13 (+2, mobile markets) |
+| Sequoia | 11 | 12 | A34 (+1, intel sharing) |
+
 ### Initial State
 - 8 open injects (IDs 1-8), severities 3-5
 - 15 teams active with rotated roles
