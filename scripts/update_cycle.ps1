@@ -171,7 +171,6 @@ Steps:
 "@
 
     claude -p $Prompt
-    git push
 }
 
 # --- Run ---
