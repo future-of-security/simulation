@@ -45,6 +45,71 @@ None (A35=0, A5=0; collaboration bonus pending Denali confirmation)
 #### Collaboration Notes
 - Sequoia invited Denali (Sheriff's Coalition) for fuel escort. If Denali confirms in their report, both get 2-team collab rate (60% each = 105 pts). Sequoia would be upgraded from 88 → 105 (+17).
 
+### Update Cycle 5 (sim_time ~0:23–0:30)
+
+#### Canvas Fetch
+- 7 new submissions
+- New teams: Yellowstone, Yoho, Arches, Denali
+- Re-submissions: Arches attempt 2, Jasper attempt 2, Yoho attempt 2
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 1 (Coal Mining) | partially_resolved | partially_resolved (stronger) | Arches: A9 power restoration ($1M) + A27 coal ash ($200K). Denali: A34 + personnel for order. Now 5-team. Power restored to mines; coal ash stabilizing. CRITICAL GAP: cyber-secure control networks still needed for mine restart. |
+| 2 (Pharmacy) | resolved | resolved | Yoho confirmed as 3rd team: A30 ($250K) + A34 supporting Carilion distribution. Now 3-team. |
+| 3 (Fuel) | resolved | resolved | Denali confirmed escort role (claimed by Sequoia+Yosemite). Arches added A9 power to gas pumps + A11 generators + custom coord center. Now 4-team. |
+| 4 (Small Business) | partially_resolved | partially_resolved (stronger) | Yellowstone: A18 emergency comm network ($400K) + A36 security audit ($300K). Now 2-team. Payment restoration underway. |
+| 5 (Food Distribution) | partially_resolved | partially_resolved (stronger) | Yoho: A13 mobile markets ($200K) + A32 mutual aid networks ($100K) + A34. Now 2-team (Acadia+Yoho). Zion collab claimed. |
+| 6 (Brain Drain) | partially_resolved | partially_resolved (stronger) | Jasper attempt 2: A25 economic recovery campaign ($200K) with Redwood collab. Now 2-team (Olympic+Jasper). |
+| 8 (Payment Systems) | open | partially_resolved | Yellowstone: A18 ($400K) + A36 ($300K). Comm network deployed, systems audited. |
+| 10 (Mine Ventilation) | open | partially_resolved | Arches A9 restores power to ventilation. Glacier A27+A28 stabilizing coal ash. 2-team. Methane declining, residents still evacuated. |
+| 11 (Dialysis Emergency) | partially_resolved | partially_resolved | Yoho A30 confirmed as 3rd team. 3-team: Acadia+Shenandoah+Yoho. |
+
+#### Custom Action Evaluations
+| Team | Action | Result |
+|------|--------|--------|
+| Arches | Fuel & Power Coordination Center ($75K) | **Approved** — AEP has grid operational authority and direct coordination channels |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Yellowstone | 0 | 141 | Inject 8 partial solo (88) + Inject 4 partial 2-team (53) |
+| Yoho | 0 | 153 | Inject 2 resolved 3-team (70) + Inject 5 partial 2-team (53) + Inject 11 partial 3-team (30) |
+| Arches | 0 | 150 | Inject 1 partial 4-team (35) + Inject 3 resolved 4-team (70) + Inject 10 partial 2-team (45) |
+| Denali | 0 | 105 | Inject 1 partial 5-team (35) + Inject 3 resolved 4-team (70) |
+| Jasper | 88 | 141 | Inject 6 partial 2-team (+53) |
+| Glacier | 35 | 80 | Inject 10 partial 2-team (+45) |
+| Acadia | 238 | 238 | Max rule holds — no upgrade (Inject 2 3-team 70 < 105; Inject 5 2-team 53 < 88; Inject 11 3-team 30 < 45) |
+| Shenandoah | 150 | 150 | Max rule holds |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Arches | $15M | $12.325M | A9×2 ($2M) + A27 ($200K) + A11 ($300K) + custom ($75K) + transfer ($100K) |
+| Yellowstone | $11.025M | $10.325M | A18 ($400K) + A36 ($300K) |
+| Yoho | $7.3M | $6.75M | A30 ($250K, attempt 1) + A13 ($200K) + A32 ($100K, attempt 2) |
+| Jasper | $9.25M | $9.05M | A25 ($200K) |
+| Denali | $6.9M | $6.9M | A34 ($0) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Arches | 10 | 13 | A9 (+1) + A11 (+1) + collab (+1) = +3 capped |
+| Yellowstone | 10 | 11 | A18 (0) + A36 (0) + collab with Jasper confirmed (+1) |
+| Yoho | 9 | 12 | A30 (+1) + A13 (+2) + collab (+1) = +3 capped (across both attempts) |
+| Denali | 12 | 14 | A34 (+1) + collab (+1) = +2 |
+| Jasper | 14 | 16 | A25 (+1) + collab (+1) = +2 |
+
+#### Collaboration Confirmations This Cycle
+- Denali escort confirmed for Inject 3 (Sequoia + Yosemite both claimed it) → Inject 3 now 4-team
+- Yoho confirmed Acadia's financial assistance (A30) → Inject 2 now 3-team
+- Jasper confirmed Yellowstone A36 collab on payment systems (Inject 4/8)
+- Arches confirmed Banff+Glacier collaboration on Inject 1
+
+#### Pending
+- Zion claimed by Yoho as Inject 5 collaborator — unconfirmed (Zion not yet submitted)
+- Shenandoah claimed $250K transfer from Yoho — Yoho's report shows no transfer; treating as Yoho's own A30 spend
+
 ### Update Cycle 4 (sim_time ~0:21–0:23)
 
 #### Canvas Fetch
