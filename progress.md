@@ -1,5 +1,77 @@
 # Progress Log
 
+## 2026-02-19: Phase 3 — Supply Lines Cut (Economic Security)
+
+### Phase Start
+- **Real time start:** 12:34 EST
+- **Sim time 0:00 = 12:34 real time**
+- Phase duration: 60 minutes (ends ~13:34)
+- Escalation checkpoints: 0:10 (12:44), 0:15 (12:49), 0:20 (12:54)
+
+### Escalation Triggers
+| Trigger | Deadline | Real Time | Status |
+|---------|----------|-----------|--------|
+| No fuel response | 0:10 | 12:44 | PREVENTED — Sequoia (A35+A5) at 0:06 |
+| No food distribution response | 0:10 | 12:44 | PENDING |
+| No coal mine response | 0:15 | 12:49 | PENDING |
+| No pharmacy response | 0:15 | 12:49 | PENDING |
+| No federal qualification response | 0:20 | 12:54 | PENDING |
+
+### Update Cycle 1 (sim_time ~0:06)
+
+#### Canvas Fetch
+- Fetched 1 submission (15 unsubmitted/skipped)
+- Teams that submitted: Sequoia
+- Teams with NO submission yet: all others
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 3 (Fuel Shortage) | open | partially_resolved | Sequoia: A35 supply route optimization ($150K) + A5 fuel convoy escort ($150K). Claimed Denali collaboration (unconfirmed). Routes mapped, convoy from Roanoke underway. Emergency vehicles prioritized. Gas stations still empty, school buses grounded, hoarding ongoing. |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Sequoia | 0 | 88 | Inject 3 partial (175×50% = 88, solo pending Denali confirmation) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Sequoia | $2.5M | $2.2M | A35 ($150K) + A5 ($150K) |
+
+#### Trust Changes
+None (A35=0, A5=0; collaboration bonus pending Denali confirmation)
+
+#### Collaboration Notes
+- Sequoia invited Denali (Sheriff's Coalition) for fuel escort. If Denali confirms in their report, both get 2-team collab rate (60% each = 105 pts). Sequoia would be upgraded from 88 → 105 (+17).
+
+### Initial State
+- 8 open injects (IDs 1-8), severities 3-5
+- 15 teams active with rotated roles
+- Budgets and trust carry over from Phase 2 final state
+- **Carryover from Phase 2:** Panic buying partially resolved — supply chain still recovering
+
+### Carryover Budgets & Trust
+| Team | Role | Budget | Trust | Score |
+|------|------|--------|-------|-------|
+| Acadia | United Way SW Virginia | $17.95M | 11 | 0 |
+| Arches | AEP Appalachian Power | $15M | 10 | 0 |
+| Banff | Montgomery County Government | $7.2M | 10 | 0 |
+| Bryce | Shentel Communications | $39.8M | 7 | 0 |
+| Denali | SW Virginia Sheriff's Coalition | $6.9M | 12 | 0 |
+| Glacier | VA DEQ SW Regional Office | $48.65M | 11 | 0 |
+| Jasper | WDBJ7 News | $9.5M | 11 | 0 |
+| Olympic | Virginia Tech Crisis Response | $14.625M | 7 | 0 |
+| Redwood | Governor's SW Virginia Liaison | $24.5M | 14 | 0 |
+| Sequoia | VDOT SW Region | $2.5M | 11 | 0 |
+| Shenandoah | Carilion Clinic System | $14.55M | 10 | 0 |
+| Yellowstone | CISA Regional Coordinator | $11.025M | 10 | 0 |
+| Yoho | Appalachian Faith & Community Network | $7.3M | 9 | 0 |
+| Yosemite | SW Virginia EMA | $5.5M | 10 | 0 |
+| Zion | Food City / Regional Supply Chain | $1.56M | 15 | 0 |
+
+---
+
 ## 2026-02-12: Phase 2 — Rumors Spread (Data, Privacy, Surveillance, & Misinformation)
 
 ### Phase Start
