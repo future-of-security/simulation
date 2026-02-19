@@ -45,6 +45,70 @@ None (A35=0, A5=0; collaboration bonus pending Denali confirmation)
 #### Collaboration Notes
 - Sequoia invited Denali (Sheriff's Coalition) for fuel escort. If Denali confirms in their report, both get 2-team collab rate (60% each = 105 pts). Sequoia would be upgraded from 88 → 105 (+17).
 
+### Update Cycle 4 (sim_time ~0:21–0:23)
+
+#### Canvas Fetch
+- 6 new submissions
+- New teams: Banff, Olympic, Glacier, Yosemite, Shenandoah
+- Re-submissions: Redwood (attempt 2)
+
+#### Inject State Changes
+| Inject | Old State | New State | Reason |
+|--------|-----------|-----------|--------|
+| 1 (Coal Mining) | open | partially_resolved | 3-team: Banff (A1+A28 $1M), Redwood (A1+A34 $500K), Glacier (A27+A28+A34+A37 $700K). Miners receiving emergency funds; coal ash assessment underway; mine restart still requires power+cyber restoration. |
+| 2 (Pharmacy) | partially_resolved | **RESOLVED** | 2-team: Acadia A8+A30 (cycle 3) + Shenandoah A6 ($300K)+A7 ($500K)+A8+A34. Prescriptions dispensed, supply bypassed, clinics open. |
+| 3 (Fuel) | partially_resolved | **RESOLVED** | 2-team: Sequoia A35+A5 (cycle 1) + Yosemite A12 ($500K)+A20 ($300K). Emergency vehicles and critical facilities fueled. Denali escort collab pending. |
+| 6 (Brain Drain) | open | partially_resolved | Olympic (VT): A22+A23+A24+A26+A31 ($700K total) + transfers $300K→Acadia, $100K→Jasper. Job board live, retraining launched, transfer requests slowing. |
+| 7 (Federal Aid) | open | partially_resolved | Olympic A22 economic impact assessment begun — critical evidence for Stafford Act challenge. Formal request not yet filed. |
+| 11 (Dialysis Emergency) | open | partially_resolved | 2-team: Shenandoah A6+A7 + Acadia A8. Supply en route, ER still stressed. |
+
+#### New Injects (escalation at 0:20)
+| ID | Incident | Severity | Why |
+|----|----------|----------|-----|
+| 12 | Congressional Hearing Announced | 3 | No federal qualification request filed by 0:20 — national media spotlight, Senate subcommittee convened |
+
+#### Escalation Status
+| Trigger | Status |
+|---------|--------|
+| Federal aid by 0:20 | TRIGGERED → Inject 12 (Olympic responded at 0:22, too late) |
+
+#### Score Updates
+| Team | Old Score | New Score | Points From |
+|------|-----------|-----------|-------------|
+| Banff | 0 | 35 | Inject 1 partial 3-team (175×50%×40%) |
+| Redwood | 0 | 35 | Inject 1 partial 3-team |
+| Glacier | 0 | 35 | Inject 1 partial 3-team |
+| Yosemite | 0 | 105 | Inject 3 resolved 2-team (175×60%) |
+| Sequoia | 88 | 105 | Inject 3 upgrade: max(88, 105) = 105 (+17) |
+| Olympic | 0 | 176 | Inject 6 partial solo (88) + Inject 7 partial solo (88) |
+| Shenandoah | 0 | 150 | Inject 2 resolved 2-team (105) + Inject 11 partial 2-team (45) |
+| Acadia | 176 | 238 | Inject 2 upgrade partial→resolved max(88,105)=105 (+17) + Inject 11 partial 2-team (45) |
+
+#### Budget Changes
+| Team | Old Budget | New Budget | Spent On |
+|------|-----------|-----------|----------|
+| Banff | $7.2M | $6.2M | A1 ($500K) + A28 ($500K) |
+| Redwood | $24.5M | $24M | A1 ($500K) |
+| Glacier | $48.65M | $47.95M | A27 ($200K) + A28 ($500K) |
+| Yosemite | $5.5M | $4.7M | A12 ($500K) + A20 ($300K) |
+| Olympic | $14.625M | $13.525M | A22+A23+A24+A26+A31 ($700K) + transfers ($400K) |
+| Shenandoah | $14.55M | $13.35M | A6 ($300K) + A7 ($500K) + A8 ($400K) |
+
+#### Trust Changes
+| Team | Old Trust | New Trust | Reason |
+|------|-----------|-----------|--------|
+| Banff | 10 | 13 | A1 (+1) + A28 (+1) + collab (+1) = +3 |
+| Redwood | 15 | 18 | A1 (+1) + A34 (+1) + collab (+1) = +3 |
+| Glacier | 11 | 14 | A28 (+1) + A34 (+1) + A37 (+1) = +3 (capped) |
+| Yosemite | 10 | 13 | A12 (+1) + A20 (+1) + collab (+1) = +3 |
+| Olympic | 7 | 10 | A23+A24+A26+A31 (+4 actions), capped at +3 |
+| Shenandoah | 10 | 13 | A6 (+1) + A8 (+1) + A34 (+1) + collab (+1) = +4, capped at +3 |
+
+#### Collaboration Notes
+- Shenandoah reports $250K transfer from Yoho — unconfirmed (Yoho not submitted yet).
+- Yosemite + Sequoia both claim Denali escort for Inject 3. If Denali confirms: upgrade to 3-team resolved (175×40%=70 each). Sequoia keeps max(105,70)=105. Yosemite keeps max(105,70)=105. Denali earns 70.
+- Olympic transferred $300K to Acadia + $100K to Jasper — if they confirm collab on Inject 6, potential upgrade.
+
 ### Update Cycle 3 (sim_time ~0:18–0:19)
 
 #### Canvas Fetch
