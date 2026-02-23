@@ -186,13 +186,14 @@ id,phase,sim_time,incident,description,location,severity,visible_to,time_limit,s
 
 ## State Mapping
 
-| State | Dot Color | Label |
-|-------|-----------|-------|
-| open | Gray | Pending |
-| in_progress | Blue | In Progress |
-| escalated | Red | Escalated |
-| resolved | Green | Resolved |
-| partially_resolved | Yellow | Partial |
+| State | Dot Color | Label | Visibility |
+|-------|-----------|-------|------------|
+| open | Gray | Pending | Shown |
+| hidden | — | — | Filtered out (escalation injects not yet triggered) |
+| in_progress | Blue | In Progress | Shown |
+| escalated | Red | Escalated | Shown |
+| resolved | Green | Resolved | Hidden by default, toggle to show |
+| partially_resolved | Yellow | Partial | Shown |
 
 ## Templates
 

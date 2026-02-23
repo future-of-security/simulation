@@ -58,7 +58,7 @@ Creates and updates injects during simulation. Injects are incidents that partic
 - Incident description
 - Potential participants/responders
 - Severity and location
-- Current state (open, resolved, partially_resolved)
+- Current state (open, hidden, resolved, partially_resolved)
 
 ### sim-respond
 Processes participant response reports and advances the simulation:

@@ -288,11 +288,12 @@ function parseBudget(str) {
 function updateOverviewStats() {
   const teams = SIMULATION.teams;
   const allIncidents = SIMULATION.incidents;
-  const activeIncidents = allIncidents.filter(i => i.state !== 'resolved');
-  const resolvedIncidents = allIncidents.filter(i => i.state === 'resolved');
+  const visibleIncidents = allIncidents.filter(i => i.state !== 'hidden');
+  const activeIncidents = visibleIncidents.filter(i => i.state !== 'resolved');
+  const resolvedIncidents = visibleIncidents.filter(i => i.state === 'resolved');
 
   // Incident stats
-  const totalCount = allIncidents.length;
+  const totalCount = visibleIncidents.length;
   const activeCount = activeIncidents.length;
   const resolvedCount = resolvedIncidents.length;
   const resolveRate = totalCount > 0 ? Math.round((resolvedCount / totalCount) * 100) : 0;
@@ -428,8 +429,8 @@ function renderIncidentsTable() {
 
   // Filter based on showResolved toggle
   let incidents = showResolved
-    ? [...SIMULATION.incidents]
-    : SIMULATION.incidents.filter(i => i.state !== 'resolved');
+    ? SIMULATION.incidents.filter(i => i.state !== 'hidden')
+    : SIMULATION.incidents.filter(i => i.state !== 'resolved' && i.state !== 'hidden');
 
   // Filter by role if selected
   if (roleFilter) {
@@ -583,7 +584,8 @@ function getStateIndicator(state) {
     'in_progress': { label: 'In Progress', class: 'state-in-progress' },
     'escalated': { label: 'Escalated', class: 'state-escalated' },
     'resolved': { label: 'Resolved', class: 'state-resolved' },
-    'partially_resolved': { label: 'Partial', class: 'state-partial' }
+    'partially_resolved': { label: 'Partial', class: 'state-partial' },
+    'hidden': { label: 'Hidden', class: 'state-hidden' }
   };
   const s = map[state] || map['open'];
   return `<span class="state ${s.class}"><span class="state-dot"></span>${s.label}</span>`;

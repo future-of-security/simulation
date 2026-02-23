@@ -38,7 +38,7 @@ Process team response reports, update inject states, and generate follow-up inje
 - Each initial inject requires collaboration of exactly **3 teams** (5 × 3 = all 15 teams)
 - Every team appears in exactly one initial inject — no team left out, no team overloaded
 - All initial injects have the **same `points_resolve`** value (equal scoring opportunity)
-- **Escalation injects** fire at later sim_times when initial injects are not addressed by their deadline
+- **Escalation injects** start with state `hidden` (invisible on dashboard) and fire at later sim_times when initial injects are not addressed by their deadline — change state from `hidden` to `open` to trigger them
 - Escalation inject scores vary by severity (see Scoring section)
 
 ---
@@ -92,6 +92,8 @@ Each update cycle should:
 | Inject partially addressed | Set `state` to `partially_resolved` |
 | Inject made worse | Keep `state` as `open`, add escalation inject |
 | Inject superseded by new event | Set `state` to `resolved`, add new inject |
+| Escalation trigger fires | Change `state` from `hidden` to `open` |
+| Escalation no longer relevant | Keep `state` as `hidden` (never shown) |
 
 ### Workflow
 
@@ -309,7 +311,7 @@ When multiple teams collaborate to resolve an inject, split points:
 | severity | 1-5 (5 = critical) |
 | visible_to | Role names (semicolon-separated) or ALL |
 | time_limit | Minutes to respond (e.g., 10 = 10 minutes, 30 = 30 min) |
-| state | open / resolved / partially_resolved |
+| state | open / hidden / resolved / partially_resolved |
 | points_resolve | Points for resolution |
 
 ### CSV Formatting
