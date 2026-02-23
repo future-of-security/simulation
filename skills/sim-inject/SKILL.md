@@ -33,11 +33,13 @@ Process team response reports, update inject states, and generate follow-up inje
 5. **Balance distribution** - Ensure every team is involved (via visible_to)
 6. **Output CSV** - Create `phase_#/injects_init.csv` and `phase_#/injects.csv`
 
-### Target: 10 initial injects per phase
-- All at sim_time `0:00` (players see them at start)
-- All 15 teams must be involved (use multiple teams in visible_to)
-- Mix of severities (1-5)
-- Some require collaboration
+### Target: 5 initial injects + escalation injects per phase
+- **5 initial injects** at sim_time `0:00` (players see them at start)
+- Each initial inject requires collaboration of exactly **3 teams** (5 × 3 = all 15 teams)
+- Every team appears in exactly one initial inject — no team left out, no team overloaded
+- All initial injects have the **same `points_resolve`** value (equal scoring opportunity)
+- **Escalation injects** fire at later sim_times when initial injects are not addressed by their deadline
+- Escalation inject scores vary by severity (see Scoring section)
 
 ---
 
@@ -345,9 +347,10 @@ Injects must be **specific events that just happened**, not descriptions of ongo
 - Simultaneous events OK
 
 ### Team Distribution
-- Every team has 3-5 injects per phase
-- Work spread across timeline
-- No team has 0 injects
+- **Initial injects:** Each team appears in exactly 1 of 5 initial injects (3 teams per inject)
+- **Escalation injects:** Visible to relevant teams (may overlap with initial assignments or involve new teams)
+- **Follow-up injects:** Generated during simulation, distributed to keep all teams engaged
+- No team should have 0 active injects at any point during the phase
 
 ### Active Participation Across All Phases
 Every team must have meaningful work in EVERY phase, regardless of phase theme.
@@ -370,8 +373,18 @@ Every team must have meaningful work in EVERY phase, regardless of phase theme.
 
 ### Scoring
 - `points_resolve` only (no penalties)
-- **Equal opportunity:** All initial injects in a phase should have the same `points_resolve` value so every team starts with equal scoring potential. Severity indicates urgency/danger for narrative purposes but must not create scoring inequality between teams.
-- Follow-up injects added during the simulation may vary in points based on difficulty, but aim to keep cumulative point opportunities balanced across teams throughout the phase.
+- **Initial injects (equal opportunity):** All 5 initial injects have the same `points_resolve` value so every team starts with equal scoring potential. Severity indicates urgency/danger for narrative purposes but must not create scoring inequality between teams.
+- **Escalation and follow-up injects (severity-based):** Injects added during the simulation have scores based on severity:
+
+| Severity | points_resolve |
+|----------|----------------|
+| 5 (Critical) | 150 |
+| 4 (High) | 125 |
+| 3 (Medium) | 100 |
+| 2 (Low) | 75 |
+| 1 (Info) | 50 |
+
+- Aim to keep cumulative point opportunities balanced across teams throughout the phase.
 
 ---
 

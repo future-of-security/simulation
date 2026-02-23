@@ -1152,3 +1152,23 @@ Backend: Supabase (recommended)
 - [agent-fetch 2026-02-19T18:39:09Z] phase_3 fetch ok: before=44 after=44 new=0.
 - [agent-fetch 2026-02-19T18:40:12Z] phase_3 fetch ok: before=44 after=44 new=0.
 - [agent-fetch 2026-02-19T18:41:17Z] phase_3 fetch ok: before=44 after=44 new=0.
+
+## 2026-02-21: Phase 4 Creation Kickoff (Virginia Cascading Crisis)
+- Request: create Phase 4 (Political & Societal Security).
+- Reviewed `skills/sim-create/SKILL.md` and existing Phase 3 artifacts (`overview.md`, `plan.md`) to preserve simulation continuity and file conventions.
+- Next: generate `simulations/virginia-cascading-crisis/phase_4/` files and copy dashboard data to `docs/phase_4/`.
+- Extracted Phase 3 working baselines from `simulations/virginia-cascading-crisis/phase_3/roles.csv`, `actions.csv`, `injects.csv`, and `sim_overview.md`.
+- Confirmed Phase 4 title/time context: "Forgotten Country" (Political & Societal Security, Day 11-15).
+- Proceeding to create `phase_4/` with carryover budgets/trust and fresh Phase 4 content.
+- Verified Phase 4 is currently locked in `docs/js/app.js` config; will set Phase 4 to `available: true` when creating `docs/phase_4/`.
+
+## 2026-02-21: Phase 4 Created (Virginia Cascading Crisis)
+- Created `simulations/virginia-cascading-crisis/phase_4/`:
+  - `overview.md` ("Forgotten Country", Political & Societal Security, Day 11-15)
+  - `roles.csv` + `roles_init.csv` with **Phase 3 budgets/trust carried over** and **score reset to 0**
+  - `actions.csv` (Phase 4 political/societal actions; verified every role has >= 3 actions excluding ALL)
+  - `injects.csv` + `injects_init.csv` (8 initial injects)
+  - `responses/.gitignore` and `phase_start` (used by update-cycle scripts)
+- Constraint satisfied: **no team repeats its Phase 3 role** in Phase 4.
+- Created `docs/phase_4/` and copied `overview.md`, `roles.csv`, `injects.csv`, `actions.csv`, plus `index.html` wired with `PHASE_NUM = 4`.
+- Updated `docs/js/app.js` to set Phase 4 as `available: true` on the dashboard.

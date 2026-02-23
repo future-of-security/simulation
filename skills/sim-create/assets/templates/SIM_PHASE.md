@@ -73,25 +73,27 @@ For each of the 15 roles, list 2-3 objectives for this phase:
 
 Injects are stored in `injects.csv`
 
-### Mandatory Injects (20 minimum)
-These injects represent core events that must occur during this phase.
+### Initial Injects (5 total)
 
-| Category | Count | Description |
-|----------|-------|-------------|
-| Initial Disruption | [#] | Events establishing the phase's central crisis |
-| Escalation | [#] | Events that worsen if not addressed |
-| Opportunity | [#] | Events that offer positive outcomes if acted upon |
-| Information | [#] | Intelligence, reports, or public communications |
-| Resource | [#] | Supply, personnel, or budget-related events |
+Each initial inject requires collaboration of exactly 3 teams. All 15 teams are covered once (5 × 3 = 15). All initial injects have the same `points_resolve` value.
 
-### Optional Escalation Injects (10 minimum)
-These injects are triggered by participant inaction, poor decisions, or random escalation.
+| # | Category | Teams (Roles) | Description |
+|---|----------|---------------|-------------|
+| 1 | [Category] | [Role A, Role B, Role C] | [Description] |
+| 2 | [Category] | [Role D, Role E, Role F] | [Description] |
+| 3 | [Category] | [Role G, Role H, Role I] | [Description] |
+| 4 | [Category] | [Role J, Role K, Role L] | [Description] |
+| 5 | [Category] | [Role M, Role N, Role O] | [Description] |
 
-| Trigger Condition | Inject Description |
-|-------------------|-------------------|
-| [Condition 1] | [Escalation inject] |
-| [Condition 2] | [Escalation inject] |
-| ... | ... |
+### Escalation Triggers
+
+These injects fire at later sim_times when initial injects are not addressed by their deadline. Scores vary by severity.
+
+| Trigger Condition | Escalation Inject | Severity |
+|-------------------|-------------------|----------|
+| No response to inject #1 by [time] | [Escalation description] | [1-5] |
+| No response to inject #2 by [time] | [Escalation description] | [1-5] |
+| ... | ... | ... |
 
 ---
 
