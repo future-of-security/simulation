@@ -105,3 +105,154 @@
 | 1 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
 | 1 | Yosemite | Food City / Regional Supply Chain | $4.17M | 18 | 88 |
 | 4 | (12 teams) | — | — | — | 0 |
+
+---
+
+## Update Cycle 3 (sim_time 0:16–0:22)
+
+**Processed at:** 2026-02-26 12:56 EST (sim_time 0:23)
+
+### Submissions Processed
+
+#### Banff (WDBJ7 News) — attempt 1, submitted 17:49 UTC (sim_time 0:16)
+- **Incident addressed:** #2 Deepfake 'Martial Law' Broadcast
+- **Actions taken:**
+  - A13 JIC Stand-Up ($80K, trust +1) — single public update cadence and channel structure
+  - A17 Rapid Fact-Check Desk ($60K, trust +1) — publishing corrections against deepfake and rumors
+  - A19 Deepfake Detection and Takedown ($250K, trust +1) — coordinating platform reporting and takedown
+- **Collaboration claimed:** Glacier (Shentel) for JIC and rumor rebuttal
+  - Glacier confirms collaboration with Banff ✓ — bilateral confirmed
+- **Transfer claimed:** $12K from Shenandoah — Shenandoah has not submitted, cannot confirm. Not applied.
+- **Budget:** $5.1M - $80K - $60K - $250K = **$4.71M** (team claimed $4.735M; using computed)
+- **Trust:** 15 + 1 (A13) + 1 (A17) + 1 (A19) + 1 (collab bonus Glacier) = +4, capped at +3 = **18**
+- **Score:** 0 + 88 (partial resolution of inject 2, 50% of 175) = **88**
+
+#### Zion (United Way SW Virginia) — attempt 1, submitted 17:50 UTC (sim_time 0:17)
+- **Incident addressed:** #4 Community Violence Spiral
+- **Actions taken:**
+  - A1 Intelligence Sharing ($0, trust +1)
+  - A25 Mobile Mental Health Crisis Teams ($0 — claims Sequoia fronts cost) — coordinating deployment
+  - A26 Volunteer Peacekeeper Program ($60K, trust +2) — trained volunteers for de-escalation
+  - A27 Community Mediation and Grievance Intake ($120K, trust +2) — structured grievance process
+- **Collaboration claimed:** Carilion (Sequoia) for A25
+  - Sequoia does NOT mention Zion → not confirmed → no collaboration credit
+- **Budget:** $0.56M - $0 - $0 - $60K - $120K = **$0.38M** (team claimed $380K ✓)
+- **Trust:** 18 + 1 (A1) + 2 (A26) + 2 (A27) = +5, capped at +3 = **21**
+- **Score:** 0 + 70 (inject 4 resolved, 3 teams, 40% of 175) = **70**
+
+#### Sequoia (Carilion Clinic System) — attempt 1, submitted 17:51 UTC (sim_time 0:18)
+- **Incident addressed:** #4 Community Violence Spiral
+- **Actions taken:**
+  - A18 Expert Call-In and Community Forum ($40K, trust +1) — live Q&A with trusted experts
+  - A24 Hospital Staff Safety and Threat Protocol ($80K, trust +1) — security posture for clinicians
+  - A25 Mobile Mental Health Crisis Teams ($150K, trust +2) — crisis counselors to hot spots
+  - A31 Rapid Field Sampling for Contamination Rumors ($180K, trust +1) — validates contamination claims
+- **Collaboration claimed:** VA DEQ (Denali) for A31 field sampling and A18 live Q&A
+  - Denali confirms: "They will be joining us on the live Q & A" ✓ — bilateral confirmed
+- **Budget:** $2.2M - $40K - $80K - $150K - $180K = **$1.75M** (team claimed $1.77M; using computed)
+- **Trust:** 12 + 1 (A18) + 1 (A24) + 2 (A25) + 1 (A31) + 1 (collab bonus Denali) = +6, capped at +3 = **15**
+- **Score:** 0 + 70 (inject 4 resolved, 3 teams, 40% of 175) = **70**
+- **Cross-inject note:** A18 and A31 also contribute to inject 5 resolution (contamination panic)
+
+#### Denali (VA DEQ SW Regional Office) — attempt 1, submitted 17:52 UTC (sim_time 0:19)
+- **Incident addressed:** #5 Infrastructure Sabotage Threat & Environmental Panic
+- **Actions taken:**
+  - A1 Intelligence Sharing ($0, trust +1)
+  - A18 Expert Call-In and Community Forum ($40K, trust +1) — live Q&A addressing contamination fears
+  - A30 Environmental Transparency Update ($20K, trust +1) — publishes environmental status (knowns/unknowns)
+  - A31 Rapid Field Sampling for Contamination Rumors ($180K, trust +1) — validates/debunks contamination claims
+- **Collaboration claimed:** WDBJ7 (Banff), VT (Jasper), AEP (Acadia), Carilion (Sequoia)
+  - Acadia confirms ("discussed implementing increased security") ✓ — bilateral confirmed
+  - Sequoia confirms (A18/A31 joint work) ✓ — bilateral confirmed
+  - Banff does not mention Denali → not confirmed
+  - Jasper does not mention Denali → not confirmed
+- **Budget:** $6.5M - $0 - $40K - $20K - $180K = **$6.26M** (team claimed $6.76M; using computed)
+- **Trust:** 16 + 1 (A1) + 1 (A18) + 1 (A30, positive — paired with evidence) + 1 (A31) + 1 (collab Acadia) + 1 (collab Sequoia) = +6, capped at +3 = **19**
+- **Score:** 0 + 70 (inject 5 resolved, 3 teams, 40% of 175) = **70**
+- **Inject 5 upgrade:** Denali completes the missing contamination response. All 3 required teams now active. Acadia/Jasper keep 88 (max of old partial rate vs new 3-team rate per "never reduce" rule).
+
+#### Redwood (VDOT SW Region) — attempt 1, submitted 17:53 UTC (sim_time 0:20)
+- **Incident addressed:** #1 US-23 Blockade in Wise County
+- **Actions taken:**
+  - A1 Intelligence Sharing ($0, trust +1)
+  - A7 Distribution Site Safety Ordinance ($0, trust +1) — emergency rules for safe distribution
+  - A9 Negotiate Protest Route & Safety Plan ($50K, trust +1) — preserve First Amendment + keep corridors open
+  - A11 I-81 Detour & Local Access Plan ($75K, trust 0) — detours and emergency vehicle access
+  - A12 Rapid Barriers and Signage Deployment ($120K, trust 0) — physical separation of protest/convoy areas
+  - A23 Protect Critical Civic Systems ($200K, trust 0) — monitoring key infrastructure
+  - A38 Emergency Convoy Lane Authorization ($0, trust 0) — **DENIED: requires Governor's SW Virginia Liaison approval; Olympic has not submitted**
+- **Collaboration claimed:** None
+- **Budget:** $23.8M - $0 - $0 - $50K - $75K - $120K - $200K = **$23.355M** (team claimed $23.555M; using computed)
+- **Trust:** 20 + 1 (A1) + 1 (A7) + 1 (A9) + 0 (A11) + 0 (A12) + 0 (A23) = +3 = **23**
+- **Score:** 0 + 88 (inject 1 partial, 50% of 175) = **88**
+- **Note:** Strong transportation response but Sheriff's Coalition (Bryce) still absent. Physical blockade improving with detours but no law enforcement de-escalation.
+
+#### Yellowstone (Appalachian Faith & Community Network) — attempt 1, submitted 17:54 UTC (sim_time 0:21)
+- **Incident addressed:** #4 Community Violence Spiral
+- **Actions taken:**
+  - A26 Volunteer Peacekeeper Program ($60K, trust +2) — non-enforcement de-escalation at public sites
+  - A28 Trusted Messenger Network ($10K, trust +2) — pastors/leaders deliver consistent safety messaging
+  - A8 De-escalation & Liaison Teams ($100K, trust +1) — trained liaisons at hot spots
+  - A4 Activate Mediation & Reconciliation Team ($150K, trust +2) — mediators to coalfield communities
+  - A29 Safe Haven and Cooling/Warming Sites ($40K, trust +1) — staffed safe sites for threatened residents
+- **Collaboration claimed:** None
+- **Budget:** $10.325M - $60K - $10K - $100K - $150K - $40K = **$9.965M** (team claimed $9.64M; using computed)
+- **Trust:** 11 + 2 (A26) + 2 (A28) + 1 (A8) + 2 (A4) + 1 (A29) = +8, capped at +3 = **14**
+- **Score:** 0 + 70 (inject 4 resolved, 3 teams, 40% of 175) = **70**
+
+#### Glacier (Shentel Communications) — attempt 1, submitted 17:55 UTC (sim_time 0:22)
+- **Incident addressed:** #2 Deepfake 'Martial Law' Broadcast
+- **Actions taken:**
+  - A1 Intelligence Sharing ($0, trust +1)
+  - A14 Emergency Alert and Rumor Rebuttal Blast ($0, trust +1) — paired with credible messengers → positive
+  - A19 Deepfake Detection and Takedown ($250K, trust +1) — coordinating with Banff
+  - A22 SMS Rumor Hotline Short Code ($100K, trust +2) — rumor reporting and triage
+  - A23 Protect Critical Civic Systems ($200K, trust 0) — hardening alert and comms systems
+- **Collaboration claimed:** Banff (WDBJ7), CISA, Sheriff's, Faith Network
+  - Banff confirms collaboration ✓ — bilateral confirmed
+  - Others not submitted for inject 2 → not confirmed
+- **Budget:** $47.95M - $0 - $0 - $250K - $100K - $200K = **$47.4M** (team claimed $47.45M; using computed)
+- **Trust:** 14 + 1 (A1) + 1 (A14) + 1 (A19) + 2 (A22) + 0 (A23) + 1 (collab bonus Banff) = +6, capped at +3 = **17**
+- **Score:** 0 + 88 (inject 2 partial, 50% of 175) = **88**
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #1 US-23 Blockade | stays **partial** | Redwood (VDOT) adds detours+barriers+protest negotiation. 2 of 3 teams active. Sheriff's (Bryce) still absent. |
+| #2 Deepfake Martial Law | open → **partial** | Banff+Glacier deployed JIC, fact-check, takedown, alerts, hotline. Confirmed collaboration. CISA absent. Late (past 0:10). |
+| #4 Community Violence | open → **resolved** | All 3 required teams responded: Sequoia (safety+mental health), Zion (peacekeepers+mediation), Yellowstone (de-escalation+messengers+safe havens). Late (past 0:15). |
+| #5 Infrastructure Sabotage | partial → **resolved** | Denali completes trio with field sampling+transparency+expert forum. Confirmed collabs with Acadia and Sequoia. |
+
+### Open Injects Remaining (as of 0:23)
+
+| # | Inject | State | Teams Responding | Key Gap |
+|---|--------|-------|------------------|---------|
+| 1 | US-23 Blockade | partial | Yosemite, Redwood | Sheriff's (Bryce) — no law enforcement |
+| 2 | Deepfake Martial Law | partial | Banff, Glacier | CISA (Shenandoah) — no threat intel |
+| 3 | Governance Breakdown | **open** | *none* | Olympic, Arches, Yoho — all absent |
+| 6 | Supply Convoy Hijacking | open | *none* | Sheriff's, EMA, Governor, Food City |
+| 7 | Panic Arms Run / Shooting | open | *none* | Sheriff's, Carilion, WDBJ7, EMA |
+| 8 | Town Hall Violence | open | *none* | Montgomery, Sheriff's, Faith, WDBJ7, United Way |
+| 9 | Healthcare Worker Attacked | open | *none* | Carilion, Sheriff's, Governor, EMA |
+| 10 | Congressional Hearing | hidden | — | Not triggered (inject 5 addressed in time) |
+
+### Leaderboard After Cycle 3
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 1 | Banff | WDBJ7 News | $4.71M | 18 | 88 |
+| 1 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 1 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 1 | Redwood | VDOT SW Region | $23.355M | 23 | 88 |
+| 1 | Yosemite | Food City / Regional Supply Chain | $4.17M | 18 | 88 |
+| 7 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 7 | Sequoia | Carilion Clinic System | $1.75M | 15 | 70 |
+| 7 | Yellowstone | Appalachian Faith & Community Network | $9.965M | 14 | 70 |
+| 7 | Zion | United Way SW Virginia | $0.38M | 21 | 70 |
+| 11 | Arches | Montgomery County Government | $12.125M | 15 | 0 |
+| 11 | Bryce | SW Virginia Sheriff's Coalition | $39.8M | 7 | 0 |
+| 11 | Olympic | Governor's SW Virginia Liaison | $13.525M | 10 | 0 |
+| 11 | Shenandoah | CISA Regional Coordinator | $13.35M | 13 | 0 |
+| 11 | Yoho | SW Virginia EMA | $6.75M | 12 | 0 |
