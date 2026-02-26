@@ -646,3 +646,53 @@
 | 10 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
 | 14 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
 | 14 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+
+---
+
+## Phase 4 Close
+
+**Closed:** 2026-02-26 ~15:00 EST
+
+### Final Inject Outcomes
+
+| # | Inject | Final State | Notes |
+|---|--------|-------------|-------|
+| 1 | US-23 Blockade | **RESOLVED** | Yosemite + Redwood + Bryce. Late (escalated #6). |
+| 2 | Deepfake 'Martial Law' Broadcast | **RESOLVED** | Banff + Glacier + Shenandoah. Late (escalated #7). |
+| 3 | Governance Breakdown | **RESOLVED** | Olympic + Arches + Yoho. Late (escalated #8). |
+| 4 | Community Violence Spiral | **RESOLVED** | Sequoia + Zion + Yellowstone. Late (escalated #9). |
+| 5 | Infrastructure Sabotage & Environmental Panic | **RESOLVED** | Acadia + Jasper + Denali. On time — prevented #10. |
+| 6 | Supply Convoy Hijacking | **PARTIAL** | Yosemite + Bryce (2/4). EMA and Governor never addressed. |
+| 7 | Panic Arms Run — Accidental Shooting | **PARTIAL** | Banff + Yoho (2/4). Sheriff's and Carilion proper response absent. |
+| 8 | Town Hall Erupts in Violence | **PARTIAL** | Arches + Banff + Yellowstone + Zion (4/5). Bryce never addressed. |
+| 9 | Healthcare Worker Attacked | **PARTIAL** | Sequoia + Olympic (2/4). Sheriff's and EMA never addressed. |
+| 10 | Congressional Hearing Goes National | **NOT TRIGGERED** | Inject 5 resolved in time — no escalation. |
+
+### Final Leaderboard
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Banff | WDBJ7 News | $4.585M | 23 | 213 |
+| 2 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 3 | Bryce | SW Virginia Sheriff's Coalition | $39.18M | 13 | 145 |
+| 3 | Olympic | Governor's SW Virginia Liaison | $13.255M | 14 | 145 |
+| 3 | Sequoia | Carilion Clinic System | $1.75M | 16 | 145 |
+| 3 | Yoho | SW Virginia EMA | $6.47M | 18 | 145 |
+| 7 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 8 | Yellowstone | Appalachian Faith & Community Network | $9.815M | 18 | 120 |
+| 8 | Zion | United Way SW Virginia | $0.18M | 24 | 120 |
+| 10 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 10 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 10 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 10 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 14 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 14 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+
+### Phase 4 Summary
+
+- **5 of 10 injects fully resolved** (all 5 initial injects)
+- **4 escalation injects partially resolved** — all late responses
+- **1 escalation inject prevented** (inject 10 — inject 5 handled in time)
+- **Standout performers:** Banff (media counter-narrative across 3 injects), Yosemite (supply chain leadership), Redwood (highest trust at 26)
+- **Critical gaps:** Bryce absent from injects 7/8/9; Yoho absent from inject 9; late responses across the board on escalation injects
+- **Carryover to Phase 5:** Injects 6/7/8/9 unresolved — healthcare system fragility (inject 9) poses direct Phase 5 mortality risk
