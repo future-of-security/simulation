@@ -535,3 +535,59 @@
 | 12 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
 | 12 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
 | 12 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
+
+---
+
+## Update Cycle 7 (sim_time 0:58)
+
+**Processed at:** 2026-02-26 ~14:40 EST (sim_time 0:58)
+
+### Submissions Processed
+
+#### Yoho (SW Virginia EMA) — attempt 2, submitted 18:31 UTC (sim_time 0:58)
+- **Incident addressed:** #7 Panic Arms Run — Accidental Shooting at Store
+- **Actions taken:**
+  - A13 Joint Information Center Stand-Up ($80K, trust +1) — single public update cadence, rumor rebuttals, safety guidance
+  - A14 Emergency Alert and Rumor Rebuttal Blast ($0, trust +1) — paired with JIC credible messengers → positive impact
+  - A29 Safe Haven and Cooling/Warming Sites ($40K, trust +1) — staffed safe sites for residents facing fear or threats
+- **Collaboration claimed:** WDBJ7/Banff and Bryce — neither confirmed bilaterally → no collab credit
+- **Transfers claimed:** $80K from Sequoia, $40K from Bryce — neither sender confirmed → not applied; Yoho pays own costs
+- **Budget:** $6.59M - $80K - $40K = **$6.47M** (team claimed $7.4M; using computed)
+- **Trust:** 15 + 1 (A13) + 1 (A14) + 1 (A29) = +3 = **18**
+- **Score:** 70 + 75 (inject 7 partial, 2 teams, 50% of 150) = **145**
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #7 Panic Arms Run | partial → **partial** (2/4) | Yoho joins Banff. JIC+alerts+safe havens now active. Sheriff's and Carilion still absent. |
+
+### Open/Partial Injects Remaining (as of 0:58)
+
+| # | Inject | State | Teams Responding | Key Gap |
+|---|--------|-------|------------------|---------|
+| 6 | Supply Convoy Hijacking | **partial** | Yosemite | Sheriff's, EMA, Governor still absent |
+| 7 | Panic Arms Run | **partial** (2/4) | Banff, Yoho | Sheriff's (Bryce) and Carilion (Sequoia proper) still absent |
+| 8 | Town Hall Violence | **partial** (4/5) | Arches, Banff, Yellowstone, Zion | Only Sheriff's (Bryce) absent |
+| 9 | Healthcare Worker | **partial** (2/4) | Sequoia, Olympic | Sheriff's (Bryce) and EMA (Yoho) still absent |
+| 10 | Congressional Hearing | hidden | — | Not triggered |
+
+### Leaderboard After Cycle 7
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Banff | WDBJ7 News | $4.585M | 23 | 213 |
+| 2 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 3 | Olympic | Governor's SW Virginia Liaison | $13.255M | 14 | 145 |
+| 3 | Sequoia | Carilion Clinic System | $1.75M | 16 | 145 |
+| 3 | Yoho | SW Virginia EMA | $6.47M | 18 | 145 |
+| 6 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 7 | Yellowstone | Appalachian Faith & Community Network | $9.815M | 18 | 120 |
+| 7 | Zion | United Way SW Virginia | $0.18M | 24 | 120 |
+| 9 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 9 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 9 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 9 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 13 | Bryce | SW Virginia Sheriff's Coalition | $39.43M | 10 | 70 |
+| 13 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 13 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
