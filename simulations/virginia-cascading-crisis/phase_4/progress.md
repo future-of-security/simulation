@@ -591,3 +591,58 @@
 | 13 | Bryce | SW Virginia Sheriff's Coalition | $39.43M | 10 | 70 |
 | 13 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
 | 13 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+
+---
+
+## Update Cycle 8 (sim_time 1:04)
+
+**Processed at:** 2026-02-26 ~14:50 EST (sim_time 1:04)
+
+### Submissions Processed
+
+#### Bryce (SW Virginia Sheriff's Coalition) — attempt 2, submitted 18:37 UTC (sim_time 1:04)
+- **Incident addressed:** #6 Supply Convoy Hijacking
+- **Actions taken:**
+  - A1 Intelligence Sharing ($0, trust +1)
+  - A16 Mobile Distribution with Local Escorts ($200K, trust +1) — police escorts for supply convoys on hijacking-affected routes
+  - A36 Transparent Use-of-Force Reporting ($50K, trust +1) — public reporting on enforcement actions
+- **Collaboration claimed:** Food City/Yosemite — Yosemite's inject 6 response cited Redwood as collab, not Bryce → not bilaterally confirmed → no collab credit
+- **Budget:** $39.43M - $0 - $200K - $50K = **$39.18M** (team claimed $39.38M — missing A16 charge; using computed)
+- **Trust:** 10 + 1 (A1) + 1 (A16) + 1 (A36) = +3 = **13**
+- **Score:** 70 + 75 (inject 6 partial, 2 teams, 50% of 150) = **145**
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #6 Convoy Hijacking | partial → **partial** (2/4) | Bryce joins Yosemite. Armed group being confronted, police escorts deployed. EMA and Governor still absent from inject 6. |
+
+### Open/Partial Injects Remaining (as of 1:04)
+
+| # | Inject | State | Teams Responding | Key Gap |
+|---|--------|-------|------------------|---------|
+| 6 | Supply Convoy Hijacking | **partial** (2/4) | Yosemite, Bryce | EMA (Yoho) and Governor (Olympic) not specifically addressing |
+| 7 | Panic Arms Run | **partial** (2/4) | Banff, Yoho | Sheriff's (Bryce) and Carilion (Sequoia) proper response absent |
+| 8 | Town Hall Violence | **partial** (4/5) | Arches, Banff, Yellowstone, Zion | Only Sheriff's (Bryce) absent |
+| 9 | Healthcare Worker | **partial** (2/4) | Sequoia, Olympic | Sheriff's (Bryce) and EMA (Yoho) still absent |
+| 10 | Congressional Hearing | hidden | — | Not triggered |
+
+### Leaderboard After Cycle 8
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Banff | WDBJ7 News | $4.585M | 23 | 213 |
+| 2 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 3 | Bryce | SW Virginia Sheriff's Coalition | $39.18M | 13 | 145 |
+| 3 | Olympic | Governor's SW Virginia Liaison | $13.255M | 14 | 145 |
+| 3 | Sequoia | Carilion Clinic System | $1.75M | 16 | 145 |
+| 3 | Yoho | SW Virginia EMA | $6.47M | 18 | 145 |
+| 7 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 8 | Yellowstone | Appalachian Faith & Community Network | $9.815M | 18 | 120 |
+| 8 | Zion | United Way SW Virginia | $0.18M | 24 | 120 |
+| 10 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 10 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 10 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 10 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 14 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 14 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
