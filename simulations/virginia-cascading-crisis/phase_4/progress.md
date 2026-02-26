@@ -480,3 +480,58 @@
 | 11 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
 | 11 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
 | 11 | Zion | United Way SW Virginia | $0.38M | 21 | 70 |
+
+---
+
+## Update Cycle 6 (sim_time 0:52)
+
+**Processed at:** 2026-02-26 ~14:30 EST (sim_time 0:52)
+
+### Submissions Processed
+
+#### Zion (United Way SW Virginia) — attempt 2, submitted 18:25 UTC (sim_time 0:52)
+- **Incident addressed:** #8 Town Hall Erupts in Violence
+- **Actions taken:**
+  - A4 Activate Mediation & Reconciliation Team ($150K, trust +2) — mediators to de-escalate town hall communities
+  - A6 Countywide Town Halls & Listening Sessions ($50K, trust +2) — moderated smaller forums to reduce rumor-driven anger
+- **Collaboration claimed:** None
+- **Budget:** $0.38M - $150K - $50K = **$0.18M** (team claimed $180K ✓)
+- **Trust:** 21 + 2 (A4) + 2 (A6) = +4, capped at **+3** → **24**
+- **Score:** 70 + 50 (inject 8, 4 teams, 40% of 125) = **120**
+- **Note:** 4th team to address inject 8. Arches/Banff/Yellowstone already at 40% rate — no score change for them (max rule).
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #8 Town Hall Violence | partial → **partial** (4/5) | Zion joins. 4 of 5 required teams now active. Only Sheriff's (Bryce) absent. |
+
+### Open/Partial Injects Remaining (as of 0:52)
+
+| # | Inject | State | Teams Responding | Key Gap |
+|---|--------|-------|------------------|---------|
+| 6 | Supply Convoy Hijacking | **partial** | Yosemite | Sheriff's, EMA, Governor still absent |
+| 7 | Panic Arms Run | **partial** | Banff | Sheriff's, Carilion, EMA still absent |
+| 8 | Town Hall Violence | **partial** (4/5) | Arches, Banff, Yellowstone, Zion | Only Sheriff's (Bryce) absent |
+| 9 | Healthcare Worker | **partial** | Sequoia, Olympic | Sheriff's and EMA still absent |
+| 10 | Congressional Hearing | hidden | — | Not triggered |
+
+### Leaderboard After Cycle 6
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Banff | WDBJ7 News | $4.585M | 23 | 213 |
+| 2 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 3 | Olympic | Governor's SW Virginia Liaison | $13.255M | 14 | 145 |
+| 3 | Sequoia | Carilion Clinic System | $1.75M | 16 | 145 |
+| 5 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 6 | Yellowstone | Appalachian Faith & Community Network | $9.815M | 18 | 120 |
+| 6 | Zion | United Way SW Virginia | $0.18M | 24 | 120 |
+| 8 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 8 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 8 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 8 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 12 | Bryce | SW Virginia Sheriff's Coalition | $39.43M | 10 | 70 |
+| 12 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 12 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+| 12 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
