@@ -256,3 +256,114 @@
 | 11 | Olympic | Governor's SW Virginia Liaison | $13.525M | 10 | 0 |
 | 11 | Shenandoah | CISA Regional Coordinator | $13.35M | 13 | 0 |
 | 11 | Yoho | SW Virginia EMA | $6.75M | 12 | 0 |
+
+---
+
+## Update Cycle 4 (sim_time 0:22–0:34)
+
+**Processed at:** 2026-02-26 13:10 EST (sim_time 0:37)
+
+### New Teams (5)
+
+#### Olympic (Governor's SW Virginia Liaison) — attempt 1, submitted 17:55 UTC (sim_time 0:22)
+- **Incident addressed:** #3 Governance Breakdown
+- **Actions:** A2 Unified Messaging ($80K), A4 Mediation ($150K), A35 Civil Liberties Guardrails ($0), A27 Grievance Intake ($120K)
+- **Collaboration:** Yoho (EMA) on A2 ✓ bilateral. VDOT (Redwood) on convoy lane ✓ bilateral.
+- **Transfer received:** $80K from Yoho for A2 ✓
+- **Budget:** $13.525M + $80K - $80K - $150K - $120K = **$13.255M**
+- **Trust:** 10 + 3 (capped) = **13** | **Score:** 0 + 70 = **70**
+- **Key impact:** Enables A38 Emergency Convoy Lane for Redwood/Yoho
+
+#### Yoho (SW Virginia EMA) — attempt 1, submitted 18:04 UTC (sim_time 0:31)
+- **Incident addressed:** #3 Governance Breakdown
+- **Actions:** A2 Unified Messaging ($80K), A3 Regional Governance Compact ($0), A38 Convoy Authorization ($0, approved by Olympic)
+- **Collaboration:** Olympic on A2 ✓ bilateral
+- **Transfer sent:** $80K to Olympic for A2 ✓
+- **Budget:** $6.75M - $80K - $80K(transfer) = **$6.59M**
+- **Trust:** 12 + 3 (capped) = **15** | **Score:** 0 + 70 = **70**
+
+#### Arches (Montgomery County Government) — attempts 1+2, submitted 18:00+18:07 UTC (sim_time 0:27+0:34)
+- **Incidents addressed:** #3 Governance Breakdown (att1) + #8 Town Hall Violence (att2)
+- **Att1 actions:** A1 ($0), A3 Regional Governance Compact ($0), A39 Advisory Board ($15K), A35 Guardrails ($0)
+- **Att2 actions:** A9 Protest Route ($50K), A35 (dup, no re-credit), A27 Grievance Intake ($120K), A20 Disinfo Brief ($0)
+- **Collaboration:** Olympic ✓ bilateral, Bryce ✓ bilateral
+- **Budget:** $12.125M - $15K - $50K - $120K = **$11.94M**
+- **Trust:** 15 + 3 (capped) = **18** | **Score:** 70 (inject 3) + 63 (inject 8 partial, 50% of 125) = **133**
+
+#### Bryce (SW Virginia Sheriff's Coalition) — attempt 1, submitted 18:06 UTC (sim_time 0:33)
+- **Incident addressed:** #1 US-23 Blockade — **completes inject 1 trio!**
+- **Actions:** A1 ($0), A8 De-escalation ($100K), A9 Protest Route ($50K), A12 Barriers ($120K), A36 Use-of-Force Reporting ($50K) + custom Emergency Convoy Window ($50K) + custom Joint Public Statement ($0)
+- **Collaboration:** Arches ✓ bilateral, Sequoia ✓ bilateral
+- **Custom actions approved:** Emergency Convoy Window (reasonable for Sheriff authority), Joint Statement ($0)
+- **Budget:** $39.8M - $370K = **$39.43M**
+- **Trust:** 7 + 3 (capped) = **10** | **Score:** 0 + 70 = **70**
+
+#### Shenandoah (CISA Regional Coordinator) — attempt 1, submitted 18:00 UTC (sim_time 0:27)
+- **Incident addressed:** #2 Deepfake — **completes inject 2 trio!**
+- **Actions:** A19 Deepfake Takedown ($250K), A20 Disinfo Brief ($0), A23 Civic Systems ($200K), A34 Federal War Room ($0), $200K transfer to AEP (additional hardening)
+- **Collaboration:** Glacier (Shentel) ✓ bilateral, Redwood (VDOT) ✓ bilateral
+- **Budget:** $13.35M - $250K - $200K - $200K(transfer) = **$12.7M**
+- **Trust:** 13 + 3 (capped) = **16** | **Score:** 0 + 70 = **70**
+
+### Re-submissions (6)
+
+#### Banff attempt 2 (sim_time 0:25) — Inject 5 (already resolved)
+- **New action:** A18 Expert Call-In ($40K). Collab w/ Denali ✓.
+- **Impact:** Supports inject 5 messaging. No additional inject score (already resolved). Trust +2 → 18+2=**20**. Budget: $4.71M-$40K=**$4.67M**.
+
+#### Redwood attempt 2 (sim_time 0:24) — Inject 1, confirms collabs
+- **No new actions.** Confirms collaboration w/ Yosemite ✓, Olympic ✓, Shenandoah ✓.
+- **Key change:** A38 now APPROVED (Olympic present). Trust +3 (collabs) → 23+3=**26**. No new spending.
+
+#### Sequoia attempt 2 (sim_time 0:29) — Inject 7 (Panic Arms Run)
+- **Action:** A1 Intelligence Sharing (already taken). Sharing patient status updates. Collab w/ Bryce ✓.
+- **Impact:** Minimal — only intel sharing for inject 7. Inject 7 stays **open**. Trust +1 → 15+1=**16**. No new spending.
+
+#### Yellowstone attempt 2 (sim_time 0:25) — Inject 2 (Deepfake)
+- **Action:** A28 Trusted Messenger Network (already paid in att1). Collab w/ Glacier ✓.
+- **Impact:** Trusted messengers supporting deepfake counter-messaging. No new spending. Trust +1 → 14+1=**15**.
+
+#### Yosemite attempt 2 (sim_time 0:30) — Inject 6 (Supply Convoy Hijacking)
+- **Actions:** A1+A15+A16 (same as att1, no new charges). Addressing hijacking with mobile escorts. Collab w/ Redwood ✓.
+- **Impact:** Inject 6 moves to **partial**. Score +75 (50% of 150). Trust +1 → 18+1=**19**. No new spending.
+- **Total score:** 88 (inject 1) + 75 (inject 6) = **163**
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #1 US-23 Blockade | partial → **RESOLVED** | Bryce completes trio (Yosemite+Redwood+Bryce). De-escalation, convoy window, barriers, protest route all active. |
+| #2 Deepfake | partial → **RESOLVED** | Shenandoah completes trio (Banff+Glacier+Shenandoah). Triple takedown, disinfo brief, war room. |
+| #3 Governance | open → **RESOLVED** | All 3: Olympic+Arches+Yoho. Governance compact, unified messaging, mediation, advisory board. |
+| #6 Convoy Hijacking | open → **partial** | Yosemite redeploying mobile escorts. Other required teams focused elsewhere. |
+| #8 Town Hall Violence | open → **partial** | Arches addressing with protest routes, guardrails, grievance intake. Other teams absent. |
+
+### Open/Partial Injects Remaining (as of 0:37)
+
+| # | Inject | State | Key Gap |
+|---|--------|-------|---------|
+| 6 | Supply Convoy Hijacking | **partial** | Sheriff's, EMA, Governor not addressing specifically |
+| 7 | Panic Arms Run / Shooting | **open** | Needs comprehensive response: Sheriff's, Carilion, WDBJ7, EMA |
+| 8 | Town Hall Violence | **partial** | Only Arches responding; 4 of 5 required teams absent |
+| 9 | Healthcare Worker Attacked | **open** | Needs Carilion, Sheriff's, Governor, EMA |
+| 10 | Congressional Hearing | hidden | Not triggered |
+
+### Leaderboard After Cycle 4
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 2 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 3 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 3 | Banff | WDBJ7 News | $4.67M | 20 | 88 |
+| 3 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 3 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 3 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 8 | Bryce | SW Virginia Sheriff's Coalition | $39.43M | 10 | 70 |
+| 8 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 8 | Olympic | Governor's SW Virginia Liaison | $13.255M | 13 | 70 |
+| 8 | Sequoia | Carilion Clinic System | $1.75M | 16 | 70 |
+| 8 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+| 8 | Yellowstone | Appalachian Faith & Community Network | $9.965M | 15 | 70 |
+| 8 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
+| 8 | Zion | United Way SW Virginia | $0.38M | 21 | 70 |
