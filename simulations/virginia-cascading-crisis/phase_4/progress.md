@@ -367,3 +367,116 @@
 | 8 | Yellowstone | Appalachian Faith & Community Network | $9.965M | 15 | 70 |
 | 8 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
 | 8 | Zion | United Way SW Virginia | $0.38M | 21 | 70 |
+
+---
+
+## Update Cycle 5 (sim_time 0:37–0:41)
+
+**Processed at:** 2026-02-26 ~14:15 EST (sim_time 0:42)
+
+### Submissions Processed
+
+#### Sequoia (Carilion Clinic System) — attempt 3, submitted 18:10 UTC (sim_time 0:37)
+- **Incident addressed:** #9 Healthcare Worker Attacked En Route
+- **Actions taken:**
+  - A24 Hospital Staff Safety and Threat Protocol — already deployed in Cycle 3 (no new cost, no new trust)
+  - A25 Mobile Mental Health Crisis Teams — already deployed in Cycle 3 (no new cost, no new trust)
+- **New application:** Both actions explicitly redeployed toward rural home health worker safety for inject 9
+- **Collaboration claimed:** None
+- **Budget:** $1.75M (no change)
+- **Trust:** 16 (no new actions, no new collab)
+- **Score:** 70 + 75 (inject 9 partial, 2 teams, 50%) = **145**
+
+#### Olympic (Governor's SW Virginia Liaison) — attempt 2, submitted 18:13 UTC (sim_time 0:40)
+- **Incident addressed:** #9 Healthcare Worker Attacked En Route
+- **Actions taken:**
+  - A4 Activate Mediation & Reconciliation Team — already deployed in Cycle 4 (no new cost, no new trust)
+  - A5 Emergency Curfew Order ($0, trust +1) — NEW: targeted curfew in militia-active Buchanan County to protect health workers
+- **Collaboration claimed:** None
+- **Budget:** $13.255M - $0 = **$13.255M** (A5 is free; A4 already paid)
+- **Trust:** 13 + 1 (A5) = **14**
+- **Score:** 70 + 75 (inject 9 partial, 2 teams, 50%) = **145**
+
+#### Banff (WDBJ7 News) — attempt 3, submitted 18:13 UTC (sim_time 0:40)
+- **Incident addressed:** #7 Panic Arms Run — Accidental Shooting at Store
+- **Actions taken:**
+  - A17 Rapid Fact-Check Desk — already deployed in Cycle 3 (no new cost, no new trust)
+  - A21 Social Listening and Rumor Tracking ($75K, trust +1) — NEW: tracking shooting rumors and false narratives online
+- **Collaboration claimed:** None
+- **Budget:** $4.67M - $75K = **$4.595M**
+- **Trust:** +1 (A21) [additional per att4 below]
+- **Score:** 88 + 75 (inject 7 partial, 1 team, 50% of 150) = **163** [further updated below]
+
+#### Banff (WDBJ7 News) — attempt 4, submitted 18:14 UTC (sim_time 0:41)
+- **Incident addressed:** #8 Town Hall Erupts in Violence
+- **Actions taken:**
+  - A28 Trusted Messenger Network ($10K, trust +2) — NEW: coordinating pastors/community leaders to counter town hall violence narratives
+- **Collaboration claimed:** Faith and Community Network (Yellowstone)
+  - Yellowstone att4 confirms collab with WDBJ7 ✓ — bilateral confirmed → +1 collab bonus
+- **Budget:** $4.595M - $10K = **$4.585M**
+- **Trust combined (att3+att4):** 20 + 1 (A21) + 2 (A28) + 1 (collab Yellowstone) = +4, capped at **+3** → **23**
+- **Score combined:** 88 + 75 (inject 7) + 50 (inject 8, 3 teams, 40% of 125) = **213**
+
+#### Yellowstone (Appalachian Faith & Community Network) — attempt 3, submitted 18:13 UTC (sim_time 0:40)
+- **Incident addressed:** #4 Community Violence Spiral — already RESOLVED
+- **Actions taken:** A26, A28, A8, A4, A25 — all previously deployed in Cycle 3
+- **Collaboration claimed:** WDBJ7 — but Banff's collab credit attributed to inject 8 (att4)
+- **Impact:** No score or budget impact (inject closed, all actions duplicates)
+- **Note:** Appears to be a re-submission to a closed inject in error. No changes applied.
+
+#### Yellowstone (Appalachian Faith & Community Network) — attempt 4, submitted 18:14 UTC (sim_time 0:41)
+- **Incident addressed:** #8 Town Hall Erupts in Violence
+- **Actions taken:**
+  - A26 Volunteer Peacekeeper Program — already deployed in Cycle 3 (no new cost, no new trust)
+  - A28 Trusted Messenger Network — already deployed in Cycle 3 (no new cost, no new trust)
+  - A8 De-escalation & Liaison Teams — already deployed in Cycle 3 (no new cost, no new trust)
+  - A4 Activate Mediation & Reconciliation Team — already deployed in Cycle 3 (no new cost, no new trust)
+  - A25 Mobile Mental Health Crisis Teams ($150K, trust +2) — NEW for Yellowstone (Sequoia paid their own share in Cycle 3)
+- **Collaboration claimed:** WDBJ7 (Banff)
+  - Banff att4 confirms collab with Faith ✓ — bilateral confirmed → +1 collab bonus
+- **Budget:** $9.965M - $150K = **$9.815M**
+- **Trust:** 15 + 2 (A25) + 1 (collab Banff) = +3 = **18**
+- **Score:** 70 + 50 (inject 8, 3 teams, 40% of 125) = **120**
+
+### Inject State Changes
+
+| Inject | Change | Reason |
+|--------|--------|--------|
+| #7 Panic Arms Run | open → **partial** | Banff (WDBJ7) deployed A21 rumor tracking. Late (past 0:25 deadline). 1 of 4 required teams. Sheriff's, Carilion, EMA still absent. |
+| #8 Town Hall Violence | partial → **partial** (improved) | Banff+Yellowstone join Arches. 3 of 5 required teams now active. Bilateral collab confirmed. Sheriff's and United Way still absent. |
+| #9 Healthcare Worker | open → **partial** | Sequoia redeploying safety/mental-health measures; Olympic issuing curfew order. 2 of 4 required teams. No confirmed collab between them. |
+
+### Score Notes
+
+- **Inject 8 (3 teams):** 40% of 125 = 50 pts each for Banff and Yellowstone (new entrants). Arches keeps 63 (max of old 50% rate vs new 40% rate — never reduce rule).
+- **Inject 9 (2 teams, partial):** 50% of 150 = 75 pts each for Sequoia and Olympic (no collab confirmed).
+
+### Open/Partial Injects Remaining (as of 0:42)
+
+| # | Inject | State | Teams Responding | Key Gap |
+|---|--------|-------|------------------|---------|
+| 6 | Supply Convoy Hijacking | **partial** | Yosemite | Sheriff's, EMA, Governor not addressing hijacking specifically |
+| 7 | Panic Arms Run | **partial** | Banff | Sheriff's, Carilion, EMA still absent |
+| 8 | Town Hall Violence | **partial** | Arches, Banff, Yellowstone | Sheriff's and United Way still absent |
+| 9 | Healthcare Worker | **partial** | Sequoia, Olympic | Sheriff's and EMA still absent |
+| 10 | Congressional Hearing | hidden | — | Not triggered |
+
+### Leaderboard After Cycle 5
+
+| Rank | Team | Role | Budget | Trust | Score |
+|------|------|------|--------|-------|-------|
+| 1 | Banff | WDBJ7 News | $4.585M | 23 | 213 |
+| 2 | Yosemite | Food City / Regional Supply Chain | $4.17M | 19 | 163 |
+| 3 | Olympic | Governor's SW Virginia Liaison | $13.255M | 14 | 145 |
+| 3 | Sequoia | Carilion Clinic System | $1.75M | 16 | 145 |
+| 5 | Arches | Montgomery County Government | $11.94M | 18 | 133 |
+| 6 | Yellowstone | Appalachian Faith & Community Network | $9.815M | 18 | 120 |
+| 7 | Acadia | AEP Appalachian Power | $16.7M | 16 | 88 |
+| 7 | Glacier | Shentel Communications | $47.4M | 17 | 88 |
+| 7 | Jasper | Virginia Tech Crisis Response | $8.975M | 17 | 88 |
+| 7 | Redwood | VDOT SW Region | $23.355M | 26 | 88 |
+| 11 | Bryce | SW Virginia Sheriff's Coalition | $39.43M | 10 | 70 |
+| 11 | Denali | VA DEQ SW Regional Office | $6.26M | 19 | 70 |
+| 11 | Shenandoah | CISA Regional Coordinator | $12.7M | 16 | 70 |
+| 11 | Yoho | SW Virginia EMA | $6.59M | 15 | 70 |
+| 11 | Zion | United Way SW Virginia | $0.38M | 21 | 70 |
