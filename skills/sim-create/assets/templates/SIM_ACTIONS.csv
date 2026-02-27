@@ -1,2 +1,0 @@
-action_id,action_name,available_to,cost,delay_mins,requires_approval,trust_impact,description
-A1,[Action Name],[Role Name;Role Name or ALL],[$X],[0 = immediate; 5 = 5 min],[Role name or NONE],[+/-X trust],[What this action does]

@@ -2,6 +2,8 @@
 // Dynamically loads data from CSV and MD files
 
 const CONFIG = {
+  dataBaseUrl: "https://raw.githubusercontent.com/future-of-security/simulation-data/main",
+  simId: "virginia-cascading-crisis",
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
     { num: 1, title: "Cybersecurity & AI Threats", completed: true },
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 async function initIndexPage() {
   try {
-    const overviewText = await fetchFile('sim_overview.md');
+    const overviewText = await fetchFile(`${CONFIG.dataBaseUrl}/${CONFIG.simId}/sim_overview.md`);
     parseOverview(overviewText);
 
     document.getElementById('sim-title').textContent = SIMULATION.title;
@@ -100,13 +102,14 @@ function renderPhasesList() {
 
 async function initPhasePage(phaseNum) {
   try {
-    // Phase pages live in phase_N/ subfolder, so shared data is up one level
+    const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
+    const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
     const [overviewText, phaseOverviewText, rolesText, injectsText, actionsText] = await Promise.all([
-      fetchFile('../sim_overview.md'),
-      fetchFile('overview.md').catch(() => ''),
-      fetchFile('roles.csv'),
-      fetchFile('injects.csv'),
-      fetchFile('actions.csv').catch(() => '')
+      fetchFile(`${simBase}/sim_overview.md`),
+      fetchFile(`${base}/overview.md`).catch(() => ''),
+      fetchFile(`${base}/roles.csv`),
+      fetchFile(`${base}/injects.csv`),
+      fetchFile(`${base}/actions.csv`).catch(() => '')
     ]);
 
     parseOverview(overviewText);

@@ -1,3 +1,0 @@
-# Exclude student submission data from git
-*
-!.gitignore

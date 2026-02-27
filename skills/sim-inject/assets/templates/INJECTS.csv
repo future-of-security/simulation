@@ -1,3 +1,0 @@
-id,phase,sim_time,incident,description,location,severity,visible_to,time_limit,state,points_resolve
-1,1,0:00,[Initial Inject Title],[Detailed description],[Place name],[1-5],[Role1;Role2;Role3],[minutes],open,[points]
-2,1,0:10,[Escalation Inject Title],[Triggered when initial inject not addressed],[Place name],[1-5],[Role1;Role2;Role3;Role4],[minutes],hidden,[points]
