@@ -479,11 +479,13 @@ function renderIncidentsTable() {
     const isResolved = incident.state === 'resolved';
     tr.className = `clickable-row ${isResolved ? 'resolved-row' : ''}`;
     tr.onclick = () => showInjectModal(incident);
+    const timeLeft = getTimeLeft(incident);
     tr.innerHTML = `
       <td>${escapeHtml(incident.title)}</td>
       <td>${getSeverityBadge(incident.severity)}</td>
       <td>${formatTimeLimit(incident.timeLimit)}</td>
       <td>${getStateIndicator(incident.state)}</td>
+      <td class="col-time-left">${timeLeft ? timeLeft.html : ''}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -643,6 +645,25 @@ function updateSortIndicators(tableId, sortState) {
 function formatTimeLimit(minutes) {
   if (minutes >= 60) return `${Math.round(minutes / 60)}h`;
   return `${minutes}m`;
+}
+
+function getTimeLeft(inject) {
+  if (!PHASE_STATE) return null;
+  if (inject.state === 'resolved' || inject.state === 'partially_resolved') {
+    return { html: '<span class="time-done">—</span>' };
+  }
+  const deadlineMs = PHASE_STATE.startedAt.getTime() + inject.timeLimit * 60 * 1000;
+  const remainingMs = deadlineMs - Date.now();
+  const remainingMin = Math.round(remainingMs / 60000);
+
+  if (remainingMs > 10 * 60 * 1000) {
+    return { html: `<span class="time-ok">${remainingMin}m</span>` };
+  } else if (remainingMs > 0) {
+    return { html: `<span class="time-warn">${remainingMin}m</span>` };
+  } else {
+    const overMin = Math.abs(remainingMin);
+    return { html: `<span class="time-crit">+${overMin}m</span>` };
+  }
 }
 
 // ==================== INJECT MODAL ====================
