@@ -156,6 +156,7 @@ async function initPhasePage(phaseNum) {
     renderTeamsTable();
     renderIncidentsTable();
     renderActionsTable();
+    startCountdownTick();
 
   } catch (error) {
     console.error('Error loading phase data:', error);
@@ -180,6 +181,38 @@ function parsePhaseContext(text) {
 
   // Convert to HTML paragraphs
   return context.map(p => `<p>${p}</p>`).join('');
+}
+
+// ==================== REALTIME ====================
+
+let countdownInterval = null;
+
+function startCountdownTick() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  if (!PHASE_STATE) return;
+
+  countdownInterval = setInterval(() => {
+    const tbody = document.querySelector('#incidents-table tbody');
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll('tr');
+    const visibleIncidents = showResolved
+      ? SIMULATION.incidents.filter(i => i.state !== 'hidden')
+      : SIMULATION.incidents.filter(i => i.state !== 'resolved' && i.state !== 'hidden');
+
+    const filtered = roleFilter
+      ? visibleIncidents.filter(i => i.visibleTo.includes(roleFilter))
+      : visibleIncidents;
+
+    rows.forEach((tr, i) => {
+      const incident = filtered[i];
+      if (!incident) return;
+      const td = tr.querySelector('.col-time-left');
+      if (!td) return;
+      const timeLeft = getTimeLeft(incident);
+      if (timeLeft) td.innerHTML = timeLeft.html;
+    });
+  }, 30 * 1000);
 }
 
 // ==================== DATA LOADING ====================
