@@ -10,7 +10,7 @@ const CONFIG = {
     { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", completed: true },
     { num: 3, title: "Economic Security", completed: true },
     { num: 4, title: "Political & Societal Security", completed: true },
-    { num: 5, title: "Health, Environmental, & Biosecurity", available: false },
+    { num: 5, title: "Health, Environmental, & Biosecurity", available: true },
     { num: 6, title: "Disaster Management", available: false }
   ]
 };
