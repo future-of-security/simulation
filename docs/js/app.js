@@ -136,6 +136,9 @@ async function initPhasePage(phaseNum) {
       document.getElementById('incidents-table')?.classList.remove('live-phase');
     }
 
+    lastFingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '');
+    updateLastUpdated();
+
     // Update phase header
     const phaseInfo = CONFIG.phases.find(p => p.num === phaseNum);
     document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
@@ -156,6 +159,7 @@ async function initPhasePage(phaseNum) {
     renderTeamsTable();
     renderIncidentsTable();
     renderActionsTable();
+    startPollLoop(phaseNum);
     startCountdownTick();
 
   } catch (error) {
@@ -213,6 +217,65 @@ function startCountdownTick() {
       if (timeLeft) td.innerHTML = timeLeft.html;
     });
   }, 30 * 1000);
+}
+
+let pollInterval = null;
+let lastFingerprint = '';
+
+function updateLastUpdated() {
+  const el = document.getElementById('last-updated');
+  if (!el) return;
+  const now = new Date();
+  el.textContent = `Updated ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+async function pollData(phaseNum) {
+  const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
+  try {
+    const [rolesText, injectsText, actionsText, stateText] = await Promise.all([
+      fetchFile(`${base}/roles.csv`),
+      fetchFile(`${base}/injects.csv`),
+      fetchFile(`${base}/actions.csv`).catch(() => ''),
+      fetchFile(`${base}/phase_state.json`).catch(() => '')
+    ]);
+
+    const fingerprint = rolesText + injectsText + actionsText + stateText;
+    updateLastUpdated();
+
+    if (fingerprint === lastFingerprint) return;
+    lastFingerprint = fingerprint;
+
+    SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
+    SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
+    if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+
+    PHASE_STATE = null;
+    if (stateText) {
+      try {
+        const ps = JSON.parse(stateText);
+        if (ps.started_at) {
+          PHASE_STATE = { startedAt: new Date(ps.started_at) };
+          document.getElementById('incidents-table')?.classList.add('live-phase');
+        }
+      } catch (e) {}
+    } else {
+      document.getElementById('incidents-table')?.classList.remove('live-phase');
+    }
+
+    updateOverviewStats();
+    renderTeamsTable();
+    renderIncidentsTable();
+    renderActionsTable();
+    startCountdownTick();
+
+  } catch (e) {
+    // Silently ignore — retry next cycle
+  }
+}
+
+function startPollLoop(phaseNum) {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(() => pollData(phaseNum), 5 * 60 * 1000);
 }
 
 // ==================== DATA LOADING ====================
