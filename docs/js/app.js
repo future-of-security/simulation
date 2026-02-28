@@ -23,6 +23,8 @@ let SIMULATION = {
   actions: []
 };
 
+let PHASE_STATE = null;  // { startedAt: Date } when phase_state.json exists
+
 let showResolved = false;  // Toggle for showing resolved injects
 let roleFilter = '';  // Filter incidents by role (visible_to)
 let actionFilter = '';  // Filter actions by available_to
@@ -104,12 +106,13 @@ async function initPhasePage(phaseNum) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, phaseOverviewText, rolesText, injectsText, actionsText] = await Promise.all([
+    const [overviewText, phaseOverviewText, rolesText, injectsText, actionsText, stateText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
       fetchFile(`${base}/overview.md`).catch(() => ''),
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
-      fetchFile(`${base}/actions.csv`).catch(() => '')
+      fetchFile(`${base}/actions.csv`).catch(() => ''),
+      fetchFile(`${base}/phase_state.json`).catch(() => '')
     ]);
 
     parseOverview(overviewText);
@@ -117,6 +120,20 @@ async function initPhasePage(phaseNum) {
     SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
     if (actionsText) {
       SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+    }
+
+    // Parse phase state (live countdown)
+    PHASE_STATE = null;
+    if (stateText) {
+      try {
+        const ps = JSON.parse(stateText);
+        if (ps.started_at) {
+          PHASE_STATE = { startedAt: new Date(ps.started_at) };
+          document.getElementById('incidents-table')?.classList.add('live-phase');
+        }
+      } catch (e) { /* malformed JSON — ignore */ }
+    } else {
+      document.getElementById('incidents-table')?.classList.remove('live-phase');
     }
 
     // Update phase header
