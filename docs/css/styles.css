@@ -1020,3 +1020,22 @@ body {
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
 }
+
+/* ==================== REALTIME / LIVE PHASE ==================== */
+
+/* "Last updated" status line in phase header */
+.last-updated {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 4px;
+}
+
+/* Time Left column — hidden by default, shown when phase_state.json exists */
+#incidents-table .col-time-left { display: none; }
+#incidents-table.live-phase .col-time-left { display: table-cell; }
+
+/* Countdown cell states */
+.time-ok   { color: inherit; }
+.time-warn { color: #D97706; font-weight: 500; }   /* amber — ≤ 10 min */
+.time-crit { color: #DC2626; font-weight: 700; }   /* red   — overtime  */
+.time-done { color: #9CA3AF; }                      /* resolved          */
