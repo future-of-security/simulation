@@ -2,7 +2,7 @@
 // Dynamically loads data from CSV and MD files
 
 const CONFIG = {
-  dataBaseUrl: "https://raw.githubusercontent.com/future-of-security/simulation-data/main",
+  dataBaseUrl: "https://cdn.jsdelivr.net/gh/future-of-security/simulation-data@main",
   simId: "virginia-cascading-crisis",
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
