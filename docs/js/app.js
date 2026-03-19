@@ -2,7 +2,7 @@
 // Dynamically loads data from CSV and MD files
 
 const CONFIG = {
-  dataBaseUrl: "https://cdn.jsdelivr.net/gh/future-of-security/simulation-data@main",
+  dataBaseUrl: "https://raw.githubusercontent.com/future-of-security/simulation-data/main",
   simId: "virginia-cascading-crisis",
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
@@ -281,7 +281,8 @@ function startPollLoop(phaseNum) {
 // ==================== DATA LOADING ====================
 
 async function fetchFile(path) {
-  const response = await fetch(path);
+  const separator = path.includes('?') ? '&' : '?';
+  const response = await fetch(`${path}${separator}t=${Date.now()}`);
   if (!response.ok) throw new Error(`Failed to load ${path}`);
   return response.text();
 }
