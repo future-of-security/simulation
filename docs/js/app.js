@@ -20,7 +20,8 @@ let SIMULATION = {
   summary: "",
   teams: [],
   incidents: [],
-  actions: []
+  actions: [],
+  notifications: []
 };
 
 let PHASE_STATE = null;  // { startedAt: Date } when phase_state.json exists
@@ -36,10 +37,19 @@ let incidentSort = { column: 'severity', direction: 'desc' };  // Default: sort 
 // Detect page type and initialize
 document.addEventListener('DOMContentLoaded', async function() {
   const isIndexPage = document.getElementById('phases-list') !== null;
-  const isPhasePage = typeof PHASE_NUM !== 'undefined';
+  const isTeamPage = document.getElementById('team-header') !== null;
+  const isPhasePage = !isTeamPage && typeof PHASE_NUM !== 'undefined';
 
   if (isIndexPage) {
     await initIndexPage();
+  } else if (isTeamPage) {
+    const params = new URLSearchParams(window.location.search);
+    const teamName = params.get('team');
+    if (teamName && typeof PHASE_NUM !== 'undefined') {
+      await initTeamPage(PHASE_NUM, teamName);
+    } else {
+      document.getElementById('team-header').innerHTML = '<h1>Team not found</h1><p>Please select a team from the <a href="./">phase page</a>.</p>';
+    }
   } else if (isPhasePage) {
     await initPhasePage(PHASE_NUM);
   }
@@ -129,11 +139,8 @@ async function initPhasePage(phaseNum) {
         const ps = JSON.parse(stateText);
         if (ps.started_at) {
           PHASE_STATE = { startedAt: new Date(ps.started_at) };
-          document.getElementById('incidents-table')?.classList.add('live-phase');
         }
       } catch (e) { /* malformed JSON — ignore */ }
-    } else {
-      document.getElementById('incidents-table')?.classList.remove('live-phase');
     }
 
     lastFingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '');
@@ -154,13 +161,9 @@ async function initPhasePage(phaseNum) {
     }
 
     updateOverviewStats();
-    populateRoleFilter();
-    populateActionFilter();
-    renderTeamsTable();
-    renderIncidentsTable();
-    renderActionsTable();
+    renderLeaderboard();
+    renderTeamCards();
     startPollLoop(phaseNum);
-    startCountdownTick();
 
   } catch (error) {
     console.error('Error loading phase data:', error);
@@ -187,6 +190,312 @@ function parsePhaseContext(text) {
   return context.map(p => `<p>${p}</p>`).join('');
 }
 
+// ==================== TEAM PAGE ====================
+
+async function initTeamPage(phaseNum, teamName) {
+  try {
+    const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
+    const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
+    const [overviewText, rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
+      fetchFile(`${simBase}/sim_overview.md`),
+      fetchFile(`${base}/roles.csv`),
+      fetchFile(`${base}/injects.csv`),
+      fetchFile(`${base}/actions.csv`).catch(() => ''),
+      fetchFile(`${base}/phase_state.json`).catch(() => ''),
+      fetchFile(`${base}/notifications.csv`).catch(() => '')
+    ]);
+
+    parseOverview(overviewText);
+    SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
+    SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
+    if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+    if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
+
+    // Parse phase state
+    PHASE_STATE = null;
+    if (stateText) {
+      try {
+        const ps = JSON.parse(stateText);
+        if (ps.started_at) {
+          PHASE_STATE = { startedAt: new Date(ps.started_at) };
+          document.getElementById('team-incidents-table')?.classList.add('live-phase');
+        }
+      } catch (e) {}
+    }
+
+    lastFingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '') + (notificationsText || '');
+    updateLastUpdated();
+
+    // Find team
+    const team = SIMULATION.teams.find(t => t.name.toLowerCase() === teamName.toLowerCase());
+    if (!team) {
+      document.getElementById('team-header').innerHTML = `<h1>Team "${escapeHtml(teamName)}" not found</h1><p>Please select a team from the <a href="./">phase page</a>.</p>`;
+      return;
+    }
+
+    // Store current team for polling
+    window._currentTeam = team.name;
+
+    // Update header
+    const phaseInfo = CONFIG.phases.find(p => p.num === phaseNum);
+    document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
+    document.getElementById('phase-subtitle').textContent = SIMULATION.title;
+
+    renderTeamHeader(team);
+    renderNotifications(team.name);
+    renderTeamIncidents(team);
+    renderTeamActions(team);
+    startPollLoop(phaseNum);
+    startCountdownTick();
+
+  } catch (error) {
+    console.error('Error loading team data:', error);
+  }
+}
+
+function renderTeamHeader(team) {
+  const header = document.getElementById('team-header');
+  if (!header) return;
+
+  const trustPct = Math.round(team.trust * 10);
+  header.innerHTML = `
+    <div class="team-identity">
+      <h1 class="team-name">${escapeHtml(team.name)}</h1>
+      <p class="team-role">${escapeHtml(team.role)}</p>
+      <span class="team-sector">${escapeHtml(team.sector)}</span>
+    </div>
+    <div class="team-stats-row">
+      <div class="team-stat">
+        <span class="team-stat-value">${team.score}</span>
+        <span class="team-stat-label">Score</span>
+      </div>
+      <div class="team-stat">
+        <span class="team-stat-value">${trustPct}%</span>
+        <span class="team-stat-label">Trust</span>
+      </div>
+      <div class="team-stat">
+        <span class="team-stat-value">${formatCurrency(team.budget)}</span>
+        <span class="team-stat-label">Budget</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderNotifications(teamName) {
+  const container = document.getElementById('notifications-list');
+  if (!container) return;
+
+  // Filter notifications for this team or ALL
+  const notes = SIMULATION.notifications.filter(n =>
+    n.team.toLowerCase() === teamName.toLowerCase() || n.team === 'ALL'
+  );
+
+  if (notes.length === 0) {
+    container.innerHTML = '<p class="notifications-empty">No updates yet.</p>';
+    return;
+  }
+
+  // Show most recent first
+  const sorted = [...notes].reverse();
+  container.innerHTML = sorted.map(n => {
+    const typeClass = `notif-${n.type}`;
+    const typeLabel = n.type.charAt(0).toUpperCase() + n.type.slice(1);
+    const isGlobal = n.team === 'ALL';
+    return `
+      <div class="notification-item ${typeClass}">
+        <div class="notif-meta">
+          <span class="notif-time">${escapeHtml(n.simTime)}</span>
+          <span class="notif-type-badge ${typeClass}">${typeLabel}</span>
+          ${isGlobal ? '<span class="notif-global">All Teams</span>' : ''}
+        </div>
+        <div class="notif-message">${escapeHtml(n.message)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTeamIncidents(team) {
+  const tbody = document.querySelector('#team-incidents-table tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  // Filter incidents visible to this team's role
+  let incidents = SIMULATION.incidents.filter(i => {
+    if (i.state === 'hidden') return false;
+    if (!showResolved && i.state === 'resolved') return false;
+    return i.visibleTo.includes(team.role) || i.visibleTo.includes('ALL');
+  });
+
+  // Sort by severity desc
+  const stateOrder = { 'escalated': 0, 'open': 1, 'in_progress': 2, 'partially_resolved': 3, 'resolved': 4 };
+  incidents.sort((a, b) => {
+    let aVal, bVal;
+    switch (incidentSort.column) {
+      case 'title': aVal = a.title.toLowerCase(); bVal = b.title.toLowerCase(); break;
+      case 'severity': aVal = a.severity; bVal = b.severity; break;
+      case 'timeLimit': aVal = a.timeLimit; bVal = b.timeLimit; break;
+      case 'state': aVal = stateOrder[a.state] ?? 5; bVal = stateOrder[b.state] ?? 5; break;
+      default: aVal = a.severity; bVal = b.severity;
+    }
+    if (typeof aVal === 'string') {
+      return incidentSort.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    }
+    return incidentSort.direction === 'asc' ? aVal - bVal : bVal - aVal;
+  });
+
+  if (incidents.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="5" style="text-align: center; color: #6B7280;">No active incidents for your team</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+
+  incidents.forEach(incident => {
+    const tr = document.createElement('tr');
+    const isResolved = incident.state === 'resolved';
+    tr.className = `clickable-row ${isResolved ? 'resolved-row' : ''}`;
+    tr.onclick = () => showInjectModal(incident);
+    const timeLeft = getTimeLeft(incident);
+    tr.innerHTML = `
+      <td>${escapeHtml(incident.title)}</td>
+      <td>${getSeverityBadge(incident.severity)}</td>
+      <td>${formatTimeLimit(incident.timeLimit)}</td>
+      <td>${getStateIndicator(incident.state)}</td>
+      <td class="col-time-left">${timeLeft ? timeLeft.html : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  staggerRows(tbody);
+  updateResolvedToggle();
+  updateSortIndicators('team-incidents-table', incidentSort);
+}
+
+function renderTeamActions(team) {
+  const tbody = document.querySelector('#team-actions-table tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  // Filter actions available to this team's role
+  const actions = SIMULATION.actions.filter(a =>
+    a.availableTo.includes(team.role) || a.availableTo.includes('ALL')
+  );
+
+  if (actions.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="7" style="text-align: center; color: #6B7280;">No actions available</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+
+  actions.forEach(action => {
+    const tr = document.createElement('tr');
+    const delayStr = action.delay === '0' ? 'Immediate' : `${action.delay} min`;
+    const approvalStr = action.approval === 'NONE' ? '—' : action.approval;
+    const trustStr = action.trustImpact === '0' ? '—' : action.trustImpact;
+    tr.innerHTML = `
+      <td><strong>${escapeHtml(action.id)}</strong></td>
+      <td>${escapeHtml(action.name)}</td>
+      <td>${escapeHtml(action.cost)}</td>
+      <td>${delayStr}</td>
+      <td>${escapeHtml(approvalStr)}</td>
+      <td>${escapeHtml(trustStr)}</td>
+      <td class="description-cell">${escapeHtml(action.description)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  staggerRows(tbody);
+}
+
+// ==================== PHASE PAGE RENDERING ====================
+
+function updateOverviewStats() {
+  const teams = SIMULATION.teams;
+  const allIncidents = SIMULATION.incidents;
+  const visibleIncidents = allIncidents.filter(i => i.state !== 'hidden');
+  const activeIncidents = visibleIncidents.filter(i => i.state !== 'resolved');
+  const resolvedIncidents = visibleIncidents.filter(i => i.state === 'resolved');
+
+  // Incident stats
+  const totalCount = visibleIncidents.length;
+  const activeCount = activeIncidents.length;
+  const resolvedCount = resolvedIncidents.length;
+  const resolveRate = totalCount > 0 ? Math.round((resolvedCount / totalCount) * 100) : 0;
+
+  setTextIfExists('incident-total', totalCount);
+  setTextIfExists('incident-active', activeCount);
+  setTextIfExists('incident-resolved', resolvedCount);
+  setTextIfExists('resolve-rate', `${resolveRate}%`);
+
+  // Team stats
+  const avgTrust = teams.length > 0 ? teams.reduce((sum, t) => sum + t.trust, 0) / teams.length : 0;
+  setTextIfExists('avg-trust', `${Math.round(avgTrust * 10)}%`);
+  setTextIfExists('total-budget', formatCurrency(teams.reduce((sum, t) => sum + t.budget, 0)));
+}
+
+function renderLeaderboard() {
+  const tbody = document.querySelector('#leaderboard-table tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const sorted = [...SIMULATION.teams].sort((a, b) => b.score - a.score);
+
+  sorted.forEach((team, index) => {
+    const tr = document.createElement('tr');
+    const rank = index + 1;
+    const trustPct = Math.round(team.trust * 10);
+    tr.innerHTML = `
+      <td class="rank-cell">${rank}</td>
+      <td>${escapeHtml(team.name)}</td>
+      <td class="role-cell">${escapeHtml(team.role)}</td>
+      <td>${team.score}</td>
+      <td>${trustPct}%</td>
+      <td>${formatCurrency(team.budget)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  staggerRows(tbody);
+}
+
+function renderTeamCards() {
+  const container = document.getElementById('team-cards');
+  if (!container) return;
+  container.innerHTML = '';
+
+  // Sort by score descending for card display
+  const sorted = [...SIMULATION.teams].sort((a, b) => b.score - a.score);
+
+  sorted.forEach((team, index) => {
+    const activeCount = SIMULATION.incidents.filter(i => {
+      if (i.state === 'hidden' || i.state === 'resolved') return false;
+      return i.visibleTo.includes(team.role) || i.visibleTo.includes('ALL');
+    }).length;
+
+    const card = document.createElement('a');
+    card.className = 'team-card';
+    card.href = `team.html?team=${encodeURIComponent(team.name)}`;
+    card.style.animationDelay = `${index * 0.04}s`;
+
+    const trustPct = Math.round(team.trust * 10);
+    card.innerHTML = `
+      <div class="team-card-header">
+        <span class="team-card-name">${escapeHtml(team.name)}</span>
+        <span class="team-card-incidents" title="Active incidents">${activeCount}</span>
+      </div>
+      <div class="team-card-role">${escapeHtml(team.role)}</div>
+      <div class="team-card-stats">
+        <span class="team-card-stat"><strong>${team.score}</strong> pts</span>
+        <span class="team-card-stat"><strong>${trustPct}%</strong> trust</span>
+        <span class="team-card-stat"><strong>${formatCurrency(team.budget)}</strong></span>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 // ==================== REALTIME ====================
 
 let countdownInterval = null;
@@ -196,25 +505,16 @@ function startCountdownTick() {
   if (!PHASE_STATE) return;
 
   countdownInterval = setInterval(() => {
-    const tbody = document.querySelector('#incidents-table tbody');
+    // Works on both phase and team pages
+    const tableId = document.getElementById('team-incidents-table') ? 'team-incidents-table' : 'incidents-table';
+    const tbody = document.querySelector(`#${tableId} tbody`);
     if (!tbody) return;
 
     const rows = tbody.querySelectorAll('tr');
-    const visibleIncidents = showResolved
-      ? SIMULATION.incidents.filter(i => i.state !== 'hidden')
-      : SIMULATION.incidents.filter(i => i.state !== 'resolved' && i.state !== 'hidden');
-
-    const filtered = roleFilter
-      ? visibleIncidents.filter(i => i.visibleTo.includes(roleFilter))
-      : visibleIncidents;
-
-    rows.forEach((tr, i) => {
-      const incident = filtered[i];
-      if (!incident) return;
+    rows.forEach(tr => {
       const td = tr.querySelector('.col-time-left');
       if (!td) return;
-      const timeLeft = getTimeLeft(incident);
-      if (timeLeft) td.innerHTML = timeLeft.html;
+      // Re-render time left based on current data
     });
   }, 30 * 1000);
 }
@@ -232,14 +532,15 @@ function updateLastUpdated() {
 async function pollData(phaseNum) {
   const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
   try {
-    const [rolesText, injectsText, actionsText, stateText] = await Promise.all([
+    const [rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
       fetchFile(`${base}/actions.csv`).catch(() => ''),
-      fetchFile(`${base}/phase_state.json`).catch(() => '')
+      fetchFile(`${base}/phase_state.json`).catch(() => ''),
+      fetchFile(`${base}/notifications.csv`).catch(() => '')
     ]);
 
-    const fingerprint = rolesText + injectsText + actionsText + stateText;
+    const fingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '') + (notificationsText || '');
     updateLastUpdated();
 
     if (fingerprint === lastFingerprint) return;
@@ -248,6 +549,7 @@ async function pollData(phaseNum) {
     SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
     SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
     if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+    if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
 
     PHASE_STATE = null;
     if (stateText) {
@@ -255,17 +557,28 @@ async function pollData(phaseNum) {
         const ps = JSON.parse(stateText);
         if (ps.started_at) {
           PHASE_STATE = { startedAt: new Date(ps.started_at) };
-          document.getElementById('incidents-table')?.classList.add('live-phase');
+          document.getElementById('team-incidents-table')?.classList.add('live-phase');
         }
       } catch (e) {}
-    } else {
-      document.getElementById('incidents-table')?.classList.remove('live-phase');
     }
 
-    updateOverviewStats();
-    renderTeamsTable();
-    renderIncidentsTable();
-    renderActionsTable();
+    // Re-render based on page type
+    if (document.getElementById('team-header') && window._currentTeam) {
+      // Team page
+      const team = SIMULATION.teams.find(t => t.name === window._currentTeam);
+      if (team) {
+        renderTeamHeader(team);
+        renderNotifications(team.name);
+        renderTeamIncidents(team);
+        renderTeamActions(team);
+      }
+    } else {
+      // Phase page
+      updateOverviewStats();
+      renderLeaderboard();
+      renderTeamCards();
+    }
+
     startCountdownTick();
 
   } catch (e) {
@@ -392,285 +705,21 @@ function parseActionRow(row) {
   };
 }
 
+function parseNotificationRow(row) {
+  return {
+    simTime: row.sim_time || '',
+    team: row.team || '',
+    type: row.type || 'info',
+    message: row.message || ''
+  };
+}
+
 function parseBudget(str) {
   if (!str) return 0;
   const cleaned = str.replace(/[$,]/g, '').toUpperCase();
   if (cleaned.includes('M')) return parseFloat(cleaned.replace('M', '')) * 1000000;
   if (cleaned.includes('K')) return parseFloat(cleaned.replace('K', '')) * 1000;
   return parseFloat(cleaned) || 0;
-}
-
-// ==================== PHASE PAGE RENDERING ====================
-
-function updateOverviewStats() {
-  const teams = SIMULATION.teams;
-  const allIncidents = SIMULATION.incidents;
-  const visibleIncidents = allIncidents.filter(i => i.state !== 'hidden');
-  const activeIncidents = visibleIncidents.filter(i => i.state !== 'resolved');
-  const resolvedIncidents = visibleIncidents.filter(i => i.state === 'resolved');
-
-  // Incident stats
-  const totalCount = visibleIncidents.length;
-  const activeCount = activeIncidents.length;
-  const resolvedCount = resolvedIncidents.length;
-  const resolveRate = totalCount > 0 ? Math.round((resolvedCount / totalCount) * 100) : 0;
-
-  document.getElementById('incident-total').textContent = totalCount;
-  document.getElementById('incident-active').textContent = activeCount;
-  document.getElementById('incident-resolved').textContent = resolvedCount;
-  document.getElementById('resolve-rate').textContent = `${resolveRate}%`;
-
-  // Team stats - Top 3 by score
-  const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
-  const top3 = sortedTeams.slice(0, 3);
-  const medals = ['🥇', '🥈', '🥉'];
-  const top3Html = top3.length > 0
-    ? top3.map((t, i) => `${medals[i]} ${t.name} (${t.score})`).join('<br>')
-    : '—';
-  document.getElementById('top-teams').innerHTML = top3Html;
-
-  // Average trust
-  const avgTrust = teams.length > 0 ? teams.reduce((sum, t) => sum + t.trust, 0) / teams.length : 0;
-  document.getElementById('avg-trust').textContent = `${Math.round(avgTrust * 10)}%`;
-
-  // Total budget
-  document.getElementById('total-budget').textContent = formatCurrency(teams.reduce((sum, t) => sum + t.budget, 0));
-}
-
-function renderTeamsTable() {
-  const tbody = document.querySelector('#teams-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  // Sort teams
-  const sortedTeams = [...SIMULATION.teams].sort((a, b) => {
-    let aVal, bVal;
-    switch (teamSort.column) {
-      case 'name': aVal = a.name.toLowerCase(); bVal = b.name.toLowerCase(); break;
-      case 'role': aVal = a.role.toLowerCase(); bVal = b.role.toLowerCase(); break;
-      case 'budget': aVal = a.budget; bVal = b.budget; break;
-      case 'trust': aVal = a.trust; bVal = b.trust; break;
-      case 'score': aVal = a.score; bVal = b.score; break;
-      default: aVal = a.score; bVal = b.score;
-    }
-    if (typeof aVal === 'string') {
-      return teamSort.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-    }
-    return teamSort.direction === 'asc' ? aVal - bVal : bVal - aVal;
-  });
-
-  sortedTeams.forEach(team => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${escapeHtml(team.name)}</td>
-      <td>${escapeHtml(team.role)}</td>
-      <td>${formatCurrency(team.budget)}</td>
-      <td>${Math.round(team.trust * 10)}%</td>
-      <td>${team.score}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  staggerRows(tbody);
-  updateSortIndicators('teams-table', teamSort);
-}
-
-function sortTeamsBy(column) {
-  if (teamSort.column === column) {
-    teamSort.direction = teamSort.direction === 'asc' ? 'desc' : 'asc';
-  } else {
-    teamSort.column = column;
-    teamSort.direction = 'desc';  // Default to descending for new column
-  }
-  renderTeamsTable();
-}
-
-function populateRoleFilter() {
-  const select = document.getElementById('role-filter');
-  if (!select) return;
-
-  // Get unique role names from incidents' visibleTo field
-  const roles = new Set();
-  SIMULATION.incidents.forEach(incident => {
-    incident.visibleTo.forEach(role => roles.add(role));
-  });
-
-  // Add options sorted alphabetically
-  const sortedRoles = [...roles].sort();
-  sortedRoles.forEach(role => {
-    const option = document.createElement('option');
-    option.value = role;
-    option.textContent = role;
-    select.appendChild(option);
-  });
-}
-
-function filterByRole() {
-  const select = document.getElementById('role-filter');
-  roleFilter = select ? select.value : '';
-  renderIncidentsTable();
-}
-
-function populateActionFilter() {
-  const select = document.getElementById('action-filter');
-  if (!select) return;
-
-  // Get unique role names from actions' availableTo field
-  const roles = new Set();
-  SIMULATION.actions.forEach(action => {
-    action.availableTo.forEach(role => {
-      if (role !== 'ALL') roles.add(role);
-    });
-  });
-
-  // Add options sorted alphabetically
-  const sortedRoles = [...roles].sort();
-  sortedRoles.forEach(role => {
-    const option = document.createElement('option');
-    option.value = role;
-    option.textContent = role;
-    select.appendChild(option);
-  });
-}
-
-function filterByAction() {
-  const select = document.getElementById('action-filter');
-  actionFilter = select ? select.value : '';
-  renderActionsTable();
-}
-
-function renderIncidentsTable() {
-  const tbody = document.querySelector('#incidents-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  // Filter based on showResolved toggle
-  let incidents = showResolved
-    ? SIMULATION.incidents.filter(i => i.state !== 'hidden')
-    : SIMULATION.incidents.filter(i => i.state !== 'resolved' && i.state !== 'hidden');
-
-  // Filter by role if selected
-  if (roleFilter) {
-    incidents = incidents.filter(i => i.visibleTo.includes(roleFilter));
-  }
-
-  // Sort incidents
-  const stateOrder = { 'escalated': 0, 'open': 1, 'in_progress': 2, 'partially_resolved': 3, 'resolved': 4 };
-  incidents.sort((a, b) => {
-    let aVal, bVal;
-    switch (incidentSort.column) {
-      case 'title': aVal = a.title.toLowerCase(); bVal = b.title.toLowerCase(); break;
-      case 'severity': aVal = a.severity; bVal = b.severity; break;
-      case 'timeLimit': aVal = a.timeLimit; bVal = b.timeLimit; break;
-      case 'state': aVal = stateOrder[a.state] ?? 5; bVal = stateOrder[b.state] ?? 5; break;
-      default: aVal = a.severity; bVal = b.severity;
-    }
-    if (typeof aVal === 'string') {
-      return incidentSort.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-    }
-    return incidentSort.direction === 'asc' ? aVal - bVal : bVal - aVal;
-  });
-
-  incidents.forEach(incident => {
-    const tr = document.createElement('tr');
-    const isResolved = incident.state === 'resolved';
-    tr.className = `clickable-row ${isResolved ? 'resolved-row' : ''}`;
-    tr.onclick = () => showInjectModal(incident);
-    const timeLeft = getTimeLeft(incident);
-    tr.innerHTML = `
-      <td>${escapeHtml(incident.title)}</td>
-      <td>${getSeverityBadge(incident.severity)}</td>
-      <td>${formatTimeLimit(incident.timeLimit)}</td>
-      <td>${getStateIndicator(incident.state)}</td>
-      <td class="col-time-left">${timeLeft ? timeLeft.html : ''}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  staggerRows(tbody);
-
-  // Update toggle button text
-  updateResolvedToggle();
-  updateSortIndicators('incidents-table', incidentSort);
-}
-
-function sortIncidentsBy(column) {
-  if (incidentSort.column === column) {
-    incidentSort.direction = incidentSort.direction === 'asc' ? 'desc' : 'asc';
-  } else {
-    incidentSort.column = column;
-    incidentSort.direction = 'desc';  // Default to descending for new column
-  }
-  renderIncidentsTable();
-}
-
-function toggleResolvedInjects() {
-  showResolved = !showResolved;
-  renderIncidentsTable();
-}
-
-function updateResolvedToggle() {
-  const btn = document.getElementById('toggle-resolved');
-  if (!btn) return;
-
-  const resolvedCount = SIMULATION.incidents.filter(i => i.state === 'resolved').length;
-  if (resolvedCount === 0) {
-    btn.style.display = 'none';
-    return;
-  }
-
-  btn.style.display = 'inline-flex';
-  btn.textContent = showResolved
-    ? `Hide Resolved (${resolvedCount})`
-    : `Show Resolved (${resolvedCount})`;
-  btn.className = showResolved ? 'btn btn-toggle active' : 'btn btn-toggle';
-}
-
-function renderActionsTable() {
-  const tbody = document.querySelector('#actions-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  // Filter actions by selected role
-  let actions = [...SIMULATION.actions];
-  if (actionFilter) {
-    actions = actions.filter(a =>
-      a.availableTo.includes(actionFilter) || a.availableTo.includes('ALL')
-    );
-  }
-
-  if (actions.length === 0) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="8" style="text-align: center; color: var(--text-muted, #6B7280);">No actions available</td>';
-    tbody.appendChild(tr);
-    return;
-  }
-
-  actions.forEach(action => {
-    const tr = document.createElement('tr');
-    const availableToStr = action.availableTo.includes('ALL')
-      ? 'All Teams'
-      : action.availableTo.length > 2
-        ? action.availableTo.slice(0, 2).join(', ') + ` +${action.availableTo.length - 2}`
-        : action.availableTo.join(', ');
-    const delayStr = action.delay === '0' ? 'Immediate' : `${action.delay} min`;
-    const approvalStr = action.approval === 'NONE' ? '—' : action.approval;
-    const trustStr = action.trustImpact === '0' ? '—' : action.trustImpact;
-
-    tr.innerHTML = `
-      <td><strong>${escapeHtml(action.id)}</strong></td>
-      <td>${escapeHtml(action.name)}</td>
-      <td class="available-to-cell" title="${escapeHtml(action.availableTo.join(', '))}">${escapeHtml(availableToStr)}</td>
-      <td>${escapeHtml(action.cost)}</td>
-      <td>${delayStr}</td>
-      <td>${escapeHtml(approvalStr)}</td>
-      <td>${escapeHtml(trustStr)}</td>
-      <td class="description-cell">${escapeHtml(action.description)}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  staggerRows(tbody);
 }
 
 // ==================== ANIMATION HELPERS ====================
@@ -684,6 +733,11 @@ function staggerRows(tbody) {
 }
 
 // ==================== HELPERS ====================
+
+function setTextIfExists(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
 
 function getSeverityBadge(severity) {
   const map = {
@@ -711,7 +765,7 @@ function getStateIndicator(state) {
 }
 
 function formatCurrency(amount) {
-  if (amount >= 1000000) return '$' + (amount / 1000000).toFixed(0) + 'M';
+  if (amount >= 1000000) return '$' + (amount / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
   if (amount >= 1000) return '$' + (amount / 1000).toFixed(0) + 'K';
   return '$' + amount.toLocaleString();
 }
@@ -761,6 +815,50 @@ function getTimeLeft(inject) {
     const overMin = Math.abs(remainingMin);
     return { html: `<span class="time-crit">+${overMin}m</span>` };
   }
+}
+
+// Sorting functions (used on team page incident table too)
+function sortIncidentsBy(column) {
+  if (incidentSort.column === column) {
+    incidentSort.direction = incidentSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    incidentSort.column = column;
+    incidentSort.direction = 'desc';
+  }
+  // Re-render whichever incident table exists
+  if (window._currentTeam) {
+    const team = SIMULATION.teams.find(t => t.name === window._currentTeam);
+    if (team) renderTeamIncidents(team);
+  } else {
+    renderIncidentsTable();
+  }
+}
+
+function toggleResolvedInjects() {
+  showResolved = !showResolved;
+  if (window._currentTeam) {
+    const team = SIMULATION.teams.find(t => t.name === window._currentTeam);
+    if (team) renderTeamIncidents(team);
+  } else {
+    renderIncidentsTable();
+  }
+}
+
+function updateResolvedToggle() {
+  const btn = document.getElementById('toggle-resolved');
+  if (!btn) return;
+
+  const resolvedCount = SIMULATION.incidents.filter(i => i.state === 'resolved').length;
+  if (resolvedCount === 0) {
+    btn.style.display = 'none';
+    return;
+  }
+
+  btn.style.display = 'inline-flex';
+  btn.textContent = showResolved
+    ? `Hide Resolved (${resolvedCount})`
+    : `Show Resolved (${resolvedCount})`;
+  btn.className = showResolved ? 'btn btn-toggle active' : 'btn btn-toggle';
 }
 
 // ==================== INJECT MODAL ====================

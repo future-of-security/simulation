@@ -995,6 +995,259 @@ body {
   outline-offset: 2px;
 }
 
+/* ==================== LAST UPDATED ==================== */
+.last-updated {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 4px;
+}
+
+/* ==================== TIME LEFT COLUMN ==================== */
+#incidents-table .col-time-left,
+#team-incidents-table .col-time-left { display: none; }
+#incidents-table.live-phase .col-time-left,
+#team-incidents-table.live-phase .col-time-left { display: table-cell; }
+
+.time-ok   { color: inherit; }
+.time-warn { color: #D97706; font-weight: 500; }
+.time-crit { color: #DC2626; font-weight: 700; }
+.time-done { color: #9CA3AF; }
+
+/* ==================== COMPACT STATS ROW ==================== */
+.stats-row-compact {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+/* ==================== LEADERBOARD ==================== */
+.leaderboard-card {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.leaderboard-card .rank-cell {
+  font-weight: 700;
+  color: #6B7280;
+  width: 40px;
+}
+
+.leaderboard-card .role-cell {
+  color: #6B7280;
+  font-size: 13px;
+}
+
+/* ==================== TEAM CARDS GRID ==================== */
+.team-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.team-card {
+  display: block;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.team-card:hover {
+  border-color: #0369A1;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.12);
+  transform: translateY(-2px);
+}
+
+.team-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.team-card-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.team-card-incidents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  background-color: #FEF3C7;
+  color: #92400E;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0 8px;
+}
+
+.team-card-role {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.team-card-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.team-card-stat strong {
+  color: #111827;
+}
+
+/* ==================== TEAM PAGE HEADER ==================== */
+.team-header-card {
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+  color: #FFFFFF;
+  border: none;
+}
+
+.team-identity {
+  margin-bottom: 20px;
+}
+
+.team-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.025em;
+}
+
+.team-role {
+  font-size: 15px;
+  color: #94A3B8;
+  margin-bottom: 8px;
+}
+
+.team-sector {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #CBD5E1;
+}
+
+.team-stats-row {
+  display: flex;
+  gap: 32px;
+}
+
+.team-stat {
+  text-align: center;
+}
+
+.team-stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFFFFF;
+  font-variant-numeric: tabular-nums;
+}
+
+.team-stat-label {
+  font-size: 12px;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ==================== NOTIFICATIONS ==================== */
+.notifications-card {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notifications-empty {
+  font-size: 14px;
+  color: #9CA3AF;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.notification-item {
+  padding: 12px 16px;
+  border-left: 3px solid #E5E7EB;
+  margin-bottom: 8px;
+  border-radius: 0 6px 6px 0;
+  background: #F9FAFB;
+}
+
+.notification-item:last-child {
+  margin-bottom: 0;
+}
+
+.notif-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.notif-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-type-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.notif-info .notif-type-badge,
+.notif-info { border-left-color: #3B82F6; }
+.notif-info .notif-type-badge { background: #DBEAFE; color: #1D4ED8; }
+
+.notif-warning .notif-type-badge,
+.notif-warning { border-left-color: #F59E0B; }
+.notif-warning .notif-type-badge { background: #FEF3C7; color: #92400E; }
+
+.notif-ruling .notif-type-badge,
+.notif-ruling { border-left-color: #8B5CF6; }
+.notif-ruling .notif-type-badge { background: #EDE9FE; color: #5B21B6; }
+
+.notif-update .notif-type-badge,
+.notif-update { border-left-color: #22C55E; }
+.notif-update .notif-type-badge { background: #DCFCE7; color: #166534; }
+
+.notif-escalation .notif-type-badge,
+.notif-escalation { border-left-color: #DC2626; }
+.notif-escalation .notif-type-badge { background: #FEE2E2; color: #991B1B; }
+
+.notif-global {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-style: italic;
+}
+
+.notif-message {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
 /* ==================== REDUCED MOTION ==================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1020,22 +1273,3 @@ body {
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
 }
-
-/* ==================== REALTIME / LIVE PHASE ==================== */
-
-/* "Last updated" status line in phase header */
-.last-updated {
-  font-size: 12px;
-  color: #9CA3AF;
-  margin-top: 4px;
-}
-
-/* Time Left column — hidden by default, shown when phase_state.json exists */
-#incidents-table .col-time-left { display: none; }
-#incidents-table.live-phase .col-time-left { display: table-cell; }
-
-/* Countdown cell states */
-.time-ok   { color: inherit; }
-.time-warn { color: #D97706; font-weight: 500; }   /* amber — ≤ 10 min */
-.time-crit { color: #DC2626; font-weight: 700; }   /* red   — overtime  */
-.time-done { color: #9CA3AF; }                      /* resolved          */
