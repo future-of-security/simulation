@@ -96,7 +96,6 @@
               <th>Delay</th>
               <th>Approval</th>
               <th>Trust</th>
-              <th>Description</th>
             </tr>
           </thead>
           <tbody>
@@ -105,6 +104,37 @@
         </table>
       </div>
     </section>
+  </div>
+
+  <!-- Action Detail Modal -->
+  <div id="action-modal" class="modal" onclick="closeActionModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeActionModal()">&times;</button>
+      <h2 id="action-modal-title" class="modal-title"></h2>
+      <div id="action-modal-description" class="modal-description"></div>
+      <div class="modal-meta">
+        <div class="meta-item">
+          <span class="meta-label">Available To</span>
+          <span id="action-modal-available" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Cost</span>
+          <span id="action-modal-cost" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Delay</span>
+          <span id="action-modal-delay" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Approval</span>
+          <span id="action-modal-approval" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Trust Impact</span>
+          <span id="action-modal-trust" class="meta-value"></span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Inject Detail Modal -->

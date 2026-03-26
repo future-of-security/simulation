@@ -375,7 +375,6 @@ function renderTeamActions(team) {
   const tbody = document.querySelector('#team-actions-table tbody');
   if (!tbody) return;
   tbody.innerHTML = '';
-  const showAvailableTo = !!document.querySelector('#team-actions-table thead th[data-col="available-to"]');
 
   // Filter actions available to this team's role
   const actions = SIMULATION.actions.filter(a =>
@@ -384,17 +383,18 @@ function renderTeamActions(team) {
 
   if (actions.length === 0) {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="${showAvailableTo ? 8 : 7}" style="text-align: center; color: #6B7280;">No actions available</td>`;
+    tr.innerHTML = `<td colspan="6" style="text-align: center; color: #6B7280;">No actions available</td>`;
     tbody.appendChild(tr);
     return;
   }
 
   actions.forEach(action => {
     const tr = document.createElement('tr');
+    tr.className = 'clickable-row';
+    tr.onclick = () => showActionModal(action);
     const delayStr = action.delay === '0' ? 'Immediate' : `${action.delay} min`;
     const approvalStr = action.approval === 'NONE' ? '—' : action.approval;
     const trustStr = action.trustImpact === '0' ? '—' : action.trustImpact;
-    const availableToStr = action.availableTo.includes('ALL') ? 'ALL' : action.availableTo.join(', ');
     tr.innerHTML = `
       <td><strong>${escapeHtml(action.id)}</strong></td>
       <td>${escapeHtml(action.name)}</td>
@@ -402,13 +402,31 @@ function renderTeamActions(team) {
       <td>${delayStr}</td>
       <td>${escapeHtml(approvalStr)}</td>
       <td>${escapeHtml(trustStr)}</td>
-      ${showAvailableTo ? `<td class="available-to-cell">${escapeHtml(availableToStr)}</td>` : ''}
-      <td class="description-cell">${escapeHtml(action.description)}</td>
     `;
     tbody.appendChild(tr);
   });
 
   staggerRows(tbody);
+}
+
+function showActionModal(action) {
+  const delayStr = action.delay === '0' ? 'Immediate' : `${action.delay} min`;
+  const approvalStr = action.approval === 'NONE' ? '—' : action.approval;
+  const trustStr = action.trustImpact === '0' ? '—' : action.trustImpact;
+  const availableToStr = action.availableTo.includes('ALL') ? 'ALL' : action.availableTo.join('; ');
+  document.getElementById('action-modal-title').textContent = `${action.id} — ${action.name}`;
+  document.getElementById('action-modal-description').textContent = action.description;
+  document.getElementById('action-modal-available').textContent = availableToStr;
+  document.getElementById('action-modal-cost').textContent = action.cost;
+  document.getElementById('action-modal-delay').textContent = delayStr;
+  document.getElementById('action-modal-approval').textContent = approvalStr;
+  document.getElementById('action-modal-trust').textContent = trustStr;
+  document.getElementById('action-modal').classList.add('active');
+}
+
+function closeActionModal(event) {
+  if (event?.target && event.target !== document.getElementById('action-modal')) return;
+  document.getElementById('action-modal')?.classList.remove('active');
 }
 
 // ==================== PHASE PAGE RENDERING ====================
