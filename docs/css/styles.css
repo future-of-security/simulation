@@ -878,9 +878,8 @@ body {
 }
 
 .available-to-cell {
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  min-width: 220px;
 }
 
 /* Help Page */
