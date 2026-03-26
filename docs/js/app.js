@@ -11,7 +11,7 @@ const CONFIG = {
     { num: 3, title: "Economic Security", completed: true },
     { num: 4, title: "Political & Societal Security", completed: true },
     { num: 5, title: "Health, Environmental, & Biosecurity", completed: true },
-    { num: 6, title: "Disaster Management", available: true }
+    { num: 6, title: "Disaster Management", completed: true }
   ]
 };
 
