@@ -1034,10 +1034,10 @@ body {
 }
 
 .status-right {
-  flex-shrink: 0;
+  flex: 1;
   border-left: 1px solid #E5E7EB;
   padding-left: 32px;
-  width: 260px;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
