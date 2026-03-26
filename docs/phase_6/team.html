@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team - Crisis Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-nav">
+        <a href="./" class="back-link">&larr; Back to Phase</a>
+        <a href="../help.html" class="help-link">Help &amp; Rules</a>
+      </div>
+      <h1 class="header-title" id="phase-title">Phase N</h1>
+      <p class="header-subtitle" id="phase-subtitle">Loading...</p>
+      <p class="last-updated" id="last-updated"></p>
+    </header>
+
+    <!-- Team Header Card -->
+    <section class="card team-header-card" id="team-header">
+      <p>Loading team data...</p>
+    </section>
+
+    <!-- Notifications -->
+    <section class="card notifications-card">
+      <h2 class="card-title">
+        <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        Updates
+      </h2>
+      <div id="notifications-list">
+        <p class="notifications-empty">Loading...</p>
+      </div>
+    </section>
+
+    <!-- Team Incidents -->
+    <section class="card incidents-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Your Incidents
+        </h2>
+        <div class="card-actions">
+          <button id="toggle-resolved" class="btn btn-toggle" onclick="toggleResolvedInjects()" style="display: none;">
+            Show Resolved
+          </button>
+        </div>
+      </div>
+      <table class="data-table sortable" id="team-incidents-table">
+        <thead>
+          <tr>
+            <th class="sortable-header" data-sort="title" onclick="sortIncidentsBy('title')">Incident</th>
+            <th class="sortable-header" data-sort="severity" onclick="sortIncidentsBy('severity')">Severity</th>
+            <th class="sortable-header" data-sort="timeLimit" onclick="sortIncidentsBy('timeLimit')">Time</th>
+            <th class="sortable-header" data-sort="state" onclick="sortIncidentsBy('state')">State</th>
+            <th class="col-time-left">Time Left</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Team Action Catalog -->
+    <section class="card actions-card">
+      <h2 class="card-title">
+        <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        Available Actions
+      </h2>
+      <div class="table-scroll">
+        <table class="data-table" id="team-actions-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Action</th>
+              <th>Cost</th>
+              <th>Delay</th>
+              <th>Approval</th>
+              <th>Trust</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- Inject Detail Modal -->
+  <div id="inject-modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeInjectModal()">&times;</button>
+      <div class="modal-header">
+        <span id="modal-severity" class="badge"></span>
+        <span id="modal-state" class="state"></span>
+      </div>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <div id="modal-description" class="modal-description"></div>
+      <div class="modal-meta">
+        <div class="meta-item">
+          <span class="meta-label">Location</span>
+          <span id="modal-location" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Time Limit</span>
+          <span id="modal-time" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Visible To</span>
+          <span id="modal-visible" class="meta-value"></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Points</span>
+          <span id="modal-points" class="meta-value"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    This website is generated using AI. Please do not submit anything sensitive.
+  </footer>
+
+  <script>
+    // Set phase number - CHANGE THIS FOR EACH PHASE
+    const PHASE_NUM = 6;
+  </script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
