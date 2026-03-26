@@ -1021,7 +1021,81 @@ body {
   flex-wrap: wrap;
 }
 
-/* ==================== LEADERBOARD ==================== */
+/* ==================== STATUS SPLIT (stats + top 3) ==================== */
+.status-split {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.status-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.status-right {
+  flex-shrink: 0;
+  border-left: 1px solid #E5E7EB;
+  padding-left: 32px;
+  min-width: 180px;
+}
+
+@media (max-width: 768px) {
+  .status-split {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .status-right {
+    border-left: none;
+    border-top: 1px solid #E5E7EB;
+    padding-left: 0;
+    padding-top: 20px;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.top3-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top3-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top3-medal {
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.top3-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.top3-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top3-score {
+  font-size: 13px;
+  color: #6B7280;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== LEADERBOARD (full table, kept for other pages) ==================== */
 .leaderboard-card {
   max-height: 500px;
   overflow-y: auto;

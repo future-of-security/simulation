@@ -28,55 +28,44 @@
       <div class="context-text" id="phase-context">Loading...</div>
     </section>
 
-    <!-- Phase Stats Card -->
+    <!-- Status + Top 3 -->
     <section class="card stats-card">
       <h2 class="card-title">Current Status</h2>
-      <div class="stats-row-compact">
-        <div class="stat-item-small">
-          <span class="stat-value" id="incident-total">--</span>
-          <span class="stat-label">Incidents</span>
+      <div class="status-split">
+        <div class="status-left">
+          <div class="stats-row-compact">
+            <div class="stat-item-small">
+              <span class="stat-value" id="incident-total">--</span>
+              <span class="stat-label">Incidents</span>
+            </div>
+            <div class="stat-item-small">
+              <span class="stat-value" id="incident-active">--</span>
+              <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-item-small">
+              <span class="stat-value" id="incident-resolved">--</span>
+              <span class="stat-label">Resolved</span>
+            </div>
+            <div class="stat-item-small">
+              <span class="stat-value stat-highlight" id="resolve-rate">--</span>
+              <span class="stat-label">Resolve Rate</span>
+            </div>
+            <div class="stat-item-small">
+              <span class="stat-value" id="avg-trust">--</span>
+              <span class="stat-label">Avg Trust</span>
+            </div>
+            <div class="stat-item-small">
+              <span class="stat-value" id="total-budget">--</span>
+              <span class="stat-label">Total Budget</span>
+            </div>
+          </div>
         </div>
-        <div class="stat-item-small">
-          <span class="stat-value" id="incident-active">--</span>
-          <span class="stat-label">Active</span>
-        </div>
-        <div class="stat-item-small">
-          <span class="stat-value" id="incident-resolved">--</span>
-          <span class="stat-label">Resolved</span>
-        </div>
-        <div class="stat-item-small">
-          <span class="stat-value stat-highlight" id="resolve-rate">--</span>
-          <span class="stat-label">Resolve Rate</span>
-        </div>
-        <div class="stat-item-small">
-          <span class="stat-value" id="avg-trust">--</span>
-          <span class="stat-label">Avg Trust</span>
-        </div>
-        <div class="stat-item-small">
-          <span class="stat-value" id="total-budget">--</span>
-          <span class="stat-label">Total Budget</span>
+        <div class="status-right">
+          <div class="top3-list" id="top-teams">
+            <!-- Populated by JavaScript -->
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- Leaderboard -->
-    <section class="card leaderboard-card">
-      <h2 class="card-title">Leaderboard</h2>
-      <table class="data-table" id="leaderboard-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team</th>
-            <th>Role</th>
-            <th>Score</th>
-            <th>Trust</th>
-            <th>Budget</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Populated by JavaScript -->
-        </tbody>
-      </table>
     </section>
 
     <!-- Team Cards Grid -->

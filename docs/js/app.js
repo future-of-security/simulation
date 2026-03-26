@@ -161,7 +161,7 @@ async function initPhasePage(phaseNum) {
     }
 
     updateOverviewStats();
-    renderLeaderboard();
+    renderTop3();
     renderTeamCards();
     startPollLoop(phaseNum);
 
@@ -434,29 +434,32 @@ function updateOverviewStats() {
   setTextIfExists('total-budget', formatCurrency(teams.reduce((sum, t) => sum + t.budget, 0)));
 }
 
-function renderLeaderboard() {
-  const tbody = document.querySelector('#leaderboard-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
+function renderTop3() {
+  const container = document.getElementById('top-teams');
+  if (!container) return;
+  container.innerHTML = '';
 
   const sorted = [...SIMULATION.teams].sort((a, b) => b.score - a.score);
+  const top3 = sorted.slice(0, 3);
+  const medals = ['\u{1F947}', '\u{1F948}', '\u{1F949}'];
 
-  sorted.forEach((team, index) => {
-    const tr = document.createElement('tr');
-    const rank = index + 1;
-    const trustPct = Math.round(team.trust * 10);
-    tr.innerHTML = `
-      <td class="rank-cell">${rank}</td>
-      <td>${escapeHtml(team.name)}</td>
-      <td class="role-cell">${escapeHtml(team.role)}</td>
-      <td>${team.score}</td>
-      <td>${trustPct}%</td>
-      <td>${formatCurrency(team.budget)}</td>
+  if (top3.length === 0) {
+    container.innerHTML = '<span style="color: #9CA3AF;">—</span>';
+    return;
+  }
+
+  top3.forEach((team, i) => {
+    const div = document.createElement('div');
+    div.className = 'top3-item';
+    div.innerHTML = `
+      <span class="top3-medal">${medals[i]}</span>
+      <div class="top3-info">
+        <span class="top3-name">${escapeHtml(team.name)}</span>
+        <span class="top3-score">${team.score} pts</span>
+      </div>
     `;
-    tbody.appendChild(tr);
+    container.appendChild(div);
   });
-
-  staggerRows(tbody);
 }
 
 function renderTeamCards() {
@@ -575,7 +578,7 @@ async function pollData(phaseNum) {
     } else {
       // Phase page
       updateOverviewStats();
-      renderLeaderboard();
+      renderTop3();
       renderTeamCards();
     }
 
