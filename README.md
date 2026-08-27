@@ -10,6 +10,6 @@ Developed for the [Future of Security](https://future-of-security.github.io/) co
 |------|---------|
 | `simulation` (this repo) | Static frontend dashboard (HTML/CSS/JS) |
 | `simulation-data` | Simulation data: roles, injects, actions CSVs and markdown |
-| `simulation-skills` | Claude Code skills and update workflow scripts |
+| `simulation-agent` | Facilitation agent — the per-phase update loop (fetch → adjudicate → validate → publish) |
 
 The frontend fetches all simulation data from `simulation-data` via `raw.githubusercontent.com`.
