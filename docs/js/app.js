@@ -6,6 +6,7 @@ const CONFIG = {
   simId: "virginia-cascading-crisis",
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
+    { num: 0, title: "Practice Round", available: true, practice: true },
     { num: 1, title: "Cybersecurity & AI Threats", completed: false },
     { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", completed: false },
     { num: 3, title: "Economic Security", completed: false },
@@ -91,7 +92,7 @@ function renderPhasesList() {
     }
 
     const status = phase.completed ? 'Completed'
-      : phase.available ? 'Available'
+      : phase.available ? (phase.practice ? 'Practice' : 'Available')
       : 'Coming Soon';
 
     card.innerHTML = `

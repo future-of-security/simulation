@@ -79,98 +79,9 @@
     <section class="card help-content" id="report-template">
       <h2>Submitting Your Response</h2>
       <p>Your team submits a <strong>Response Report</strong> on Canvas, as many times as you like during the phase and once more that night. Use this template:</p>
-      <p>Everything through <strong>Remaining Budget</strong> can be written during class. <strong>Outcomes, Needs, Risks</strong> and <strong>Reflection and Design Takeaway</strong> look back on the phase as a whole, so they belong in the report you file that evening.</p>
-      <div class="template-block"># Response Report
-
-**Team:** [Team Name]
-**Role:** [Role Name]
-**Phase:** [#]
-
-## What My Role Could See
-
-Incidents visible to my role (use the titles from the dashboard):
-
-- [e.g. Hospital Electronic Records Inaccessible]
--
-
-What I needed to know but could not see:
-
-- [e.g. whether the outage reached the rural clinics — no visibility from this role]
--
-
-## Situation Judgment
-
-[2-3 sentences: what you believe is happening, and how confident you are. A guess you name as a guess is worth more than a certainty you cannot support.]
-
-## Actions Taken
-
-One line per action. Format: `Action ID | Name | Cost | Why this is within my role's authority`
-
-- [A-14 | Deploy backup generators | $1.2M | we own the distribution assets]
--
-
-## Collaboration and Transfers
-
-One line per team you worked with. Format: `Team | What we did together | Transfer amount and direction | They confirmed: yes/no`
-
-- [Glacier | Coordinated triage capacity | $2.0M from us to Glacier | confirmed: yes]
--
-
-Leave "confirmed" as no if you have not heard back. Both teams submit their own report, so a transfer only one side records is a dispute, not a mistake.
-
-## Proposed Custom Actions
-
-*Optional. Actions not in the catalog that your team wants to attempt. Facilitator will evaluate feasibility and effects.*
-
-One line per proposal. Format: `Proposed action | Est. cost | Expected effect | Time needed | Risks`
-
-- [Stand up a joint call center with Shentel | $0.4M | cuts duplicate 911 traffic | 2 hours | may collapse under load]
--
-
-**Justification:** [What resources or authority does your role actually have that makes this reasonable?]
-
-## Remaining Budget
-
-$[amount]
-
-## Outcomes, Needs, Risks
-
-*Looks back on the whole phase, so it belongs in your final report of the night.*
-
-**What we expect to happen:**
--
-
-**What we still need, and from whom:**
--
-
-**Risks we are watching:**
--
-
-## Reflection and Design Takeaway
-
-*Looks back on the whole phase, so it belongs in your final report of the night.*
-
-One mechanic in this phase that forced a real decision, or fell flat:
-
-- [e.g. the budget cap did nothing — we never came close to spending it]
-
-What we argued about it, in the debrief or between ourselves:
-
-- [e.g. that a transfer should cost both teams an action, not just an agreement]
-
-What we would change if this were our simulation:
-
-- [e.g. trust decays when a team goes a whole phase without communicating]
-
-This is the record you draw on for the Integration Lab and for the simulation design section of your manual. Write it now, not from memory in October. It is also what the reflection criterion is scored from, so a blank here is a blank score whatever you said in the room.
-
-## Disputes
-
-*Optional. Flag anything from an earlier update cycle that seems unreasonable — how your actions were evaluated, scoring, trust changes, inject outcomes, or custom action rulings.*
-
-One line per item. Format: `Which update cycle (roughly what time) | What happened | Why you disagree`
-
--</div>
+      <p>Everything through <strong>Remaining Budget</strong> can be written during class. <strong>Outcomes, Needs, Risks</strong> and <strong>Reflection and Design Takeaway</strong> look back on the phase as a whole, so they belong in the report you file that evening — if your team has anything to say in them; a genuinely empty section earns nothing.</p>
+      <p><strong>How your report is graded:</strong> submissions are read by an AI served from <code>llm.arc.vt.edu</code>, working against the phase rubric. It reads what you wrote, not how much. Before submitting, <strong>delete every bracket line</strong> — the placeholders and examples are instructions, not content — and <strong>omit any section you have nothing to report in</strong> (the final-only sections included). The shortest report that shows your team acted is the best one.</p>
+      <div class="template-block" id="report-template-block">Loading report template…</div>
     </section>
 
     <!-- How the Report Is Graded -->
@@ -325,5 +236,22 @@ One line per item. Format: `Which update cycle (roughly what time) | What happen
   <footer class="site-footer">
     This website is generated using AI. Please do not submit anything sensitive.
   </footer>
+
+  <script>
+    // The report template is ONE file, in the public simulation-data repo; render it
+    // live (with cache-busting) so this page and the grader always read the same copy.
+    (async function () {
+      const el = document.getElementById('report-template-block');
+      if (!el) return;
+      try {
+        const url = 'https://raw.githubusercontent.com/future-of-security/simulation-data/main/virginia-cascading-crisis/REPORT.md?v=' + Date.now();
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        el.textContent = await res.text();
+      } catch (e) {
+        el.textContent = 'Could not load the report template (' + e.message + '). Refresh, or check the simulation data repo is published.';
+      }
+    })();
+  </script>
 </body>
 </html>
