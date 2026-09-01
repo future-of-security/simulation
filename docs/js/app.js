@@ -152,6 +152,8 @@ async function initPhasePage(phaseNum) {
     document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
     document.getElementById('phase-subtitle').textContent = SIMULATION.title;
 
+    setPageTitle(phaseNum, phaseInfo);
+
     // Parse and display phase context
     if (phaseOverviewText) {
       const context = parsePhaseContext(phaseOverviewText);
@@ -241,6 +243,8 @@ async function initTeamPage(phaseNum, teamName) {
     const phaseInfo = CONFIG.phases.find(p => p.num === phaseNum);
     document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
     document.getElementById('phase-subtitle').textContent = SIMULATION.title;
+
+    setPageTitle(phaseNum, phaseInfo, team.name);
 
     renderTeamHeader(team);
     renderNotifications(team.name);
@@ -737,6 +741,14 @@ function parseNotificationRow(row) {
     type: row.type || 'info',
     message: row.message || ''
   };
+}
+
+function setPageTitle(phaseNum, phaseInfo, teamName) {
+  // The tab is the only label when several phases are open at once, so it
+  // carries the same thing the header does — plus the team, first, on a team
+  // page, because that is what truncates last.
+  const phase = `Phase ${phaseNum}${phaseInfo?.title ? `: ${phaseInfo.title}` : ''}`;
+  document.title = [teamName, phase, 'Crisis Simulation'].filter(Boolean).join(' - ');
 }
 
 function parseBudget(str) {
