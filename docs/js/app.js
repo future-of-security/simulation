@@ -6,7 +6,7 @@ const CONFIG = {
   simId: "virginia-cascading-crisis",
   canvasUrl: "",  // Set your Canvas URL here
   phases: [
-    { num: 0, title: "Practice Round", available: true, practice: true },
+    { num: 0, title: "Exercise Hokie Stone", available: true, practice: true },
     { num: 1, title: "Cybersecurity & AI Threats", completed: false },
     { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", completed: false },
     { num: 3, title: "Economic Security", completed: false },
