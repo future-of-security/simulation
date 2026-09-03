@@ -4,17 +4,12 @@
 const CONFIG = {
   dataBaseUrl: "https://raw.githubusercontent.com/future-of-security/simulation-data/main",
   simId: "virginia-cascading-crisis",
-  canvasUrl: "",  // Set your Canvas URL here
-  phases: [
-    { num: 0, title: "Exercise Hokie Stone", available: true, practice: true },
-    { num: 1, title: "Cybersecurity & AI Threats", completed: false },
-    { num: 2, title: "Data, Privacy, Surveillance, & Misinformation", completed: false },
-    { num: 3, title: "Economic Security", completed: false },
-    { num: 4, title: "Political & Societal Security", completed: false },
-    { num: 5, title: "Health, Environmental, & Biosecurity", completed: false },
-    { num: 6, title: "Disaster Management", completed: false }
-  ]
+  canvasUrl: ""  // Set your Canvas URL here
 };
+
+// Phase list and which phase is open both come from _index.json in the data
+// repo, so the facilitator opens a phase with `begin` and no code changes.
+let PHASES = [];
 
 let SIMULATION = {
   title: "Crisis Simulation",
@@ -60,8 +55,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 async function initIndexPage() {
   try {
-    const overviewText = await fetchFile(`${CONFIG.dataBaseUrl}/${CONFIG.simId}/sim_overview.md`);
+    const [overviewText, indexText] = await Promise.all([
+      fetchFile(`${CONFIG.dataBaseUrl}/${CONFIG.simId}/sim_overview.md`),
+      fetchFile(`${CONFIG.dataBaseUrl}/_index.json`)
+    ]);
     parseOverview(overviewText);
+    PHASES = parsePhaseIndex(indexText);
 
     document.getElementById('sim-title').textContent = SIMULATION.title;
     document.getElementById('sim-summary').innerHTML = SIMULATION.summary;
@@ -73,11 +72,38 @@ async function initIndexPage() {
   }
 }
 
+// Reads _index.json and derives each phase's status from active_phase:
+// before it the phase is completed and stays readable, at it the phase is
+// open, after it the phase is still Coming Soon.
+function safeParsePhaseIndex(text) {
+  if (!text) return [];
+  try {
+    return parsePhaseIndex(text);
+  } catch (e) {
+    console.error('Error parsing _index.json:', e);
+    return [];
+  }
+}
+
+function parsePhaseIndex(text) {
+  const data = JSON.parse(text);
+  const sim = (data.simulations || []).find(s => s.id === CONFIG.simId);
+  if (!sim) throw new Error(`No simulation "${CONFIG.simId}" in _index.json`);
+  const active = sim.active_phase;
+  return (sim.phases || []).map(phase => ({
+    num: phase.num,
+    title: phase.title,
+    practice: phase.practice === true,
+    completed: phase.num < active,
+    available: phase.num === active
+  }));
+}
+
 function renderPhasesList() {
   const container = document.getElementById('phases-list');
   container.innerHTML = '';
 
-  CONFIG.phases.forEach((phase, index) => {
+  PHASES.forEach((phase, index) => {
     const card = document.createElement('a');
 
     if (phase.completed) {
@@ -103,7 +129,7 @@ function renderPhasesList() {
 
     // Staggered reveal animation
     card.style.animationDelay = `${index * 0.07}s`;
-    if (phase.locked || (!phase.completed && !phase.available)) {
+    if (!phase.completed && !phase.available) {
       card.addEventListener('animationend', () => card.classList.add('revealed'));
     }
 
@@ -117,14 +143,16 @@ async function initPhasePage(phaseNum) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, phaseOverviewText, rolesText, injectsText, actionsText, stateText] = await Promise.all([
+    const [overviewText, indexText, phaseOverviewText, rolesText, injectsText, actionsText, stateText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
+      fetchFile(`${CONFIG.dataBaseUrl}/_index.json`).catch(() => ''),
       fetchFile(`${base}/overview.md`).catch(() => ''),
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
       fetchFile(`${base}/actions.csv`).catch(() => ''),
       fetchFile(`${base}/phase_state.json`).catch(() => '')
     ]);
+    PHASES = safeParsePhaseIndex(indexText);
 
     parseOverview(overviewText);
     SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
@@ -148,7 +176,7 @@ async function initPhasePage(phaseNum) {
     updateLastUpdated();
 
     // Update phase header
-    const phaseInfo = CONFIG.phases.find(p => p.num === phaseNum);
+    const phaseInfo = PHASES.find(p => p.num === phaseNum);
     document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
     document.getElementById('phase-subtitle').textContent = SIMULATION.title;
 
@@ -199,14 +227,16 @@ async function initTeamPage(phaseNum, teamName) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
+    const [overviewText, indexText, rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
+      fetchFile(`${CONFIG.dataBaseUrl}/_index.json`).catch(() => ''),
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
       fetchFile(`${base}/actions.csv`).catch(() => ''),
       fetchFile(`${base}/phase_state.json`).catch(() => ''),
       fetchFile(`${base}/notifications.csv`).catch(() => '')
     ]);
+    PHASES = safeParsePhaseIndex(indexText);
 
     parseOverview(overviewText);
     SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
@@ -240,7 +270,7 @@ async function initTeamPage(phaseNum, teamName) {
     window._currentTeam = team.name;
 
     // Update header
-    const phaseInfo = CONFIG.phases.find(p => p.num === phaseNum);
+    const phaseInfo = PHASES.find(p => p.num === phaseNum);
     document.getElementById('phase-title').textContent = `Phase ${phaseNum}: ${phaseInfo?.title || ''}`;
     document.getElementById('phase-subtitle').textContent = SIMULATION.title;
 
