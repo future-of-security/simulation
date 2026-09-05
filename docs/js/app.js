@@ -298,6 +298,7 @@ function renderTeamHeader(team) {
       <h1 class="team-name">${escapeHtml(team.name)}</h1>
       <p class="team-role">${escapeHtml(team.role)}</p>
       <span class="team-sector">${escapeHtml(team.sector)}</span>
+      ${team.responsibility ? `<p class="team-responsibility">${escapeHtml(team.responsibility)}</p>` : ''}
     </div>
     <div class="team-stats-row">
       <div class="team-stat">
@@ -733,7 +734,10 @@ function parseTeamRow(row) {
     sector: row.sector,
     budget: parseBudget(row.budget),
     trust: parseInt(row.trust) || 5,
-    score: parseInt(row.score) || 0
+    score: parseFloat(row.score) || 0,
+    // What this team owns in this phase. Roles rotate, so it is per-phase data
+    // and lives in roles.csv beside the standing rather than in the page.
+    responsibility: row.responsibility || ''
   };
 }
 
