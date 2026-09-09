@@ -684,7 +684,7 @@ function parseOverview(text) {
 // ==================== CSV PARSING ====================
 
 function parseCSV(text, rowParser) {
-  const lines = text.split('\n').filter(l => l.trim());
+  const lines = splitCSVRecords(text).filter(l => l.trim());
   if (lines.length < 2) return [];
 
   const headers = parseCSVLine(lines[0]);
@@ -700,6 +700,32 @@ function parseCSV(text, rowParser) {
     }
   }
   return results;
+}
+
+// One record per entry, and a newline inside a quoted field stays inside it.
+// Splitting on '\n' first is what the old reader did, and an incident whose
+// description had been updated arrived as fragments with too few fields --
+// which parseCSV then dropped, so the incident vanished from the board.
+function splitCSVRecords(text) {
+  const records = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (char === '"') {
+      if (inQuotes && text[i + 1] === '"') { current += '""'; i++; continue; }
+      inQuotes = !inQuotes;
+      current += char;
+    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+      if (char === '\r' && text[i + 1] === '\n') i++;
+      records.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  if (current) records.push(current);
+  return records;
 }
 
 function parseCSVLine(line) {
