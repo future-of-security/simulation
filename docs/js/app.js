@@ -292,7 +292,11 @@ function renderTeamHeader(team) {
   const header = document.getElementById('team-header');
   if (!header) return;
 
-  const trustPct = Math.round(team.trust * 10);
+  // Trust is a whole number 0-10 everywhere else — roles.csv, the rules, the
+  // help page — and multiplying it by ten here made the board the only place
+  // it read as a percentage. A team told its trust fell by 1 would look up and
+  // see 70 turn into 60.
+  const trustOutOfTen = formatTrust(team.trust);
   header.innerHTML = `
     <div class="team-identity">
       <h1 class="team-name">${escapeHtml(team.name)}</h1>
@@ -306,7 +310,7 @@ function renderTeamHeader(team) {
         <span class="team-stat-label">Score</span>
       </div>
       <div class="team-stat">
-        <span class="team-stat-value">${trustPct}%</span>
+        <span class="team-stat-value">${trustOutOfTen}/10</span>
         <span class="team-stat-label">Trust</span>
       </div>
       <div class="team-stat">
@@ -487,7 +491,7 @@ function updateOverviewStats() {
 
   // Team stats
   const avgTrust = teams.length > 0 ? teams.reduce((sum, t) => sum + t.trust, 0) / teams.length : 0;
-  setTextIfExists('avg-trust', `${Math.round(avgTrust * 10)}%`);
+  setTextIfExists('avg-trust', `${formatTrust(avgTrust)}/10`);
   setTextIfExists('total-budget', formatCurrency(teams.reduce((sum, t) => sum + t.budget, 0)));
 }
 
@@ -538,7 +542,11 @@ function renderTeamCards() {
     card.href = `team.html?team=${encodeURIComponent(team.name)}`;
     card.style.animationDelay = `${index * 0.04}s`;
 
-    const trustPct = Math.round(team.trust * 10);
+    // Trust is a whole number 0-10 everywhere else — roles.csv, the rules, the
+  // help page — and multiplying it by ten here made the board the only place
+  // it read as a percentage. A team told its trust fell by 1 would look up and
+  // see 70 turn into 60.
+  const trustOutOfTen = formatTrust(team.trust);
     card.innerHTML = `
       <div class="team-card-header">
         <span class="team-card-name">${escapeHtml(team.name)}</span>
@@ -547,7 +555,7 @@ function renderTeamCards() {
       <div class="team-card-role">${escapeHtml(team.role)}</div>
       <div class="team-card-stats">
         <span class="team-card-stat"><strong>${team.score}</strong> pts</span>
-        <span class="team-card-stat"><strong>${trustPct}%</strong> trust</span>
+        <span class="team-card-stat"><strong>${trustOutOfTen}/10</strong> trust</span>
         <span class="team-card-stat"><strong>${formatCurrency(team.budget)}</strong></span>
       </div>
     `;
@@ -682,6 +690,13 @@ function parseOverview(text) {
 }
 
 // ==================== CSV PARSING ====================
+
+// One decimal only when the number has one — a team's own trust is always a
+// whole number, while an average of twelve of them usually is not.
+function formatTrust(value) {
+  const n = Number(value) || 0;
+  return Number.isInteger(n) ? String(n) : n.toFixed(1);
+}
 
 function parseCSV(text, rowParser) {
   const lines = splitCSVRecords(text).filter(l => l.trim());
