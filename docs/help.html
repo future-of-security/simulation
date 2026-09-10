@@ -228,36 +228,33 @@ Justification: we run the regional dispatch centre and already hold the trunk co
       <h2>Scoring</h2>
       <p>Teams earn points by resolving incidents. There are <strong>no penalty points</strong> &mdash; you earn for successes, not punished for failures.</p>
       <h3>Resolution Points</h3>
+      <p>Every incident carries its own point value. What your team earns is a fixed share of it, decided by one of five words for what your actions did:</p>
       <table>
-        <tr><th>Resolution</th><th>Points</th></tr>
-        <tr><td>Fully resolved</td><td>100% of incident's point value</td></tr>
-        <tr><td>Strong partial (directly addressed, solved most of it)</td><td>50%</td></tr>
-        <tr><td>Moderate partial (helped but didn't fix root cause)</td><td>25&ndash;35%</td></tr>
-        <tr><td>Indirect contribution (side effect of another action)</td><td>10&ndash;20%</td></tr>
+        <tr><th>Outcome</th><th>Share of the incident's points</th></tr>
+        <tr><td><strong>Fully resolved</strong> &mdash; the incident is done</td><td>100%</td></tr>
+        <tr><td><strong>Strong partial</strong> &mdash; directly addressed, most of it solved</td><td>50%</td></tr>
+        <tr><td><strong>Moderate partial</strong> &mdash; helped, root cause still standing</td><td>30%</td></tr>
+        <tr><td><strong>Indirect</strong> &mdash; a side effect of something else you did</td><td>15%</td></tr>
+        <tr><td><strong>None</strong> &mdash; touched the incident, changed nothing</td><td>0%</td></tr>
       </table>
-      <h3>Escalated Incidents &mdash; Mitigation Credit</h3>
-      <p>When an initial incident escalates because the deadline passed, it is marked <strong>Escalated</strong> and is no longer eligible for full points. However, teams that completed their portion of the response before the deadline still earn partial credit:</p>
-      <ul>
-        <li>Each initial incident has <strong>3 teams</strong>, each with an explicit response requirement (<em>RESPONSE COUNTS AS</em>)</li>
-        <li>A team that met its requirement before the deadline earns a <strong>proportional share of the incident's point value</strong> (equal split among all required teams)</li>
-        <li>A team that did not meet its requirement earns <strong>0</strong></li>
-        <li>The escalation incident that fires afterward is scored independently &mdash; resolving it is still worth full escalation points</li>
-      </ul>
-      <h3>Collaboration Split</h3>
-      <p>When multiple teams collaborate to resolve an incident:</p>
-      <ul>
-        <li><strong>2 teams:</strong> 60% of points each (rewards collaboration)</li>
-        <li><strong>3+ teams:</strong> 40% of points each</li>
-      </ul>
+      <p>There is nothing between those five. A 100-point incident pays 100, 50, 30, 15 or 0, and which one is decided by what your report shows you did against that incident's own standard for being closed.</p>
+      <h3>Every Team on an Incident Is Scored Separately</h3>
+      <p>Points are <strong>not divided</strong> between the teams working an incident. If three of you work the same incident and all three reports show work that closed it, all three earn the full share &mdash; your score is what <em>your</em> team did, judged on its own.</p>
+      <p>So collaboration never costs you points. What it saves you is money: a shared action is <a href="#actions">split</a>, and both sides gain <a href="#trust">+1 trust</a> for documenting it. That is the whole reward, and it is why an action your budget cannot cover alone is still worth taking with a partner.</p>
+      <h3>Deadlines and Escalation</h3>
+      <p>Each incident has a time limit. An incident nobody has acted on when its limit passes <strong>escalates on the clock</strong>, and what opens next is the branch that follows from it having escalated rather than from it having been closed.</p>
+      <p>Acting on an incident after it escalates still earns what your outcome is worth &mdash; the points are for what you did, not for beating the clock. What you cannot get back is the branch: the phase has already moved on to the world where nobody answered in time.</p>
+      <h3>Actions That Take Time</h3>
+      <p>An action with a delay in the catalog produces its effect that many minutes after you take it, and an effect that has not landed is not a resolution. If your report says what the action produced, it is scored on that. If it only says the action was taken, it is scored as started work &mdash; so when a check comes back, file what it found.</p>
     </section>
 
     <!-- Collaboration -->
     <section class="card help-content" id="collaboration">
       <h2>Collaboration</h2>
-      <p>Many incidents can only be resolved through cross-team action, and the rules reward it three ways: the cost of a shared action is <a href="#actions">split</a>, the points are <a href="#scoring">shared at a rate that beats acting alone</a>, and both teams gain trust.</p>
+      <p>Many incidents can only be resolved through cross-team action, and the rules reward it two ways: the cost of a shared action is <a href="#actions">split</a>, and both teams gain trust. Your points are <a href="#scoring">not divided</a> — each team is scored on what it did — so working together costs you nothing in score and buys you an action your own budget could not cover.</p>
       <ul>
-        <li><strong>Both teams must document it</strong> in their own response reports. A collaboration only one side records earns neither of you the split, the trust, or the point rate — it is a dispute, not a mistake.</li>
-        <li>Collaborating teams get <strong>+1 trust each</strong>.</li>
+        <li><strong>Both teams must document it</strong> in their own response reports. A collaboration only one side records earns neither of you the cost split nor the trust — it is a dispute, and the team that claimed it pays the full price.</li>
+        <li>Collaborating teams get <strong>+1 trust each</strong>, once the other side's report confirms it.</li>
       </ul>
       <h3>Intelligence Sharing</h3>
       <p>Each phase's action catalog includes an <strong>Intelligence Sharing</strong> action available to ALL teams at no cost. Sharing information with other teams builds trust and improves collective response. Check your phase's action catalog for the specific action ID.</p>
