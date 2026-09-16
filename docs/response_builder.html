@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Response Report Builder — Guideline Checked</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;max-width:1000px;margin:0 auto;padding:24px;background:#f5f6f8;color:#1f2937}h1{margin-bottom:6px}.sub{color:#5b6470;margin-top:0}.card{background:#fff;border:1px solid #d9dde3;border-radius:10px;padding:20px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}label{display:block;font-weight:700;margin-top:14px;margin-bottom:6px}input,textarea{width:100%;font:inherit;padding:10px;border:1px solid #b9c0c9;border-radius:6px;background:#fff}textarea{min-height:90px;resize:vertical}.hint{font-size:.9rem;color:#687180;margin:4px 0 8px}.mode{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.mode label{display:inline-flex;align-items:center;gap:7px;margin:0;font-weight:600}.mode input{width:auto}button{padding:11px 16px;border:0;border-radius:7px;font-weight:700;cursor:pointer;margin-right:8px;margin-top:10px}.primary{background:#1d4ed8;color:#fff}.secondary{background:#e5e7eb;color:#111827}.danger{background:#f3f4f6;color:#7f1d1d}#output{min-height:520px;white-space:pre-wrap;font-family:Consolas,Monaco,monospace}.final-only{display:none}.notice{border-radius:8px;padding:12px 14px;margin:12px 0;display:none}.errors{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.warnings{background:#fffbeb;border:1px solid #fde68a;color:#92400e}.ok{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}.notice ul{margin:6px 0 0 20px}.picker{display:flex;gap:8px;align-items:center;margin:4px 0 10px}.picker select{flex:1;font:inherit;padding:9px;border:1px solid #b9c0c9;border-radius:6px;background:#fff}.picker button{margin-top:0}.stale{color:#92400e}.rulebox{background:#f8fafc;border-left:4px solid #64748b;padding:12px 14px;margin-top:12px;font-size:.94rem}.required{color:#b91c1c}.final-message{font-size:.9rem;color:#4b5563}@media(max-width:720px){.grid{grid-template-columns:1fr}}
+
+.intro-overlay{
+  position:fixed; inset:0; background:rgba(17,24,39,.58);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; z-index:9999;
+}
+.intro-modal{
+  width:min(520px,100%); background:#fff; border-radius:12px;
+  padding:24px; box-shadow:0 18px 50px rgba(0,0,0,.25);
+}
+.intro-modal h2{margin-top:0;margin-bottom:8px}
+.intro-modal p{color:#4b5563}
+.intro-steps{
+  margin:16px 0 20px; padding-left:24px;
+}
+.intro-steps li{margin:9px 0; line-height:1.45}
+.intro-close{
+  width:100%; margin:0; background:#1d4ed8; color:#fff;
+}
+.site-credit{
+  margin:26px 0 4px; text-align:center; font-size:10px;
+  color:#9ca3af; opacity:.72; letter-spacing:.01em;
+}
+
+</style>
+<script src="js/csv.js"></script>
+</head>
+<body>
+
+<div class="intro-overlay" id="introOverlay" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div class="intro-modal">
+    <h2 id="introTitle">How to use the Response Report Builder</h2>
+    <p>This tool turns your answers into a report formatted for submission.</p>
+    <ol class="intro-steps">
+      <li><strong>Fill out the form.</strong> Enter the information from your dashboard, action catalog, and team coordination.</li>
+      <li><strong>Press Generate Report.</strong> Review any warnings and check the finished report.</li>
+      <li><strong>Copy and paste to Canvas.</strong> Use the Copy Report button, then paste the generated report into your Canvas submission.</li>
+    </ol>
+    <button type="button" class="intro-close" onclick="closeIntro()">Got it — Start Filling Out the Form</button>
+  </div>
+</div>
+
+<h1>Response Report Builder</h1>
+<p class="sub">Built to follow the simulation help-page reporting rules. Fill in only factual information from your dashboard, catalog, and team coordination.</p>
+<div class="card">
+  <div class="mode">
+    <strong>Report type:</strong>
+    <label><input type="radio" name="reportType" value="class" checked> In-Class Incident Report</label>
+    <label><input type="radio" name="reportType" value="final"> Final Report</label>
+  </div>
+  <div class="rulebox" id="modeRule">In class: submit one report per incident. Use the incident's exact dashboard title.</div>
+  <div class="grid">
+    <div><label for="team">Team <span class="required">*</span></label><input id="team" list="teams-list" placeholder="Exact dashboard team codename"></div>
+    <div><label for="role">Role <span class="required">*</span></label><input id="role" list="roles-list" placeholder="Exact role from dashboard card"></div>
+    <div><label for="phase">Phase <span class="required">*</span></label><input id="phase" list="phases-list" placeholder="e.g. 2"></div>
+  </div>
+  <p class="hint" id="catalogStatus">Loading the phase catalog…</p>
+  <datalist id="teams-list"></datalist>
+  <datalist id="roles-list"></datalist>
+  <datalist id="phases-list"></datalist>
+  <datalist id="incidents-list"></datalist>
+  <datalist id="actions-list"></datalist>
+</div>
+<div class="card regular-report-card">
+  <h2>What My Role Could See</h2>
+  <div class="class-only">
+    <label for="incident">Dashboard incident title <span class="required">*</span></label>
+    <input id="incident" list="incidents-list" placeholder="Paste the incident title exactly as shown on the dashboard">
+    <p class="hint">One in-class report = one incident. Do not paraphrase the incident title.</p>
+  </div>
+  <label for="notVisible">What I needed to know but could not see</label>
+  <textarea id="notVisible" placeholder="State the information gap honestly; do not invent visibility your role did not have."></textarea>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-judgment">Situation Judgment</h2>
+  <textarea id="judgment" aria-labelledby="h-judgment" placeholder="2–3 sentences: what you believe is happening and how confident you are. Name guesses/uncertainty explicitly."></textarea>
+  <p class="hint">The help page calls for 2–3 sentences and rewards clearly named uncertainty over unsupported certainty.</p>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-actions">Actions Taken</h2>
+  <p class="hint">One action per line: Action ID | Name | Cost | Why it is within your role's authority. Use a real Action ID from this phase's catalog.</p>
+  <div class="picker">
+    <select id="actionPicker"><option value="">Loading the action catalog…</option></select>
+    <button type="button" class="secondary" onclick="insertAction()">Add this action</button>
+  </div>
+  <textarea id="actions" aria-labelledby="h-actions" placeholder="A9 | State Shared Services Firewall | $65K | We administer the state shared-services infrastructure"></textarea>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-collaboration">Collaboration and Transfers</h2>
+  <p class="hint">One team per line: Team | What we did together | Transfer amount/direction | confirmed: yes/no. Leave confirmed as no until they actually confirm.</p>
+  <textarea id="collaboration" aria-labelledby="h-collaboration" placeholder="Acadia | Coordinated firewall activation | $0 | confirmed: yes"></textarea>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-budget">Remaining Budget</h2>
+  <input id="budget" aria-labelledby="h-budget" placeholder="e.g. $30K">
+  <p class="hint">Use the amount shown in the dashboard budget column after the actions above.</p>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-proposed">Proposed Custom Actions</h2>
+  <p class="hint">Optional. One proposal per line: Proposed action | Est. cost | Expected effect | Time needed | Risks</p>
+  <textarea id="proposed" aria-labelledby="h-proposed" placeholder="Notify affected services... | $0 | Reduce uncertainty | Immediate | Could cause unnecessary alarm"></textarea>
+  <label for="justification">Justification</label>
+  <textarea id="justification" placeholder="What resources or authority does your assigned role actually hold that makes this proposal reasonable?"></textarea>
+</div>
+<div class="card regular-report-card">
+  <h2 id="h-disputes">Disputes</h2>
+  <p class="hint">Optional. One dispute per line: Update cycle | What happened | Why you disagree. File disputes as soon as you notice them.</p>
+  <textarea id="disputes" aria-labelledby="h-disputes" placeholder="9:20 update | Our A3 was charged in full | We recorded a 50/50 split with Yellowstone"></textarea>
+</div>
+<div class="card final-only">
+  <h2>Outcomes, Needs, Risks <span class="required">*</span></h2>
+  <p class="hint">Final report only. This section is graded from the last report and should look back on the phase as a whole.</p>
+  <label for="expected">What we expect to happen <span class="required">*</span></label><textarea id="expected"></textarea>
+  <label for="needs">What we still need, and from whom <span class="required">*</span></label><textarea id="needs"></textarea>
+  <label for="risks">Risks we are watching <span class="required">*</span></label><textarea id="risks"></textarea>
+</div>
+<div class="card final-only">
+  <h2>Reflection and Design Takeaway <span class="required">*</span></h2>
+  <p class="hint">Final report only. A blank section earns a blank score on this criterion.</p>
+  <label for="mechanic">One mechanic that forced a real decision, or fell flat <span class="required">*</span></label><textarea id="mechanic"></textarea>
+  <label for="argument">What we argued about it <span class="required">*</span></label><textarea id="argument"></textarea>
+  <label for="change">What we would change if this were our simulation <span class="required">*</span></label><textarea id="change"></textarea>
+</div>
+<div class="card">
+  <div class="notice errors" id="errors"></div>
+  <div class="notice warnings" id="warnings"></div>
+  <div class="notice ok" id="ok"></div>
+  <button class="primary" onclick="generateAndCheck()">Generate Report</button>
+  <button class="secondary" onclick="copyReport()">Copy Report</button>
+  <button class="secondary" onclick="downloadReport()">Download .txt</button>
+  <button class="danger" onclick="clearForm()">Clear Form</button>
+</div>
+<div class="card"><h2>Generated Report</h2><textarea id="output" readonly placeholder="Your submission-ready report will appear here."></textarea></div>
+
+<footer class="site-credit">Made by Abhi Dangeti | For Hailong Zhang's BIT/CS/PSCI 4164<br>This website is generated using AI. Please do not submit anything sensitive.</footer>
+
+<script>
+
+function closeIntro(){
+  const overlay=document.getElementById('introOverlay');
+  if(overlay) overlay.style.display='none';
+}
+
+const reportRadios=document.querySelectorAll('input[name="reportType"]');reportRadios.forEach(r=>r.addEventListener('change',updateMode));
+function updateMode(){const type=document.querySelector('input[name="reportType"]:checked').value;document.querySelectorAll('.final-only').forEach(el=>el.style.display=type==='final'?'block':'none');document.querySelectorAll('.class-only').forEach(el=>el.style.display=type==='class'?'block':'none');document.getElementById('modeRule').textContent=type==='class'?"In class: submit one report per incident. Use the incident's exact dashboard title.":'Final Report: complete Outcomes, Needs, Risks and Reflection and Design Takeaway.';document.querySelectorAll('.regular-report-card').forEach(el=>el.style.display=type==='final'?'none':'block');}
+
+// ---------------------------------------------------------------------------
+// Live catalog, read straight from the published simulation-data repo so this
+// page and the dashboard cannot drift apart. Every fetch is best-effort: if the
+// network is down, or the repo moves, every field stays typeable by hand and
+// the only thing lost is autocomplete.
+// ---------------------------------------------------------------------------
+const DATA_BASE='https://raw.githubusercontent.com/future-of-security/simulation-data/main';
+const CATALOG={sim:null,phases:[],teams:[],roles:[],rolesByTeam:{},incidents:[],actions:[],phaseLoaded:null,online:false};
+
+async function getText(path){
+  const res=await fetch(DATA_BASE+'/'+path+'?v='+Date.now());
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  return res.text();
+}
+
+function setStatus(msg,stale){
+  const el=document.getElementById('catalogStatus');
+  if(!el)return;
+  el.textContent=msg;
+  el.className=stale?'hint stale':'hint';
+}
+
+function fillList(id,values){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=values.map(v=>'<option value="'+String(v).replace(/"/g,'&quot;')+'"></option>').join('');
+}
+
+// visible_to and available_to are ';'-separated role lists, with ALL as a wildcard
+function servesRole(list,role){
+  if(!list)return true;
+  const items=list.split(';').map(x=>x.trim()).filter(Boolean);
+  if(!items.length||items.some(x=>x.toUpperCase()==='ALL'))return true;
+  if(!role)return true;
+  return items.some(x=>x.toLowerCase()===role.toLowerCase());
+}
+
+async function loadIndex(){
+  const idx=JSON.parse(await getText('_index.json'));
+  CATALOG.sim=(idx.simulations||[])[0];
+  if(!CATALOG.sim)throw new Error('no simulation in _index.json');
+  CATALOG.phases=CATALOG.sim.phases||[];
+  fillList('phases-list',CATALOG.phases.map(p=>p.num));
+  return CATALOG.sim;
+}
+
+async function loadPhase(num){
+  const base=CATALOG.sim.path+'/phase_'+num;
+  const [rolesCsv,injectsCsv,actionsCsv]=await Promise.all([
+    getText(base+'/roles.csv').catch(()=>''),
+    getText(base+'/injects.csv').catch(()=>''),
+    getText(base+'/actions.csv').catch(()=>''),
+  ]);
+  CATALOG.roles=SimCSV.parseCSVRows(rolesCsv);
+  CATALOG.incidents=SimCSV.parseCSVRows(injectsCsv);
+  CATALOG.actions=SimCSV.parseCSVRows(actionsCsv);
+  CATALOG.rolesByTeam={};
+  CATALOG.teams=[];
+  CATALOG.roles.forEach(r=>{if(r.team){CATALOG.rolesByTeam[r.team.toLowerCase()]=r;CATALOG.teams.push(r.team);}});
+  CATALOG.phaseLoaded=String(num);
+
+  fillList('teams-list',CATALOG.teams);
+  fillList('roles-list',CATALOG.roles.map(r=>r.role).filter(Boolean));
+  refreshRoleScopedLists();
+
+  const title=(CATALOG.phases.find(p=>String(p.num)===String(num))||{}).title||'';
+  setStatus('Phase '+num+(title?' — '+title:'')+': '+CATALOG.teams.length+' teams, '+
+            openIncidents().length+' open incidents, '+CATALOG.actions.length+' catalog actions.');
+}
+
+// Incident and action lists narrow to what the entered role can actually see.
+function openIncidents(){return CATALOG.incidents.filter(i=>i.state!=='hidden');}
+
+function refreshRoleScopedLists(){
+  const role=val('role');
+  const open=openIncidents();
+  const visible=open.filter(i=>servesRole(i.visible_to,role));
+  fillList('incidents-list',(visible.length?visible:open).map(i=>i.incident).filter(Boolean));
+
+  const usable=CATALOG.actions.filter(a=>servesRole(a.available_to,role));
+  const picker=document.getElementById('actionPicker');
+  if(picker){
+    const list=usable.length?usable:CATALOG.actions;
+    picker.innerHTML='<option value="">'+(list.length?'Pick an action from the catalog…':'Catalog unavailable — type the line by hand')+'</option>'+
+      list.map(a=>'<option value="'+a.action_id+'">'+a.action_id+' — '+a.action_name+' ('+(a.cost||'')+')</option>').join('');
+  }
+}
+
+function insertAction(){
+  const picker=document.getElementById('actionPicker');
+  if(!picker||!picker.value)return;
+  const a=CATALOG.actions.find(x=>x.action_id===picker.value);
+  if(!a)return;
+  const box=document.getElementById('actions');
+  const line=a.action_id+' | '+a.action_name+' | '+(a.cost||'')+' | ';
+  box.value=(box.value.trim()?box.value.replace(/\s*$/,'')+'\n':'')+line;
+  box.focus();
+  box.setSelectionRange(box.value.length,box.value.length);
+  picker.value='';
+  saveDraft();
+}
+
+async function initCatalog(){
+  try{
+    const sim=await loadIndex();
+    const typed=val('phase')?normalisePhase(val('phase')):'';
+    const phase=typed||String(sim.active_phase);
+    if(!val('phase'))document.getElementById('phase').value=phase;
+    await loadPhase(phase);
+    CATALOG.online=true;
+    const team=val('team');
+    if(team&&!val('role'))applyTeam();
+  }catch(e){
+    CATALOG.online=false;
+    setStatus('Could not reach the simulation data ('+e.message+'). Every field still works; you are typing values by hand.',true);
+    const picker=document.getElementById('actionPicker');
+    if(picker)picker.innerHTML='<option value="">Catalog unavailable — type the action line by hand</option>';
+  }
+}
+
+// Picking a team fills in the role it is assigned and shows its starting budget.
+function applyTeam(){
+  const row=CATALOG.rolesByTeam[val('team').toLowerCase()];
+  if(!row)return;
+  if(row.role)document.getElementById('role').value=row.role;
+  refreshRoleScopedLists();
+  if(row.budget)setStatus('Phase '+CATALOG.phaseLoaded+': '+row.team+' is '+row.role+
+                          '. Starting budget '+row.budget+' — report what remains after your actions.');
+  saveDraft();
+}
+
+async function onPhaseChanged(){
+  const num=normalisePhase(val('phase'));
+  if(!CATALOG.sim||!num||num===CATALOG.phaseLoaded)return;
+  if(!CATALOG.phases.some(p=>String(p.num)===num))return;
+  setStatus('Loading phase '+num+'…');
+  try{await loadPhase(num);}
+  catch(e){setStatus('Could not load phase '+num+' ('+e.message+').',true);}
+}
+
+function val(id){return document.getElementById(id).value.trim();}
+function stripBullet(line){return line.trim().replace(/^[-•]\s*/,'');}
+function bulletLines(text){if(!text.trim())return '';return text.split('\n').map(stripBullet).filter(Boolean).map(x=>'- '+x).join('\n');}
+function addSection(parts,heading,body){if(body&&body.trim())parts.push('## '+heading+'\n\n'+body.trim());}
+function sentenceCount(text){const m=text.trim().match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g);return m?m.filter(x=>x.trim()).length:0;}
+function pipeFields(line){return line.split('|').map(x=>x.trim());}
+function hasPipeFields(line,min){return pipeFields(line).filter(Boolean).length>=min;}
+// An extra `|` inside the prose silently shifts every column after it, so a line
+// with more fields than the template defines is worth flagging, not accepting.
+function fieldCountNote(line,expected,label,i){
+  const n=pipeFields(line).length;
+  if(n>expected) return label+' line '+(i+1)+' has '+n+' fields separated by | but the template defines '+expected+'. A | inside your text will shift the columns.';
+  if(pipeFields(line).some(f=>!f)) return label+' line '+(i+1)+' has an empty field between two | separators.';
+  return null;
+}
+function looksLikeMoney(text){return /\d/.test(text);}
+function normalisePhase(text){return text.replace(/^\s*phase\s*/i,'').trim()||text.trim();}
+function clearNotices(){['errors','warnings','ok'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.style.display='none';el.innerHTML='';});}
+function showNotice(id,title,items){const el=document.getElementById(id);if(!el)return;el.innerHTML='<strong>'+title+'</strong>'+(items.length?'<ul>'+items.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'');el.style.display='block';}
+function validate(){const type=document.querySelector('input[name="reportType"]:checked').value;const errors=[],warnings=[];
+  if(type==='class'){
+    ['team','role','phase'].forEach(id=>{if(!val(id))errors.push(id.charAt(0).toUpperCase()+id.slice(1)+' is required.');});
+    if(!val('incident'))errors.push('Enter the exact dashboard incident title. In-class reports cover one incident each.');
+    else if(CATALOG.online&&CATALOG.incidents.length){
+      const row=CATALOG.incidents.find(i=>i.incident.toLowerCase()===val('incident').toLowerCase());
+      if(!row)
+        warnings.push('That incident title is not in this phase\'s catalog. Copy it from the dashboard exactly, or the claim cannot be matched to the board.');
+      else if(row.state==='hidden')
+        warnings.push('That incident has not opened yet. Report the one on your dashboard now.');
+      else if(val('role')&&!servesRole(row.visible_to,val('role')))
+        warnings.push('This incident is not visible to '+val('role')+' in this phase. Check you are reporting the right one.');
+    }
+    if(CATALOG.online&&CATALOG.teams.length&&val('team')&&!CATALOG.rolesByTeam[val('team').toLowerCase()])
+      warnings.push('Team "'+val('team')+'" is not in this phase\'s roster. Use the exact dashboard codename.');
+    if(!val('judgment'))warnings.push('Situation Judgment is blank.'); else {const n=sentenceCount(val('judgment'));if(n<2||n>3)warnings.push('Situation Judgment is intended to be 2–3 sentences; yours appears to be '+n+'.');if(!/\b(uncertain|uncertainty|confident|confidence|likely|may|might|believe|estimate|guess|appears|seems|unknown|cannot confirm|could)\b/i.test(val('judgment')))warnings.push('Situation Judgment does not clearly signal confidence or uncertainty. Consider naming what is known versus inferred.');}
+    if(!val('budget'))warnings.push('Remaining Budget is blank; the help page says to report what remains in the dashboard budget column.');
+    else if(!looksLikeMoney(val('budget')))warnings.push('Remaining Budget does not contain a number. Copy the figure from the dashboard budget column, for example $30K.');
+    if(val('actions'))val('actions').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,4))warnings.push('Action line '+(i+1)+' does not have all 4 expected fields separated by |.');const fc=fieldCountNote(line,4,'Action',i);if(fc)warnings.push(fc);if(!/^\s*A\w*\d+/i.test(line))warnings.push('Action line '+(i+1)+' does not appear to start with a catalog Action ID; verify it against the phase catalog.');
+      else if(CATALOG.online&&CATALOG.actions.length){
+        const id=pipeFields(line)[0];
+        const a=CATALOG.actions.find(x=>x.action_id.toLowerCase()===id.toLowerCase());
+        if(!a)warnings.push('Action line '+(i+1)+': '+id+' is not in this phase\'s catalog.');
+        else if(val('role')&&!servesRole(a.available_to,val('role')))warnings.push('Action line '+(i+1)+': '+id+' ('+a.action_name+') is not available to '+val('role')+' this phase.');
+        else if(a.cost&&pipeFields(line)[2]&&pipeFields(line)[2].replace(/[^0-9kKmM.]/g,'').toLowerCase()!==a.cost.replace(/[^0-9kKmM.]/g,'').toLowerCase())warnings.push('Action line '+(i+1)+': the catalog lists '+id+' at '+a.cost+', you wrote '+pipeFields(line)[2]+'.');
+      }});
+    if(val('collaboration'))val('collaboration').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,4))warnings.push('Collaboration line '+(i+1)+' does not have all 4 expected fields separated by |.');const fc=fieldCountNote(line,4,'Collaboration',i);if(fc)warnings.push(fc);if(!/confirmed\s*:\s*(yes|no)/i.test(line))warnings.push('Collaboration line '+(i+1)+' should explicitly say confirmed: yes or confirmed: no.');
+      if(CATALOG.online&&CATALOG.teams.length){const other=pipeFields(line)[0];if(other&&!CATALOG.rolesByTeam[other.toLowerCase()])warnings.push('Collaboration line '+(i+1)+': "'+other+'" is not a team in this phase.');}});
+    if(val('proposed')&&!val('justification'))warnings.push('A custom action is proposed but its authority/resources justification is blank.');
+    if(val('proposed'))val('proposed').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,5))warnings.push('Proposed action line '+(i+1)+' does not have all 5 expected fields separated by | (action, cost, effect, time, risks).');const fc=fieldCountNote(line,5,'Proposed action',i);if(fc)warnings.push(fc);});
+    if(val('disputes'))val('disputes').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,3))warnings.push('Dispute line '+(i+1)+' does not have all 3 expected fields separated by | (which update cycle, what happened, why you disagree).');const fc=fieldCountNote(line,3,'Dispute',i);if(fc)warnings.push(fc);});
+  } else {
+    ['team','role','phase'].forEach(id=>{if(!val(id))errors.push(id.charAt(0).toUpperCase()+id.slice(1)+' is required.');});
+    [['expected','What we expect to happen'],['needs','What we still need, and from whom'],['risks','Risks we are watching'],['mechanic','Reflection mechanic'],['argument','What we argued about it'],['change','What we would change']].forEach(([id,name])=>{if(!val(id))errors.push(name+' is required in the final report.');});
+  }
+  return {errors,warnings};}
+
+function generateReport(){
+  const type=document.querySelector('input[name="reportType"]:checked').value;
+  const parts=['# Response Report'];
+
+  if(type==='final'){
+    let meta=[];
+    if(val('team')) meta.push('**Team:** '+val('team'));
+    if(val('role')) meta.push('**Role:** '+val('role'));
+    if(val('phase')) meta.push('**Phase:** '+normalisePhase(val('phase')));
+    if(meta.length) parts.push(meta.join('\n'));
+
+    let o=[];
+    if(val('expected')) o.push('**What we expect to happen:**\n\n'+bulletLines(val('expected')));
+    if(val('needs')) o.push('**What we still need, and from whom:**\n\n'+bulletLines(val('needs')));
+    if(val('risks')) o.push('**Risks we are watching:**\n\n'+bulletLines(val('risks')));
+    if(o.length) addSection(parts,'Outcomes, Needs, Risks',o.join('\n\n'));
+
+    let r=[];
+    if(val('mechanic')) r.push('One mechanic in this phase that forced a real decision, or fell flat:\n\n'+bulletLines(val('mechanic')));
+    if(val('argument')) r.push('What we argued about it:\n\n'+bulletLines(val('argument')));
+    if(val('change')) r.push('What we would change if this were our simulation:\n\n'+bulletLines(val('change')));
+    if(r.length) addSection(parts,'Reflection and Design Takeaway',r.join('\n\n'));
+  } else {
+    let meta=[];
+    if(val('team')) meta.push('**Team:** '+val('team'));
+    if(val('role')) meta.push('**Role:** '+val('role'));
+    if(val('phase')) meta.push('**Phase:** '+normalisePhase(val('phase')));
+    if(meta.length) parts.push(meta.join('\n'));
+
+    let visibleBody=[];
+    if(val('incident')) visibleBody.push('The incident this report is about, by its dashboard title:\n\n- '+val('incident'));
+    if(val('notVisible')) visibleBody.push('What I needed to know but could not see:\n\n'+bulletLines(val('notVisible')));
+    if(visibleBody.length) addSection(parts,'What My Role Could See',visibleBody.join('\n\n'));
+
+    addSection(parts,'Situation Judgment',val('judgment'));
+    if(val('actions')) addSection(parts,'Actions Taken',bulletLines(val('actions')));
+    if(val('collaboration')) addSection(parts,'Collaboration and Transfers',bulletLines(val('collaboration')));
+    if(val('budget')) addSection(parts,'Remaining Budget',val('budget').startsWith('$')?val('budget'):'$'+val('budget'));
+    if(val('proposed')||val('justification')){
+      let body=[];
+      if(val('proposed')) body.push(bulletLines(val('proposed')));
+      if(val('justification')) body.push('**Justification:**\n\n'+val('justification'));
+      addSection(parts,'Proposed Custom Actions',body.join('\n\n'));
+    }
+    if(val('disputes')) addSection(parts,'Disputes',bulletLines(val('disputes')));
+  }
+
+  document.getElementById('output').value=parts.join('\n\n');
+  return true;
+}
+
+function generateAndCheck(){
+  generateReport();
+  clearNotices();
+  const v=validate();
+  if(v.errors.length) showNotice('errors','Fix these before submitting:',v.errors);
+  if(v.warnings.length) showNotice('warnings','Worth a second look:',v.warnings);
+  if(!v.errors.length&&!v.warnings.length) showNotice('ok','Report looks complete. Copy it into Canvas.',[]);
+  return v;
+}
+
+async function copyReport(){const v=generateAndCheck();if(v.errors.length){alert('Fix the errors listed above before copying.');return;}const output=document.getElementById('output');try{await navigator.clipboard.writeText(output.value);alert('Report copied to clipboard.');}catch(e){output.select();document.execCommand('copy');alert('Report copied to clipboard.');}}
+function reportFilename(){
+  const type=document.querySelector('input[name="reportType"]:checked').value;
+  const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const bits=['response-report'];
+  if(val('team')) bits.push(slug(val('team')));
+  if(val('phase')) bits.push(slug(val('phase')).startsWith('phase')?slug(val('phase')):'phase-'+slug(val('phase')));
+  if(type==='final') bits.push('final');
+  return bits.join('-')+'.txt';
+}
+
+function downloadReport(){const v=generateAndCheck();if(v.errors.length){alert('Fix the errors listed above before downloading.');return;}const text=document.getElementById('output').value;const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=reportFilename();a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function clearForm(){if(!confirm('Clear all entered text?'))return;document.querySelectorAll('input[type="text"], textarea').forEach(el=>el.value='');document.getElementById('output').value='';clearNotices();try{localStorage.removeItem(SAVE_KEY);}catch(e){}}
+
+// A phase runs for 75 minutes and a refresh should not cost a team its report.
+const SAVE_KEY='sim-response-builder-v1';
+const SAVED_FIELDS=['team','role','phase','incident','notVisible',
+  'judgment','actions','collaboration','budget','proposed','justification','disputes',
+  'expected','needs','risks','mechanic','argument','change'];
+
+function saveDraft(){
+  try{
+    const data={reportType:(document.querySelector('input[name="reportType"]:checked')||{}).value};
+    SAVED_FIELDS.forEach(id=>{const el=document.getElementById(id);if(el)data[id]=el.value;});
+    localStorage.setItem(SAVE_KEY,JSON.stringify(data));
+  }catch(e){/* private browsing or a full quota: saving is a bonus, never a blocker */}
+}
+
+function restoreDraft(){
+  let data;
+  try{data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');}catch(e){return;}
+  if(!data)return;
+  SAVED_FIELDS.forEach(id=>{const el=document.getElementById(id);if(el&&typeof data[id]==='string')el.value=data[id];});
+  if(data.reportType){
+    const radio=document.querySelector('input[name="reportType"][value="'+data.reportType+'"]');
+    if(radio)radio.checked=true;
+  }
+}
+
+document.addEventListener('input',saveDraft);
+reportRadios.forEach(r=>r.addEventListener('change',saveDraft));
+document.getElementById('team').addEventListener('change',applyTeam);
+document.getElementById('role').addEventListener('change',refreshRoleScopedLists);
+document.getElementById('phase').addEventListener('change',onPhaseChanged);
+restoreDraft();
+updateMode();
+initCatalog();
+</script>
+</body>
+</html>

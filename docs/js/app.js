@@ -699,21 +699,11 @@ function formatTrust(value) {
 }
 
 function parseCSV(text, rowParser) {
-  const lines = splitCSVRecords(text).filter(l => l.trim());
-  if (lines.length < 2) return [];
-
-  const headers = parseCSVLine(lines[0]);
   const results = [];
-
-  for (let i = 1; i < lines.length; i++) {
-    const values = parseCSVLine(lines[i]);
-    if (values.length >= headers.length) {
-      const row = {};
-      headers.forEach((h, idx) => row[h.trim()] = values[idx]?.trim() || '');
-      const parsed = rowParser(row);
-      if (parsed) results.push(parsed);
-    }
-  }
+  SimCSV.parseCSVRows(text).forEach(row => {
+    const parsed = rowParser(row);
+    if (parsed) results.push(parsed);
+  });
   return results;
 }
 
@@ -721,52 +711,6 @@ function parseCSV(text, rowParser) {
 // Splitting on '\n' first is what the old reader did, and an incident whose
 // description had been updated arrived as fragments with too few fields --
 // which parseCSV then dropped, so the incident vanished from the board.
-function splitCSVRecords(text) {
-  const records = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    if (char === '"') {
-      if (inQuotes && text[i + 1] === '"') { current += '""'; i++; continue; }
-      inQuotes = !inQuotes;
-      current += char;
-    } else if ((char === '\n' || char === '\r') && !inQuotes) {
-      if (char === '\r' && text[i + 1] === '\n') i++;
-      records.push(current);
-      current = '';
-    } else {
-      current += char;
-    }
-  }
-  if (current) records.push(current);
-  return records;
-}
-
-function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    if (char === '"') {
-      if (inQuotes && line[i + 1] === '"') {
-        current += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (char === ',' && !inQuotes) {
-      result.push(current);
-      current = '';
-    } else {
-      current += char;
-    }
-  }
-  result.push(current);
-  return result;
-}
 
 function parseTeamRow(row) {
   return {
