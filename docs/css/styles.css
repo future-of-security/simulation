@@ -62,6 +62,12 @@ body {
   text-decoration: underline;
 }
 
+.nav-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
 .help-link {
   font-size: 14px;
   color: #6B7280;
@@ -953,6 +959,18 @@ body {
   font-size: 13px;
   color: #DC2626;
 }
+
+.help-content .tool-callout {
+  background-color: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-left: 4px solid #1D4ED8;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.help-content .tool-callout p { margin: 0 0 6px; }
+.help-content .tool-callout p:last-child { margin-bottom: 0; }
 
 .help-content .template-block {
   background-color: #F9FAFB;
