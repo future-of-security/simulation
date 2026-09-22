@@ -227,14 +227,15 @@ async function initTeamPage(phaseNum, teamName) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, indexText, rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
+    const [overviewText, indexText, rolesText, injectsText, actionsText, stateText, notificationsText, eventsText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
       fetchFile(`${CONFIG.dataBaseUrl}/_index.json`).catch(() => ''),
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
       fetchFile(`${base}/actions.csv`).catch(() => ''),
       fetchFile(`${base}/phase_state.json`).catch(() => ''),
-      fetchFile(`${base}/notifications.csv`).catch(() => '')
+      fetchFile(`${base}/notifications.csv`).catch(() => ''),
+      fetchFile(`${base}/events.jsonl`).catch(() => '')
     ]);
     PHASES = safeParsePhaseIndex(indexText);
 
@@ -243,6 +244,7 @@ async function initTeamPage(phaseNum, teamName) {
     SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
     if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
     if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
+    SIMULATION.events = parseEvents(eventsText);
 
     // Parse phase state
     PHASE_STATE = null;
@@ -603,12 +605,13 @@ function updateLastUpdated() {
 async function pollData(phaseNum) {
   const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
   try {
-    const [rolesText, injectsText, actionsText, stateText, notificationsText] = await Promise.all([
+    const [rolesText, injectsText, actionsText, stateText, notificationsText, eventsText] = await Promise.all([
       fetchFile(`${base}/roles.csv`),
       fetchFile(`${base}/injects.csv`),
       fetchFile(`${base}/actions.csv`).catch(() => ''),
       fetchFile(`${base}/phase_state.json`).catch(() => ''),
-      fetchFile(`${base}/notifications.csv`).catch(() => '')
+      fetchFile(`${base}/notifications.csv`).catch(() => ''),
+      fetchFile(`${base}/events.jsonl`).catch(() => '')
     ]);
 
     const fingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '') + (notificationsText || '');
@@ -621,6 +624,7 @@ async function pollData(phaseNum) {
     SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
     if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
     if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
+    SIMULATION.events = parseEvents(eventsText);
 
     PHASE_STATE = null;
     if (stateText) {
@@ -757,6 +761,77 @@ function parseActionRow(row) {
     trustImpact: row.trust_impact || '0',
     description: row.description || ''
   };
+}
+
+// One JSON object per line, appended by the facilitator as it works. A
+// truncated last line is expected — the file is read while it is written —
+// so a line that will not parse is skipped rather than failing the load.
+function parseEvents(text) {
+  const out = [];
+  for (const line of String(text || '').split('\n')) {
+    const t = line.trim();
+    if (!t) continue;
+    try {
+      const rec = JSON.parse(t);
+      if (rec && typeof rec === 'object') out.push(rec);
+    } catch (e) { /* half-written line */ }
+  }
+  return out;
+}
+
+const EVENT_LABELS = {
+  report_fetched: 'Report received',
+  report_skipped: 'Empty submission skipped',
+  processing_started: 'Processing started',
+  processing_finished: 'Processing finished',
+  processing_failed: 'Processing failed',
+  assessment_started: 'Assessment started',
+  assessment_finished: 'Assessment finished',
+  inject_updated: 'Incident updated',
+  inject_escalated: 'Escalated',
+  inject_opened: 'Opened',
+  team_scored: 'Scored',
+  claim_opened: 'Collaboration claimed',
+  claim_settled: 'Collaboration settled',
+  notification_sent: 'Notification sent',
+  adversary_pulse: 'Red team pulse',
+  reconcile_started: 'Reconciliation started',
+  reconcile_finished: 'Reconciliation finished',
+  published: 'Published',
+  phase_began: 'Phase began',
+  phase_ended: 'Phase ended'
+};
+
+// The log is written verbosely on purpose; an incident's own table shows the
+// events that happened *to it*, which is the question someone clicking it has.
+const INCIDENT_EVENT_KINDS = new Set([
+  'inject_opened', 'inject_updated', 'inject_escalated', 'notification_sent'
+]);
+
+function renderInjectLog(inject) {
+  const section = document.getElementById('modal-log-section');
+  const body = document.getElementById('modal-log-body');
+  if (!section || !body) return;
+
+  const rows = (SIMULATION.events || [])
+    .filter(e => e.inject === inject.id && INCIDENT_EVENT_KINDS.has(e.kind));
+  if (!rows.length) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  body.innerHTML = rows.map(e => {
+    const when = e.at ? new Date(e.at).toLocaleTimeString([], {
+      hour: 'numeric', minute: '2-digit' }) : escapeHtml(e.sim || '');
+    const label = EVENT_LABELS[e.kind] || e.kind;
+    const state = e.state ? ` <span class="log-state">${escapeHtml(e.state)}</span>` : '';
+    return `<tr>
+      <td class="log-time">${escapeHtml(when)}</td>
+      <td>${escapeHtml(label)}${state}</td>
+      <td>${escapeHtml(e.team || '')}</td>
+      <td class="log-detail">${escapeHtml(e.detail || '')}</td>
+    </tr>`;
+  }).join('');
 }
 
 function parseNotificationRow(row) {
@@ -968,6 +1043,7 @@ function showInjectModal(inject) {
     due ? `${formatTimeLimit(inject.timeLimit)} (due ${due})` : formatTimeLimit(inject.timeLimit);
   document.getElementById('modal-visible').textContent = inject.visibleTo.length > 0 ? inject.visibleTo.join(', ') : 'All Teams';
   document.getElementById('modal-points').textContent = inject.points || '—';
+  renderInjectLog(inject);
 
   // Set severity badge
   const severityEl = document.getElementById('modal-severity');

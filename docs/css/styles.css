@@ -1380,3 +1380,38 @@ body {
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
 }
+
+
+/* ==================== INCIDENT LOG ==================== */
+.modal-log {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.modal-log-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6B7280;
+  margin: 0 0 10px;
+}
+
+.modal-log-table {
+  font-size: 13px;
+}
+
+.modal-log-table .log-time {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: #6B7280;
+}
+
+.modal-log-table .log-detail {
+  color: #374151;
+}
+
+.modal-log-table .log-state {
+  color: #6B7280;
+}
