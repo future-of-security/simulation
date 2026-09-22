@@ -344,7 +344,7 @@ function renderNotifications(teamName) {
     return `
       <div class="notification-item ${typeClass}">
         <div class="notif-meta">
-          <span class="notif-time">${escapeHtml(n.simTime)}</span>
+          <span class="notif-time">${escapeHtml(shownTime(n.simTime))}</span>
           <span class="notif-type-badge ${typeClass}">${typeLabel}</span>
           ${isGlobal ? '<span class="notif-global">All Teams</span>' : ''}
         </div>
@@ -733,6 +733,7 @@ function parseInjectRow(row) {
     description: row.description,
     location: row.location,
     severity: parseInt(row.severity) || 3,
+    openedAt: row.sim_time || '',
     timeLimit: parseInt(row.time_limit) || 10,
     state: row.state || 'open',
     visibleTo: (row.visible_to || '').split(';').map(t => t.trim()).filter(t => t),
@@ -849,6 +850,30 @@ function updateSortIndicators(tableId, sortState) {
   }
 }
 
+// The board stores time as minutes since the phase started, because a phase is
+// authored before anyone knows which day it runs. Readers are looking at a
+// clock on the wall, so every displayed time comes through here. Without a
+// phase start (an archived phase has no phase_state.json) the offset is still
+// shown — "0:18" beats nothing.
+function simMinutes(text) {
+  const t = String(text || '').trim();
+  if (!t.includes(':')) return null;
+  const [h, m] = t.split(':');
+  const hours = parseInt(h, 10), mins = parseInt(m, 10);
+  if (Number.isNaN(hours) || Number.isNaN(mins)) return null;
+  return hours * 60 + mins;
+}
+
+function wallClock(minutes) {
+  if (minutes === null || minutes === undefined || !PHASE_STATE) return '';
+  const at = new Date(PHASE_STATE.startedAt.getTime() + minutes * 60000);
+  return at.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
+
+function shownTime(text) {
+  return wallClock(simMinutes(text)) || String(text || '');
+}
+
 function formatTimeLimit(minutes) {
   if (minutes >= 60) return `${Math.round(minutes / 60)}h`;
   return `${minutes}m`;
@@ -859,7 +884,12 @@ function getTimeLeft(inject) {
   if (inject.state === 'resolved' || inject.state === 'partially_resolved') {
     return { html: '<span class="time-done">—</span>' };
   }
-  const deadlineMs = PHASE_STATE.startedAt.getTime() + inject.timeLimit * 60 * 1000;
+  // An incident that opens at 0:05 with a 20-minute limit is due at 0:25, not
+  // at 0:20: the limit runs from when it opened. Counting from the phase start
+  // showed every later incident as more overdue than it was.
+  const opened = simMinutes(inject.openedAt) || 0;
+  const deadlineMs =
+    PHASE_STATE.startedAt.getTime() + (opened + inject.timeLimit) * 60 * 1000;
   const remainingMs = deadlineMs - Date.now();
   const remainingMin = Math.round(remainingMs / 60000);
 
@@ -927,7 +957,9 @@ function showInjectModal(inject) {
   document.getElementById('modal-title').textContent = inject.title;
   document.getElementById('modal-description').textContent = inject.description || 'No description available.';
   document.getElementById('modal-location').textContent = inject.location || '—';
-  document.getElementById('modal-time').textContent = formatTimeLimit(inject.timeLimit);
+  const due = wallClock((simMinutes(inject.openedAt) || 0) + inject.timeLimit);
+  document.getElementById('modal-time').textContent =
+    due ? `${formatTimeLimit(inject.timeLimit)} (due ${due})` : formatTimeLimit(inject.timeLimit);
   document.getElementById('modal-visible').textContent = inject.visibleTo.length > 0 ? inject.visibleTo.join(', ') : 'All Teams';
   document.getElementById('modal-points').textContent = inject.points || '—';
 
