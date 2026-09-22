@@ -56,7 +56,7 @@
     <label><input type="radio" name="reportType" value="class" checked> In-Class Incident Report</label>
     <label><input type="radio" name="reportType" value="final"> Final Report</label>
   </div>
-  <div class="rulebox" id="modeRule">In class: submit one report per incident. Use the incident's exact dashboard title.</div>
+  <div class="rulebox" id="modeRule">In class: submit one report per incident. Give the incident's dashboard id, not its title.</div>
   <div class="grid">
     <div><label for="team">Team <span class="required">*</span></label><input id="team" list="teams-list" placeholder="Exact dashboard team codename"></div>
     <div><label for="role">Role <span class="required">*</span></label><input id="role" list="roles-list" placeholder="Exact role from dashboard card"></div>
@@ -72,9 +72,9 @@
 <div class="card regular-report-card">
   <h2>What My Role Could See</h2>
   <div class="class-only">
-    <label for="incident">Dashboard incident title <span class="required">*</span></label>
-    <input id="incident" list="incidents-list" placeholder="Paste the incident title exactly as shown on the dashboard">
-    <p class="hint">One in-class report = one incident. Do not paraphrase the incident title.</p>
+    <label for="incident">Dashboard incident ID <span class="required">*</span></label>
+    <input id="incident" list="incidents-list" placeholder="The ID from the dashboard's ID column, e.g. I201">
+    <p class="hint">One in-class report = one incident. The ID is in the dashboard's first column; pick from the list and the ID is filled in for you.</p>
   </div>
   <label for="notVisible">What I needed to know but could not see</label>
   <textarea id="notVisible" placeholder="State the information gap honestly; do not invent visibility your role did not have."></textarea>
@@ -150,7 +150,7 @@ function closeIntro(){
 }
 
 const reportRadios=document.querySelectorAll('input[name="reportType"]');reportRadios.forEach(r=>r.addEventListener('change',updateMode));
-function updateMode(){const type=document.querySelector('input[name="reportType"]:checked').value;document.querySelectorAll('.final-only').forEach(el=>el.style.display=type==='final'?'block':'none');document.querySelectorAll('.class-only').forEach(el=>el.style.display=type==='class'?'block':'none');document.getElementById('modeRule').textContent=type==='class'?"In class: submit one report per incident. Use the incident's exact dashboard title.":'Final Report: complete Outcomes, Needs, Risks and Reflection and Design Takeaway.';document.querySelectorAll('.regular-report-card').forEach(el=>el.style.display=type==='final'?'none':'block');}
+function updateMode(){const type=document.querySelector('input[name="reportType"]:checked').value;document.querySelectorAll('.final-only').forEach(el=>el.style.display=type==='final'?'block':'none');document.querySelectorAll('.class-only').forEach(el=>el.style.display=type==='class'?'block':'none');document.getElementById('modeRule').textContent=type==='class'?"In class: submit one report per incident. Give the incident's dashboard id, not its title.":'Final Report: complete Outcomes, Needs, Risks and Reflection and Design Takeaway.';document.querySelectorAll('.regular-report-card').forEach(el=>el.style.display=type==='final'?'none':'block');}
 
 // ---------------------------------------------------------------------------
 // Live catalog, read straight from the published simulation-data repo so this
@@ -252,7 +252,7 @@ function refreshRoleScopedLists(){
   const role=val('role');
   const open=openIncidents();
   const visible=open.filter(i=>servesRole(i.visible_to,role));
-  fillList('incidents-list',(visible.length?visible:open).map(i=>i.incident).filter(Boolean));
+  fillList('incidents-list',(visible.length?visible:open).map(i=>i.id?i.id+' \u2014 '+i.incident:i.incident).filter(Boolean));
 
   const usable=CATALOG.actions.filter(a=>servesRole(a.available_to,role));
   const picker=document.getElementById('actionPicker');
@@ -337,11 +337,12 @@ function showNotice(id,title,items){const el=document.getElementById(id);if(!el)
 function validate(){const type=document.querySelector('input[name="reportType"]:checked').value;const errors=[],warnings=[];
   if(type==='class'){
     ['team','role','phase'].forEach(id=>{if(!val(id))errors.push(id.charAt(0).toUpperCase()+id.slice(1)+' is required.');});
-    if(!val('incident'))errors.push('Enter the exact dashboard incident title. In-class reports cover one incident each.');
+    if(!val('incident'))errors.push('Enter the incident ID from the dashboard. In-class reports cover one incident each.');
     else if(CATALOG.online&&CATALOG.incidents.length){
-      const row=CATALOG.incidents.find(i=>i.incident.toLowerCase()===val('incident').toLowerCase());
+      const typed=val('incident').split('\u2014')[0].trim().toLowerCase();
+      const row=CATALOG.incidents.find(i=>(i.id||'').toLowerCase()===typed||i.incident.toLowerCase()===val('incident').toLowerCase());
       if(!row)
-        warnings.push('That incident title is not in this phase\'s catalog. Copy it from the dashboard exactly, or the claim cannot be matched to the board.');
+        warnings.push('That incident ID is not in this phase\'s catalog. Copy it from the dashboard\'s ID column, or the claim cannot be matched to the board.');
       else if(row.state==='hidden')
         warnings.push('That incident has not opened yet. Report the one on your dashboard now.');
       else if(val('role')&&!servesRole(row.visible_to,val('role')))
@@ -401,7 +402,7 @@ function generateReport(){
     if(meta.length) parts.push(meta.join('\n'));
 
     let visibleBody=[];
-    if(val('incident')) visibleBody.push('The incident this report is about, by its dashboard title:\n\n- '+val('incident'));
+    if(val('incident')) visibleBody.push('The incident this report is about, by its dashboard id (for example `I201`):\n\n- '+val('incident').split('\u2014')[0].trim());
     if(val('notVisible')) visibleBody.push('What I needed to know but could not see:\n\n'+bulletLines(val('notVisible')));
     if(visibleBody.length) addSection(parts,'What My Role Could See',visibleBody.join('\n\n'));
 
