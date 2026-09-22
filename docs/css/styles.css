@@ -1126,21 +1126,8 @@ body {
 }
 
 /* ==================== LEADERBOARD (full table, kept for other pages) ==================== */
-.leaderboard-card {
-  max-height: 500px;
-  overflow-y: auto;
-}
 
-.leaderboard-card .rank-cell {
-  font-weight: 700;
-  color: #6B7280;
-  width: 40px;
-}
 
-.leaderboard-card .role-cell {
-  color: #6B7280;
-  font-size: 13px;
-}
 
 /* ==================== TEAM CARDS GRID ==================== */
 .team-cards-grid {
