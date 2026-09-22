@@ -1335,6 +1335,17 @@ body {
 .notif-ruling { border-left-color: #8B5CF6; }
 .notif-ruling .notif-type-badge { background: #EDE9FE; color: #5B21B6; }
 
+/* A team's own submission coming back. */
+.notif-report .notif-type-badge,
+.notif-report { border-left-color: #22C55E; }
+.notif-report .notif-type-badge { background: #DCFCE7; color: #166534; }
+
+/* An incident this team can see has moved — not about its own report. */
+.notif-incident .notif-type-badge,
+.notif-incident { border-left-color: #0EA5E9; }
+.notif-incident .notif-type-badge { background: #E0F2FE; color: #075985; }
+
+/* Published before the split; the feed is append-only. */
 .notif-update .notif-type-badge,
 .notif-update { border-left-color: #22C55E; }
 .notif-update .notif-type-badge { background: #DCFCE7; color: #166534; }

@@ -321,6 +321,15 @@ function renderTeamHeader(team) {
   `;
 }
 
+const NOTIF_LABELS = {
+  report: 'Your report',
+  incident: 'Incident',
+  escalation: 'Escalated',
+  warning: 'Warning',
+  info: 'Info',
+  update: 'Update'
+};
+
 function renderNotifications(teamName) {
   const container = document.getElementById('notifications-list');
   if (!container) return;
@@ -339,7 +348,12 @@ function renderNotifications(teamName) {
   const sorted = [...notes].reverse();
   container.innerHTML = sorted.map(n => {
     const typeClass = `notif-${n.type}`;
-    const typeLabel = n.type.charAt(0).toUpperCase() + n.type.slice(1);
+    // What the row is about, in the reader's terms: "Your report" answers
+    // what happened to what this team filed, "Incident" what changed on the
+    // board. `update` is what both were called before they were split, and
+    // rows published under it stay as they are.
+    const typeLabel = NOTIF_LABELS[n.type]
+      || n.type.charAt(0).toUpperCase() + n.type.slice(1);
     const isGlobal = n.team === 'ALL';
     return `
       <div class="notification-item ${typeClass}">
