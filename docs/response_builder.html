@@ -161,6 +161,18 @@ function updateMode(){const type=document.querySelector('input[name="reportType"
 const DATA_BASE='https://raw.githubusercontent.com/future-of-security/simulation-data/main';
 const CATALOG={sim:null,phases:[],teams:[],roles:[],rolesByTeam:{},incidents:[],actions:[],phaseLoaded:null,online:false};
 
+// The board is JSON; the CSV beside it is what a phase published before the
+// migration still has. Either way the rows come back the same shape.
+async function board(base, kind){
+  try{
+    const doc=JSON.parse(await getText(base+'/'+kind+'.json'));
+    return doc[kind==='roles'?'teams':kind]||[];
+  }catch(e){
+    try{ return SimCSV.parseCSVRows(await getText(base+'/'+kind+'.csv')); }
+    catch(e2){ return []; }
+  }
+}
+
 async function getText(path){
   const res=await fetch(DATA_BASE+'/'+path+'?v='+Date.now());
   if(!res.ok)throw new Error('HTTP '+res.status);
@@ -181,9 +193,20 @@ function fillList(id,values){
 }
 
 // visible_to and available_to are ';'-separated role lists, with ALL as a wildcard
+// Costs are numbers on a JSON board and `$85K` on a CSV one. Reports quote
+// the catalog price, so this has to be the spelling the catalog shows.
+function money(value){
+  if(typeof value!=='number')return value||'';
+  if(Math.abs(value)>=1000000)return '$'+(value/1000000)+'M';
+  if(Math.abs(value)>=1000)return '$'+(value/1000)+'K';
+  return '$'+value;
+}
+
 function servesRole(list,role){
   if(!list)return true;
-  const items=list.split(';').map(x=>x.trim()).filter(Boolean);
+  // a list from JSON, a ';'-joined string from an archived CSV board
+  const items=(Array.isArray(list)?list:String(list).split(';'))
+    .map(x=>String(x).trim()).filter(Boolean);
   if(!items.length||items.some(x=>x.toUpperCase()==='ALL'))return true;
   if(!role)return true;
   return items.some(x=>x.toLowerCase()===role.toLowerCase());
@@ -201,13 +224,13 @@ async function loadIndex(){
 async function loadPhase(num){
   const base=CATALOG.sim.path+'/phase_'+num;
   const [rolesCsv,injectsCsv,actionsCsv]=await Promise.all([
-    getText(base+'/roles.csv').catch(()=>''),
-    getText(base+'/injects.csv').catch(()=>''),
-    getText(base+'/actions.csv').catch(()=>''),
+    board(base,'roles'),
+    board(base,'injects'),
+    board(base,'actions'),
   ]);
-  CATALOG.roles=SimCSV.parseCSVRows(rolesCsv);
-  CATALOG.incidents=SimCSV.parseCSVRows(injectsCsv);
-  CATALOG.actions=SimCSV.parseCSVRows(actionsCsv);
+  CATALOG.roles=rolesCsv;
+  CATALOG.incidents=injectsCsv;
+  CATALOG.actions=actionsCsv;
   CATALOG.rolesByTeam={};
   CATALOG.teams=[];
   CATALOG.roles.forEach(r=>{if(r.team){CATALOG.rolesByTeam[r.team.toLowerCase()]=r;CATALOG.teams.push(r.team);}});
@@ -236,7 +259,7 @@ function refreshRoleScopedLists(){
   if(picker){
     const list=usable.length?usable:CATALOG.actions;
     picker.innerHTML='<option value="">'+(list.length?'Pick an action from the catalog…':'Catalog unavailable — type the line by hand')+'</option>'+
-      list.map(a=>'<option value="'+a.action_id+'">'+a.action_id+' — '+a.action_name+' ('+(a.cost||'')+')</option>').join('');
+      list.map(a=>'<option value="'+a.action_id+'">'+a.action_id+' — '+a.action_name+' ('+money(a.cost)+')</option>').join('');
   }
 }
 
@@ -246,7 +269,7 @@ function insertAction(){
   const a=CATALOG.actions.find(x=>x.action_id===picker.value);
   if(!a)return;
   const box=document.getElementById('actions');
-  const line=a.action_id+' | '+a.action_name+' | '+(a.cost||'')+' | ';
+  const line=a.action_id+' | '+a.action_name+' | '+money(a.cost)+' | ';
   box.value=(box.value.trim()?box.value.replace(/\s*$/,'')+'\n':'')+line;
   box.focus();
   box.setSelectionRange(box.value.length,box.value.length);

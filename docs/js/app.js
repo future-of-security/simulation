@@ -143,23 +143,21 @@ async function initPhasePage(phaseNum) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, indexText, phaseOverviewText, rolesText, injectsText, actionsText, stateText] = await Promise.all([
+    const [overviewText, indexText, phaseOverviewText, teamRows, injectRows, actionRows, stateText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
       fetchFile(`${CONFIG.dataBaseUrl}/_index.json`).catch(() => ''),
       fetchFile(`${base}/overview.md`).catch(() => ''),
-      fetchFile(`${base}/roles.csv`),
-      fetchFile(`${base}/injects.csv`),
-      fetchFile(`${base}/actions.csv`).catch(() => ''),
+      fetchBoard(base, 'roles', parseTeamRow),
+      fetchBoard(base, 'injects', parseInjectRow),
+      fetchBoard(base, 'actions', parseActionRow),
       fetchFile(`${base}/phase_state.json`).catch(() => '')
     ]);
     PHASES = safeParsePhaseIndex(indexText);
 
     parseOverview(overviewText);
-    SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
-    SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
-    if (actionsText) {
-      SIMULATION.actions = parseCSV(actionsText, parseActionRow);
-    }
+    SIMULATION.teams = teamRows;
+    SIMULATION.incidents = injectRows;
+    SIMULATION.actions = actionRows;
 
     // Parse phase state (live countdown)
     PHASE_STATE = null;
@@ -172,7 +170,7 @@ async function initPhasePage(phaseNum) {
       } catch (e) { /* malformed JSON — ignore */ }
     }
 
-    lastFingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '');
+    lastFingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText);
     updateLastUpdated();
 
     // Update phase header
@@ -227,12 +225,12 @@ async function initTeamPage(phaseNum, teamName) {
   try {
     const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
     const simBase = `${CONFIG.dataBaseUrl}/${CONFIG.simId}`;
-    const [overviewText, indexText, rolesText, injectsText, actionsText, stateText, notificationsText, eventsText] = await Promise.all([
+    const [overviewText, indexText, teamRows, injectRows, actionRows, stateText, notificationsText, eventsText] = await Promise.all([
       fetchFile(`${simBase}/sim_overview.md`),
       fetchFile(`${CONFIG.dataBaseUrl}/_index.json`).catch(() => ''),
-      fetchFile(`${base}/roles.csv`),
-      fetchFile(`${base}/injects.csv`),
-      fetchFile(`${base}/actions.csv`).catch(() => ''),
+      fetchBoard(base, 'roles', parseTeamRow),
+      fetchBoard(base, 'injects', parseInjectRow),
+      fetchBoard(base, 'actions', parseActionRow),
       fetchFile(`${base}/phase_state.json`).catch(() => ''),
       fetchFile(`${base}/notifications.csv`).catch(() => ''),
       fetchFile(`${base}/events.jsonl`).catch(() => '')
@@ -240,9 +238,9 @@ async function initTeamPage(phaseNum, teamName) {
     PHASES = safeParsePhaseIndex(indexText);
 
     parseOverview(overviewText);
-    SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
-    SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
-    if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+    SIMULATION.teams = teamRows;
+    SIMULATION.incidents = injectRows;
+    SIMULATION.actions = actionRows;
     if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
     SIMULATION.events = parseEvents(eventsText);
 
@@ -258,7 +256,7 @@ async function initTeamPage(phaseNum, teamName) {
       } catch (e) {}
     }
 
-    lastFingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '') + (notificationsText || '');
+    lastFingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText);
     updateLastUpdated();
 
     // Find team
@@ -605,24 +603,24 @@ function updateLastUpdated() {
 async function pollData(phaseNum) {
   const base = `${CONFIG.dataBaseUrl}/${CONFIG.simId}/phase_${phaseNum}`;
   try {
-    const [rolesText, injectsText, actionsText, stateText, notificationsText, eventsText] = await Promise.all([
-      fetchFile(`${base}/roles.csv`),
-      fetchFile(`${base}/injects.csv`),
-      fetchFile(`${base}/actions.csv`).catch(() => ''),
+    const [teamRows, injectRows, actionRows, stateText, notificationsText, eventsText] = await Promise.all([
+      fetchBoard(base, 'roles', parseTeamRow),
+      fetchBoard(base, 'injects', parseInjectRow),
+      fetchBoard(base, 'actions', parseActionRow),
       fetchFile(`${base}/phase_state.json`).catch(() => ''),
       fetchFile(`${base}/notifications.csv`).catch(() => ''),
       fetchFile(`${base}/events.jsonl`).catch(() => '')
     ]);
 
-    const fingerprint = rolesText + injectsText + (actionsText || '') + (stateText || '') + (notificationsText || '');
+    const fingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText);
     updateLastUpdated();
 
     if (fingerprint === lastFingerprint) return;
     lastFingerprint = fingerprint;
 
-    SIMULATION.teams = parseCSV(rolesText, parseTeamRow);
-    SIMULATION.incidents = parseCSV(injectsText, parseInjectRow);
-    if (actionsText) SIMULATION.actions = parseCSV(actionsText, parseActionRow);
+    SIMULATION.teams = teamRows;
+    SIMULATION.incidents = injectRows;
+    SIMULATION.actions = actionRows;
     if (notificationsText) SIMULATION.notifications = parseCSV(notificationsText, parseNotificationRow);
     SIMULATION.events = parseEvents(eventsText);
 
@@ -733,6 +731,35 @@ function parseTeamRow(row) {
   };
 }
 
+// Whether anything moved since the last poll. It was a concatenation of the
+// fetched text, which the boards no longer arrive as.
+function boardFingerprint(teams, injects, actions, ...rest) {
+  return JSON.stringify([teams, injects, actions]) + rest.map(x => x || '').join('');
+}
+
+// A field that names roles: a list from JSON, a ';'-joined string from CSV.
+function asList(value) {
+  if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(v => v);
+  return String(value || '').split(';').map(t => t.trim()).filter(t => t);
+}
+
+// Fetch one board, preferring the JSON. The CSV is still there for phases
+// published before the migration, and is what this falls back to.
+async function fetchBoard(base, kind, rowParser) {
+  try {
+    const text = await fetchFile(`${base}/${kind}.json`);
+    const doc = JSON.parse(text);
+    const rows = doc[kind === 'roles' ? 'teams' : kind] || [];
+    return rows.map(rowParser).filter(r => r);
+  } catch (e) {
+    try {
+      return parseCSV(await fetchFile(`${base}/${kind}.csv`), rowParser);
+    } catch (e2) {
+      return [];
+    }
+  }
+}
+
 function parseInjectRow(row) {
   return {
     // An incident id is `I201`, not a number: the phase is in it, so it stays
@@ -745,7 +772,7 @@ function parseInjectRow(row) {
     openedAt: row.sim_time || '',
     timeLimit: parseInt(row.time_limit) || 10,
     state: row.state || 'open',
-    visibleTo: (row.visible_to || '').split(';').map(t => t.trim()).filter(t => t),
+    visibleTo: asList(row.visible_to),
     points: parseInt(row.points_resolve) || 0
   };
 }
@@ -754,8 +781,10 @@ function parseActionRow(row) {
   return {
     id: row.action_id || '',
     name: row.action_name || '',
-    availableTo: (row.available_to || '').split(';').map(t => t.trim()).filter(t => t),
-    cost: row.cost || '$0',
+    availableTo: asList(row.available_to),
+    // A number from JSON, `$85K` from an archived CSV board. Rendered here
+    // so every consumer shows the same thing.
+    cost: typeof row.cost === 'number' ? formatCurrency(row.cost) : (row.cost || '$0'),
     delay: row.delay_mins || '0',
     approval: row.requires_approval || 'NONE',
     trustImpact: row.trust_impact || '0',
@@ -852,6 +881,9 @@ function setPageTitle(phaseNum, phaseInfo, teamName) {
 }
 
 function parseBudget(str) {
+  // The board is JSON now and hands over a number; an archived CSV board
+  // still hands over `$155K`.
+  if (typeof str === 'number') return str;
   if (!str) return 0;
   const cleaned = str.replace(/[$,]/g, '').toUpperCase();
   if (cleaned.includes('M')) return parseFloat(cleaned.replace('M', '')) * 1000000;
