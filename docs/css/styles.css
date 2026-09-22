@@ -1021,7 +1021,13 @@ body {
 
 /* ==================== TIME LEFT COLUMN ==================== */
 #incidents-table .col-time-left,
-#team-incidents-table .col-time-left { display: none; }
+#team-incidents-table .col-incident-id {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: #6B7280;
+}
+
+.col-time-left { display: none; }
 #incidents-table.live-phase .col-time-left,
 #team-incidents-table.live-phase .col-time-left { display: table-cell; }
 

@@ -371,6 +371,8 @@ function renderTeamIncidents(team) {
   incidents.sort((a, b) => {
     let aVal, bVal;
     switch (incidentSort.column) {
+      // zero-padded, so lexicographic order is numeric order
+      case 'id': aVal = a.id; bVal = b.id; break;
       case 'title': aVal = a.title.toLowerCase(); bVal = b.title.toLowerCase(); break;
       case 'severity': aVal = a.severity; bVal = b.severity; break;
       case 'timeLimit': aVal = a.timeLimit; bVal = b.timeLimit; break;
@@ -397,6 +399,7 @@ function renderTeamIncidents(team) {
     tr.onclick = () => showInjectModal(incident);
     const timeLeft = getTimeLeft(incident);
     tr.innerHTML = `
+      <td class="col-incident-id">${escapeHtml(incident.id)}</td>
       <td>${escapeHtml(incident.title)}</td>
       <td>${getSeverityBadge(incident.severity)}</td>
       <td>${formatTimeLimit(incident.timeLimit)}</td>
@@ -728,7 +731,9 @@ function parseTeamRow(row) {
 
 function parseInjectRow(row) {
   return {
-    id: parseInt(row.id) || 0,
+    // An incident id is `I201`, not a number: the phase is in it, so it stays
+    // meaningful in a ledger, an archive, or a report read next semester.
+    id: (row.id || '').trim(),
     title: row.incident,
     description: row.description,
     location: row.location,
@@ -954,7 +959,8 @@ function showInjectModal(inject) {
   if (!modal) return;
 
   // Populate modal content
-  document.getElementById('modal-title').textContent = inject.title;
+  document.getElementById('modal-title').textContent =
+    inject.id ? `${inject.id} — ${inject.title}` : inject.title;
   document.getElementById('modal-description').textContent = inject.description || 'No description available.';
   document.getElementById('modal-location').textContent = inject.location || '—';
   const due = wallClock((simMinutes(inject.openedAt) || 0) + inject.timeLimit);
