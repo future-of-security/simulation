@@ -98,24 +98,27 @@
       <h2>Filling In the Report</h2>
       <p>The template carries headings and formats only. What each section is for, and what a filled-in line looks like, is here — so that nothing you paste into Canvas is something we asked you to delete first.</p>
 
-      <h3>Team / Role / Phase</h3>
+      <h3>Team / Role / Phase / Incident</h3>
       <p>Your team's codename, the role on your dashboard card, and the phase number. The team name is how your report is matched to your board, so write it exactly as the dashboard spells it.</p>
+      <p><strong>Incident</strong> is the id the dashboard shows in its ID column — <code>I401</code>, not the title. One report covers one incident; the evening's phase report lists every incident you worked. Which incidents you left alone is a decision too, and Situation Judgment is where you say why.</p>
+      <pre><code>**Team:** Acadia
+**Role:** SW Virginia Community Bankers &amp; Credit Unions
+**Phase:** 4
+**Incident:** I401</code></pre>
 
-      <h3>What My Role Could See</h3>
-      <p><strong>The incident this report is about</strong>, by the id the dashboard shows in its ID column — <code>I201</code>, not the title. One report covers one incident; the evening's phase report names the ones you worked. Which incidents you left alone is a decision too, and Situation Judgment is where you say why.</p>
-      <p>Then <strong>what you needed to know and could not see</strong>. The gap is part of the exercise, and naming it earns more than pretending it was not there.</p>
-      <pre><code>The incident this report is about, by its dashboard id (for example `I201`):
-- I201
-
-What I needed to know but could not see:
+      <h3>What My Role Could Not See</h3>
+      <p><strong>What you needed to know and could not see</strong>. The gap is part of the exercise, and naming it earns more than pretending it was not there.</p>
+      <pre><code>What I needed to know but could not see:
 - whether the outage reached the rural clinics — no visibility from this role</code></pre>
 
       <h3>Situation Judgment</h3>
       <p>Two or three sentences: what you believe is happening, and how confident you are. A guess you name as a guess is worth more than a certainty you cannot support.</p>
 
       <h3>Actions Taken</h3>
-      <p>One line per action, in the format the template shows. The Action ID has to come from your phase's catalog; the last field is why the action is yours to take.</p>
-      <pre><code>- A14 | Deploy backup generators | $1.2M | we own the distribution assets</code></pre>
+      <p>One line per action, in the format the template shows. The Action ID has to come from your phase's catalog; the fourth field is why the action is yours to take. <strong>The last field is what the action produced — the state that exists now because you took it: who, where, how many, what is true that was not true before.</strong></p>
+      <p><strong>An incident closes only when a report describes the state its closing condition names.</strong> A report that says only what you decided to do can earn partial credit, and never closes anything.</p>
+      <pre><code>- A14 | Deploy backup generators | $1.2M | we own the distribution assets | generators running at the three rural clinics since 12:55; all three are seeing patients again</code></pre>
+      <p>Write what happened, not what you plan. "We will reassign the rail cars" is a plan. "Twelve idle coal hoppers loaded with diesel for the Wise and Buchanan stations; the first train left at 1:05" is a result.</p>
 
       <h3>Collaboration and Transfers</h3>
       <p>One line per team you worked with. Leave <em>confirmed</em> as no if you have not heard back. Both teams file their own report, so a transfer only one side records is a dispute, not a mistake — and a cost split the other team never records is charged to you in full.</p>

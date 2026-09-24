@@ -61,7 +61,9 @@
     <div><label for="team">Team <span class="required">*</span></label><input id="team" list="teams-list" placeholder="Exact dashboard team codename"></div>
     <div><label for="role">Role <span class="required">*</span></label><input id="role" list="roles-list" placeholder="Exact role from dashboard card"></div>
     <div><label for="phase">Phase <span class="required">*</span></label><input id="phase" list="phases-list" placeholder="e.g. 2"></div>
+    <div class="class-only"><label for="incident">Incident <span class="required">*</span></label><input id="incident" list="incidents-list" placeholder="The dashboard ID, e.g. I401"></div>
   </div>
+  <p class="hint class-only">One in-class report = one incident. The ID is in the dashboard's first column; pick from the list and it is filled in for you.</p>
   <p class="hint" id="catalogStatus">Loading the phase catalog…</p>
   <datalist id="teams-list"></datalist>
   <datalist id="roles-list"></datalist>
@@ -70,12 +72,7 @@
   <datalist id="actions-list"></datalist>
 </div>
 <div class="card regular-report-card">
-  <h2>What My Role Could See</h2>
-  <div class="class-only">
-    <label for="incident">Dashboard incident ID <span class="required">*</span></label>
-    <input id="incident" list="incidents-list" placeholder="The ID from the dashboard's ID column, e.g. I201">
-    <p class="hint">One in-class report = one incident. The ID is in the dashboard's first column; pick from the list and the ID is filled in for you.</p>
-  </div>
+  <h2>What My Role Could Not See</h2>
   <label for="notVisible">What I needed to know but could not see</label>
   <textarea id="notVisible" placeholder="State the information gap honestly; do not invent visibility your role did not have."></textarea>
 </div>
@@ -86,12 +83,12 @@
 </div>
 <div class="card regular-report-card">
   <h2 id="h-actions">Actions Taken</h2>
-  <p class="hint">One action per line: Action ID | Name | Cost | Why it is within your role's authority. Use a real Action ID from this phase's catalog.</p>
+  <p class="hint">One action per line: Action ID | Name | Cost | Why it is within your role's authority | <strong>What it produced</strong>. Describe the state that exists now — an incident closes only when a report describes the result, not the plan. Use a real Action ID from this phase's catalog.</p>
   <div class="picker">
     <select id="actionPicker"><option value="">Loading the action catalog…</option></select>
     <button type="button" class="secondary" onclick="insertAction()">Add this action</button>
   </div>
-  <textarea id="actions" aria-labelledby="h-actions" placeholder="A9 | State Shared Services Firewall | $65K | We administer the state shared-services infrastructure"></textarea>
+  <textarea id="actions" aria-labelledby="h-actions" placeholder="A9 | State Shared Services Firewall | $65K | We administer the state shared-services infrastructure | Firewall live at 1:02; the 14 county networks are cut off from the regional traffic and still serving residents"></textarea>
 </div>
 <div class="card regular-report-card">
   <h2 id="h-collaboration">Collaboration and Transfers</h2>
@@ -365,7 +362,7 @@ function validate(){const type=document.querySelector('input[name="reportType"]:
     if(!val('judgment'))warnings.push('Situation Judgment is blank.'); else {const n=sentenceCount(val('judgment'));if(n<2||n>3)warnings.push('Situation Judgment is intended to be 2–3 sentences; yours appears to be '+n+'.');if(!/\b(uncertain|uncertainty|confident|confidence|likely|may|might|believe|estimate|guess|appears|seems|unknown|cannot confirm|could)\b/i.test(val('judgment')))warnings.push('Situation Judgment does not clearly signal confidence or uncertainty. Consider naming what is known versus inferred.');}
     if(!val('budget'))warnings.push('Remaining Budget is blank; the help page says to report what remains in the dashboard budget column.');
     else if(!looksLikeMoney(val('budget')))warnings.push('Remaining Budget does not contain a number. Copy the figure from the dashboard budget column, for example $30K.');
-    if(val('actions'))val('actions').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,4))warnings.push('Action line '+(i+1)+' does not have all 4 expected fields separated by |.');const fc=fieldCountNote(line,4,'Action',i);if(fc)warnings.push(fc);if(!/^\s*A\w*\d+/i.test(line))warnings.push('Action line '+(i+1)+' does not appear to start with a catalog Action ID; verify it against the phase catalog.');
+    if(val('actions'))val('actions').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,5))warnings.push('Action line '+(i+1)+' does not have all 5 expected fields separated by | (ID, name, cost, why it is yours, what it produced).');else if(/\b(will|plan(ned)? to|going to|intend|expect to)\b/i.test(pipeFields(line)[4]||''))warnings.push('Action line '+(i+1)+': "what it produced" reads like a plan. Describe what now exists — a plan earns partial credit and never closes an incident.');const fc=fieldCountNote(line,5,'Action',i);if(fc)warnings.push(fc);if(!/^\s*A\w*\d+/i.test(line))warnings.push('Action line '+(i+1)+' does not appear to start with a catalog Action ID; verify it against the phase catalog.');
       else if(CATALOG.online&&CATALOG.actions.length){
         const id=pipeFields(line)[0];
         const a=CATALOG.actions.find(x=>x.action_id.toLowerCase()===id.toLowerCase());
@@ -411,12 +408,12 @@ function generateReport(){
     if(val('team')) meta.push('**Team:** '+val('team'));
     if(val('role')) meta.push('**Role:** '+val('role'));
     if(val('phase')) meta.push('**Phase:** '+normalisePhase(val('phase')));
+    if(val('incident')) meta.push('**Incident:** '+val('incident').split('\u2014')[0].trim());
     if(meta.length) parts.push(meta.join('\n'));
 
     let visibleBody=[];
-    if(val('incident')) visibleBody.push('The incident this report is about, by its dashboard id (for example `I201`):\n\n- '+val('incident').split('\u2014')[0].trim());
     if(val('notVisible')) visibleBody.push('What I needed to know but could not see:\n\n'+bulletLines(val('notVisible')));
-    addRequired(parts,'What My Role Could See',visibleBody.join('\n\n'));
+    addRequired(parts,'What My Role Could Not See',visibleBody.join('\n\n'));
 
     addRequired(parts,'Situation Judgment',val('judgment'));
     addRequired(parts,'Actions Taken',val('actions')?bulletLines(val('actions')):'');
