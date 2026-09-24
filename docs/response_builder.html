@@ -280,13 +280,21 @@ function insertAction(){
 async function initCatalog(){
   try{
     const sim=await loadIndex();
-    const typed=val('phase')?normalisePhase(val('phase')):'';
-    const phase=typed||String(sim.active_phase);
-    if(!val('phase'))document.getElementById('phase').value=phase;
+    // The form remembers last session's fields, and last session was usually
+    // last week's phase: a saved phase loaded the old catalog, and a saved role
+    // matched nothing in the new one, so a team saw only the ALL actions. On
+    // load, the phase is the one being played and the role is the one this
+    // team holds in it; both can still be changed by hand afterwards.
+    const phase=String(sim.active_phase);
+    document.getElementById('phase').value=phase;
     await loadPhase(phase);
     CATALOG.online=true;
-    const team=val('team');
-    if(team&&!val('role'))applyTeam();
+    if(val('team'))applyTeam();
+    if(val('incident')){
+      const typed=val('incident').split('\u2014')[0].trim().toLowerCase();
+      if(!CATALOG.incidents.some(i=>(i.id||'').toLowerCase()===typed))
+        document.getElementById('incident').value='';
+    }
   }catch(e){
     CATALOG.online=false;
     setStatus('Could not reach the simulation data ('+e.message+'). Every field still works; you are typing values by hand.',true);
