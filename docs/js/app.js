@@ -872,8 +872,14 @@ function renderInjectLog(inject) {
   const body = document.getElementById('modal-log-body');
   if (!section || !body) return;
 
-  const rows = (SIMULATION.events || [])
+  const mine = (SIMULATION.events || [])
     .filter(e => e.inject === inject.id && INCIDENT_EVENT_KINDS.has(e.kind));
+  // An escalation is logged twice, as an escalation and as the update carrying
+  // the same sentence; show it once.
+  const escalated = new Set(mine.filter(e => e.kind === 'inject_escalated')
+    .map(e => withoutTitle(e.detail || '', inject.title)));
+  const rows = mine.filter(e => !(e.kind === 'inject_updated'
+    && escalated.has(withoutTitle(e.detail || '', inject.title))));
   if (!rows.length) {
     section.style.display = 'none';
     return;
