@@ -73,7 +73,7 @@
 </div>
 <div class="card regular-report-card">
   <h2>What My Role Could Not See</h2>
-  <label for="notVisible">What I needed to know but could not see</label>
+  <label for="notVisible">One gap per line</label>
   <textarea id="notVisible" placeholder="State the information gap honestly; do not invent visibility your role did not have."></textarea>
 </div>
 <div class="card regular-report-card">
@@ -412,7 +412,7 @@ function generateReport(){
     if(meta.length) parts.push(meta.join('\n'));
 
     let visibleBody=[];
-    if(val('notVisible')) visibleBody.push('What I needed to know but could not see:\n\n'+bulletLines(val('notVisible')));
+    if(val('notVisible')) visibleBody.push(bulletLines(val('notVisible')));
     addRequired(parts,'What My Role Could Not See',visibleBody.join('\n\n'));
 
     addRequired(parts,'Situation Judgment',val('judgment'));
