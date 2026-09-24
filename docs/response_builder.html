@@ -327,6 +327,10 @@ function val(id){return document.getElementById(id).value.trim();}
 function stripBullet(line){return line.trim().replace(/^[-•]\s*/,'');}
 function bulletLines(text){if(!text.trim())return '';return text.split('\n').map(stripBullet).filter(Boolean).map(x=>'- '+x).join('\n');}
 function addSection(parts,heading,body){if(body&&body.trim())parts.push('## '+heading+'\n\n'+body.trim());}
+// A required section is written even when empty: the agent refuses a report with a
+// section missing, and leaving empty ones out was refusing every team that had, say,
+// no collaboration to report.
+function addRequired(parts,heading,body){parts.push('## '+heading+'\n\n'+((body&&body.trim())||'None'));}
 function sentenceCount(text){const m=text.trim().match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g);return m?m.filter(x=>x.trim()).length:0;}
 function pipeFields(line){return line.split('|').map(x=>x.trim());}
 function hasPipeFields(line,min){return pipeFields(line).filter(Boolean).length>=min;}
@@ -412,12 +416,12 @@ function generateReport(){
     let visibleBody=[];
     if(val('incident')) visibleBody.push('The incident this report is about, by its dashboard id (for example `I201`):\n\n- '+val('incident').split('\u2014')[0].trim());
     if(val('notVisible')) visibleBody.push('What I needed to know but could not see:\n\n'+bulletLines(val('notVisible')));
-    if(visibleBody.length) addSection(parts,'What My Role Could See',visibleBody.join('\n\n'));
+    addRequired(parts,'What My Role Could See',visibleBody.join('\n\n'));
 
-    addSection(parts,'Situation Judgment',val('judgment'));
-    if(val('actions')) addSection(parts,'Actions Taken',bulletLines(val('actions')));
-    if(val('collaboration')) addSection(parts,'Collaboration and Transfers',bulletLines(val('collaboration')));
-    if(val('budget')) addSection(parts,'Remaining Budget',val('budget').startsWith('$')?val('budget'):'$'+val('budget'));
+    addRequired(parts,'Situation Judgment',val('judgment'));
+    addRequired(parts,'Actions Taken',val('actions')?bulletLines(val('actions')):'');
+    addRequired(parts,'Collaboration and Transfers',val('collaboration')?bulletLines(val('collaboration')):'');
+    addRequired(parts,'Remaining Budget',val('budget')?(val('budget').startsWith('$')?val('budget'):'$'+val('budget')):'');
     if(val('proposed')||val('justification')){
       let body=[];
       if(val('proposed')) body.push(bulletLines(val('proposed')));
