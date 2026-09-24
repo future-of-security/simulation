@@ -849,9 +849,22 @@ const EVENT_LABELS = {
 
 // The log is written verbosely on purpose; an incident's own table shows the
 // events that happened *to it*, which is the question someone clicking it has.
+// What happened to the incident itself. Notifications are not in it: each
+// one repeats the incident's title and says who was told, which the feed on
+// the team page already shows.
 const INCIDENT_EVENT_KINDS = new Set([
-  'inject_opened', 'inject_updated', 'inject_escalated', 'notification_sent'
+  'inject_opened', 'inject_updated', 'inject_escalated'
 ]);
+
+// The pop-up is already headed by the incident's title; a log line that opens
+// with it again says nothing new.
+function withoutTitle(detail, title) {
+  const d = String(detail).trim(), t = String(title || '').trim();
+  if (t && d.toLowerCase().startsWith(t.toLowerCase())) {
+    return d.slice(t.length).replace(/^[\s—–:\-]+/, '');
+  }
+  return d;
+}
 
 function renderInjectLog(inject) {
   const section = document.getElementById('modal-log-section');
@@ -874,7 +887,7 @@ function renderInjectLog(inject) {
       <td class="log-time">${escapeHtml(when)}</td>
       <td>${escapeHtml(label)}${state}</td>
       <td>${escapeHtml(e.team || '')}</td>
-      <td class="log-detail">${escapeHtml(e.detail || '')}</td>
+      <td class="log-detail">${escapeHtml(withoutTitle(e.detail || '', inject.title))}</td>
     </tr>`;
   }).join('');
 }
