@@ -256,7 +256,7 @@ async function initTeamPage(phaseNum, teamName) {
       } catch (e) {}
     }
 
-    lastFingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText);
+    lastFingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText, eventsText);
     updateLastUpdated();
 
     // Find team
@@ -626,7 +626,9 @@ async function pollData(phaseNum) {
       fetchFile(`${base}/events.jsonl`).catch(() => '')
     ]);
 
-    const fingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText);
+    // The incident log is part of what changed: leaving it out meant a log fetched
+    // stale once was never read again until the board itself moved.
+    const fingerprint = boardFingerprint(teamRows, injectRows, actionRows, stateText, notificationsText, eventsText);
     updateLastUpdated();
 
     if (fingerprint === lastFingerprint) return;
