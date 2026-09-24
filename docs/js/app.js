@@ -859,7 +859,8 @@ const INCIDENT_EVENT_KINDS = new Set([
 // The pop-up is already headed by the incident's title; a log line that opens
 // with it again says nothing new.
 function withoutTitle(detail, title) {
-  const d = String(detail).trim(), t = String(title || '').trim();
+  // the log's own time column already says when; drop the `[UPDATE 12:55 PM]` stamp
+  const d = String(detail).trim().replace(/^\[UPDATE[^\]]*\]\s*/i, ''), t = String(title || '').trim();
   if (t && d.toLowerCase().startsWith(t.toLowerCase())) {
     return d.slice(t.length).replace(/^[\s—–:\-]+/, '');
   }
