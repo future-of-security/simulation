@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css?v=20260924">
 </head>
 <body>
   <div class="container">
@@ -153,21 +153,22 @@
       <div id="modal-description" class="modal-description"></div>
       <div class="modal-meta">
         <div class="meta-item">
-          <span class="meta-label">Location</span>
-          <span id="modal-location" class="meta-value"></span>
-        </div>
-        <div class="meta-item">
           <span class="meta-label">Time Limit</span>
           <span id="modal-time" class="meta-value"></span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Visible To</span>
-          <span id="modal-visible" class="meta-value"></span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Points</span>
           <span id="modal-points" class="meta-value"></span>
         </div>
+      </div>
+      <div class="modal-log modal-visible-section">
+        <h3 class="modal-log-title">Who Can See This Incident</h3>
+        <table class="data-table modal-visible-table">
+          <thead>
+            <tr><th>Team</th><th>Role</th></tr>
+          </thead>
+          <tbody id="modal-visible-body"></tbody>
+        </table>
       </div>
       <div class="modal-log" id="modal-log-section">
         <h3 class="modal-log-title">Log</h3>
@@ -190,6 +191,6 @@
     const PHASE_NUM = 1;
   </script>
   <script src="../js/csv.js"></script>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=20260924"></script>
 </body>
 </html>

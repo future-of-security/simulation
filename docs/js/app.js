@@ -1075,6 +1075,33 @@ function updateResolvedToggle() {
 
 // ==================== INJECT MODAL ====================
 
+// Who can see an incident, one row per role, with the team holding it this
+// phase — the team a split or a transfer has to be negotiated with.
+function renderVisibleTable(inject) {
+  const body = document.getElementById('modal-visible-body');
+  if (!body) return;
+  body.innerHTML = '';
+  const roles = inject.visibleTo.length > 0 ? inject.visibleTo : ['ALL'];
+  for (const role of roles) {
+    const tr = document.createElement('tr');
+    const teamCell = document.createElement('td');
+    const roleCell = document.createElement('td');
+    if (role === 'ALL') {
+      teamCell.textContent = 'All teams';
+      roleCell.textContent = '—';
+    } else {
+      const holder = SIMULATION.teams.find(t => t.role === role);
+      teamCell.textContent = holder ? holder.name : '—';
+      roleCell.textContent = role;
+      if (holder && window._currentTeam && holder.name === window._currentTeam) {
+        tr.classList.add('visible-row-self');
+      }
+    }
+    tr.append(teamCell, roleCell);
+    body.appendChild(tr);
+  }
+}
+
 function showInjectModal(inject) {
   const modal = document.getElementById('inject-modal');
   if (!modal) return;
@@ -1083,11 +1110,10 @@ function showInjectModal(inject) {
   document.getElementById('modal-title').textContent =
     inject.id ? `${inject.id} — ${inject.title}` : inject.title;
   document.getElementById('modal-description').textContent = inject.description || 'No description available.';
-  document.getElementById('modal-location').textContent = inject.location || '—';
   const due = wallClock((simMinutes(inject.openedAt) || 0) + inject.timeLimit);
   document.getElementById('modal-time').textContent =
     due ? `${formatTimeLimit(inject.timeLimit)} (due ${due})` : formatTimeLimit(inject.timeLimit);
-  document.getElementById('modal-visible').textContent = inject.visibleTo.length > 0 ? inject.visibleTo.join(', ') : 'All Teams';
+  renderVisibleTable(inject);
   document.getElementById('modal-points').textContent = inject.points || '—';
   renderInjectLog(inject);
 
