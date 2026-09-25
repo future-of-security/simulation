@@ -306,8 +306,9 @@ function applyTeam(){
   if(!row)return;
   if(row.role)document.getElementById('role').value=row.role;
   refreshRoleScopedLists();
-  if(row.budget)setStatus('Phase '+CATALOG.phaseLoaded+': '+row.team+' is '+row.role+
-                          '. Starting budget '+row.budget+' — report what remains after your actions.');
+  // No budget here: the board's figure changes after every settlement and reaches
+  // this page minutes late, and the team page already shows it.
+  setStatus('Phase '+CATALOG.phaseLoaded+': '+row.team+' is '+row.role+'.');
   saveDraft();
 }
 
