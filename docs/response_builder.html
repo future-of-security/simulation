@@ -83,7 +83,7 @@
 </div>
 <div class="card regular-report-card">
   <h2 id="h-actions">Actions Taken</h2>
-  <p class="hint">One action per line: Action ID | Name | Cost | Why it is within your role's authority | <strong>What it produced</strong>. Describe the state that exists now — an incident closes only when a report describes the result, not the plan. Use a real Action ID from this phase's catalog.</p>
+  <p class="hint">One action per line: Action ID | Name | Cost | Why it is within your role's authority | <strong>What it produced</strong>. Say specifically what the action does — who, where, how many, by when; a specific plan counts. Use a real Action ID from this phase's catalog.</p>
   <div class="picker">
     <select id="actionPicker"><option value="">Loading the action catalog…</option></select>
     <button type="button" class="secondary" onclick="insertAction()">Add this action</button>
@@ -249,7 +249,7 @@ function refreshRoleScopedLists(){
   const role=val('role');
   const open=openIncidents();
   const visible=open.filter(i=>servesRole(i.visible_to,role));
-  fillList('incidents-list',(visible.length?visible:open).map(i=>i.id?i.id+' \u2014 '+i.incident:i.incident).filter(Boolean));
+  fillList('incidents-list',(visible.length?visible:open).map(i=>(i.id?i.id+' \u2014 '+i.incident:i.incident)+(i.state==='resolved'?' (resolved)':'')).filter(Boolean));
 
   const usable=CATALOG.actions.filter(a=>servesRole(a.available_to,role));
   const picker=document.getElementById('actionPicker');
@@ -355,6 +355,8 @@ function validate(){const type=document.querySelector('input[name="reportType"]:
         warnings.push('That incident ID is not in this phase\'s catalog. Copy it from the dashboard\'s ID column, or the claim cannot be matched to the board.');
       else if(row.state==='hidden')
         warnings.push('That incident has not opened yet. Report the one on your dashboard now.');
+      else if(row.state==='resolved')
+        warnings.push('That incident is already resolved. A report on it submitted now is not graded and nothing is charged — report on an open incident instead.');
       else if(val('role')&&!servesRole(row.visible_to,val('role')))
         warnings.push('This incident is not visible to '+val('role')+' in this phase. Check you are reporting the right one.');
     }
@@ -363,7 +365,7 @@ function validate(){const type=document.querySelector('input[name="reportType"]:
     if(!val('judgment'))warnings.push('Situation Judgment is blank.'); else {const n=sentenceCount(val('judgment'));if(n<2||n>3)warnings.push('Situation Judgment is intended to be 2–3 sentences; yours appears to be '+n+'.');if(!/\b(uncertain|uncertainty|confident|confidence|likely|may|might|believe|estimate|guess|appears|seems|unknown|cannot confirm|could)\b/i.test(val('judgment')))warnings.push('Situation Judgment does not clearly signal confidence or uncertainty. Consider naming what is known versus inferred.');}
     if(!val('budget'))warnings.push('Remaining Budget is blank; the help page says to report what remains in the dashboard budget column.');
     else if(!looksLikeMoney(val('budget')))warnings.push('Remaining Budget does not contain a number. Copy the figure from the dashboard budget column, for example $30K.');
-    if(val('actions'))val('actions').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,5))warnings.push('Action line '+(i+1)+' does not have all 5 expected fields separated by | (ID, name, cost, why it is yours, what it produced).');else if(/\b(will|plan(ned)? to|going to|intend|expect to)\b/i.test(pipeFields(line)[4]||''))warnings.push('Action line '+(i+1)+': "what it produced" reads like a plan. Describe what now exists — a plan earns partial credit and never closes an incident.');const fc=fieldCountNote(line,5,'Action',i);if(fc)warnings.push(fc);if(!/^\s*A\w*\d+/i.test(line))warnings.push('Action line '+(i+1)+' does not appear to start with a catalog Action ID; verify it against the phase catalog.');
+    if(val('actions'))val('actions').split('\n').map(stripBullet).filter(x=>x.trim()).forEach((line,i)=>{if(!hasPipeFields(line,5))warnings.push('Action line '+(i+1)+' does not have all 5 expected fields separated by | (ID, name, cost, why it is yours, what it produced).');else if((pipeFields(line)[4]||'').trim().split(/\s+/).length<6)warnings.push('Action line '+(i+1)+': "what it produced" is very short. Say who, where, how many or by when, so the reading can tell what the action does.');const fc=fieldCountNote(line,5,'Action',i);if(fc)warnings.push(fc);if(!/^\s*A\w*\d+/i.test(line))warnings.push('Action line '+(i+1)+' does not appear to start with a catalog Action ID; verify it against the phase catalog.');
       else if(CATALOG.online&&CATALOG.actions.length){
         const id=pipeFields(line)[0];
         const a=CATALOG.actions.find(x=>x.action_id.toLowerCase()===id.toLowerCase());

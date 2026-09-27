@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20260924e">
+  <link rel="stylesheet" href="css/styles.css?v=20260927a">
 </head>
 <body>
   <div class="container">
@@ -63,7 +63,7 @@
         <tr><td><span class="state state-pending"><span class="state-dot"></span>Pending</span></td><td>No team has addressed this yet</td></tr>
         <tr><td><span class="state state-in-progress"><span class="state-dot"></span>In Progress</span></td><td>Teams are working on it</td></tr>
         <tr><td><span class="state state-partial"><span class="state-dot"></span>Partial</span></td><td>Partially resolved &mdash; helped but not fully fixed</td></tr>
-        <tr><td><span class="state state-resolved"><span class="state-dot"></span>Resolved</span></td><td>Fully resolved</td></tr>
+        <tr><td><span class="state state-resolved"><span class="state-dot"></span>Resolved</span></td><td>Closed &mdash; reports on it submitted after that are not graded</td></tr>
         <tr><td><span class="state state-escalated"><span class="state-dot"></span>Escalated</span></td><td>Got worse due to inaction &mdash; a follow-on incident has been opened; teams may still earn partial credit for pre-deadline effort</td></tr>
       </table>
       <h3>Dashboard Tips</h3>
@@ -72,7 +72,7 @@
         <li>Use the <strong>role filter</strong> dropdown to see only incidents visible to a specific role</li>
         <li>Use the <strong>action filter</strong> to see only actions available to a specific role</li>
         <li>Click column headers to sort tables</li>
-        <li>Use the "Show Resolved" button to see completed incidents</li>
+        <li>Resolved incidents are hidden from the list; use the "Show Resolved" button to see them and who closed each</li>
       </ul>
     </section>
 
@@ -114,10 +114,11 @@
       <p>Two or three sentences: what you believe is happening, and how confident you are. A guess you name as a guess is worth more than a certainty you cannot support.</p>
 
       <h3>Actions Taken</h3>
-      <p>One line per action, in the format the template shows. The Action ID has to come from your phase's catalog; the fourth field is why the action is yours to take. <strong>The last field is what the action produced — the state that exists now because you took it: who, where, how many, what is true that was not true before.</strong></p>
-      <p><strong>An incident closes only when a report describes the state its closing condition names.</strong> A report that says only what you decided to do can earn partial credit, and never closes anything.</p>
+      <p>One line per action, in the format the template shows. The Action ID has to come from your phase's catalog; the fourth field is why the action is yours to take. <strong>The last field is what the action does — who, where, how many, by when.</strong></p>
+      <p><strong>An incident closes when a report takes the action that heads for its closing condition and says plainly what that action does.</strong> It does not have to be perfect or complete; close enough closes it, and the feedback suggests what would have made it stronger. A report that only helps, or takes the action that looks like the fix but is not, earns partial credit.</p>
       <pre><code>- A14 | Deploy backup generators | $1.2M | we own the distribution assets | generators running at the three rural clinics since 12:55; all three are seeing patients again</code></pre>
-      <p>Write what happened, not what you plan. "We will reassign the rail cars" is a plan. "Twelve idle coal hoppers loaded with diesel for the Wise and Buchanan stations; the first train left at 1:05" is a result.</p>
+      <p>Be specific, whether you write it as done or as what will happen. "We will reassign the rail cars" says little. "Twelve idle coal hoppers carry diesel to the Wise and Buchanan stations, first train at 1:05" says what the action does.</p>
+      <p><strong>The first report to close an incident closes it.</strong> Reports are taken in the order they were submitted; once an incident is resolved, a report on it submitted after that is not graded and nothing is charged for it. The dashboard marks the incident Resolved and says who closed it &mdash; turn to what it opened, or to another incident.</p>
 
       <h3>Collaboration and Transfers</h3>
       <p>One line per team you worked with. Leave <em>confirmed</em> as no if you have not heard back. Both teams file their own report, so a transfer only one side records is a dispute, not a mistake — and a cost split the other team never records is charged to you in full.</p>
@@ -266,7 +267,7 @@ Justification: we run the regional dispatch centre and already hold the trunk co
       <p>Each incident has a time limit. An incident nobody has acted on when its limit passes <strong>escalates on the clock</strong>, and what opens next is the branch that follows from it having escalated rather than from it having been closed.</p>
       <p>Acting on an incident after it escalates still earns what your outcome is worth &mdash; the points are for what you did, not for beating the clock. What you cannot get back is the branch: the phase has already moved on to the world where nobody answered in time.</p>
       <h3>Actions That Take Time</h3>
-      <p>An action with a delay in the catalog produces its effect that many minutes after you take it, and an effect that has not landed is not a resolution. If your report says what the action produced, it is scored on that. If it only says the action was taken, it is scored as started work &mdash; so when a check comes back, file what it found.</p>
+      <p>An action with a delay in the catalog produces its effect that many minutes after you take it. If your report says specifically what the action produces, landed or scheduled, it is scored on that. If it only says a check was started, it is scored as started work &mdash; so when a check comes back, file what it found.</p>
     </section>
 
     <!-- Collaboration -->

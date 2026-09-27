@@ -659,6 +659,16 @@ body {
 }
 
 /* Resolved Rows */
+/* A resolved incident says who closed it and that later reports are not graded */
+.closed-note {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-left: 3px solid #22C55E;
+  border-radius: 4px;
+  background: rgba(34, 197, 94, 0.1);
+  font-weight: 600;
+}
+
 .resolved-row {
   opacity: 0.6;
   background-color: #F9FAFB;

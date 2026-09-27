@@ -1091,7 +1091,7 @@ function updateResolvedToggle() {
   btn.style.display = 'inline-flex';
   btn.textContent = showResolved
     ? `Hide Resolved (${resolvedCount})`
-    : `Show Resolved (${resolvedCount})`;
+    : `Show Resolved (${resolvedCount}) · no longer graded`;
   btn.className = showResolved ? 'btn btn-toggle active' : 'btn btn-toggle';
 }
 
@@ -1138,6 +1138,7 @@ function showInjectModal(inject) {
   renderVisibleTable(inject);
   document.getElementById('modal-points').textContent = inject.points || '—';
   renderInjectLog(inject);
+  renderClosedNote(inject);
 
   // Set severity badge
   const severityEl = document.getElementById('modal-severity');
@@ -1152,6 +1153,37 @@ function showInjectModal(inject) {
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+}
+
+// Who closed an incident and when: the first update that moved it to resolved.
+// Reports are taken in submission order, and one filed after the close is not
+// graded, so a team looking at a resolved incident needs to know that first.
+function closedBy(inject) {
+  return (SIMULATION.events || []).find(e =>
+    e.inject === inject.id && e.kind === 'inject_updated' && e.state === 'resolved') || null;
+}
+
+function renderClosedNote(inject) {
+  const desc = document.getElementById('modal-description');
+  let el = document.getElementById('modal-closed');
+  if (!el && desc) {
+    el = document.createElement('div');
+    el.id = 'modal-closed';
+    el.className = 'closed-note';
+    desc.parentNode.insertBefore(el, desc);
+  }
+  if (!el) return;
+  if (inject.state !== 'resolved') {
+    el.style.display = 'none';
+    return;
+  }
+  const e = closedBy(inject);
+  const when = e && e.at ? new Date(e.at).toLocaleTimeString([], {
+    hour: 'numeric', minute: '2-digit' }) : '';
+  el.textContent = `Resolved${e && e.team ? ' by ' + e.team : ''}${when ? ' at ' + when : ''}. `
+    + 'Reports on this incident submitted after that are not graded — '
+    + 'turn to what it opened, or to another incident.';
+  el.style.display = '';
 }
 
 function closeInjectModal() {
