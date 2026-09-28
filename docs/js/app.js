@@ -215,8 +215,9 @@ function parsePhaseContext(text) {
     }
   }
 
-  // Convert to HTML paragraphs
-  return context.map(p => `<p>${p}</p>`).join('');
+  // Convert to HTML paragraphs. The overview marks its lead-ins **like this**;
+  // shown raw, phase 3's situation read as a page of asterisks.
+  return context.map(p => `<p>${escapeHtml(p).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</p>`).join('');
 }
 
 // ==================== TEAM PAGE ====================
