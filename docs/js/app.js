@@ -369,6 +369,14 @@ function renderNotifications(teamName) {
   }).join('');
 }
 
+// What an escalated incident led to: the incidents it opened that this role can
+// see. A team's attention belongs there; the old one stays listed, lower down.
+function successorsOf(incident, role) {
+  if (incident.state !== 'escalated') return [];
+  return SIMULATION.incidents.filter(i => i.opensAfter === incident.id && i.state !== 'hidden'
+    && (!role || i.visibleTo.includes(role) || i.visibleTo.includes('ALL')));
+}
+
 function renderTeamIncidents(team) {
   const tbody = document.querySelector('#team-incidents-table tbody');
   if (!tbody) return;
@@ -400,6 +408,9 @@ function renderTeamIncidents(team) {
     return incidentSort.direction === 'asc' ? aVal - bVal : bVal - aVal;
   });
 
+  const movedOn = i => successorsOf(i, team.role).length > 0;
+  incidents = [...incidents.filter(i => !movedOn(i)), ...incidents.filter(movedOn)];
+
   if (incidents.length === 0) {
     const tr = document.createElement('tr');
     tr.innerHTML = '<td colspan="5" style="text-align: center; color: #6B7280;">No active incidents for your team</td>';
@@ -410,12 +421,16 @@ function renderTeamIncidents(team) {
   incidents.forEach(incident => {
     const tr = document.createElement('tr');
     const isResolved = incident.state === 'resolved';
-    tr.className = `clickable-row ${isResolved ? 'resolved-row' : ''}`;
+    const next = successorsOf(incident, team.role);
+    tr.className = `clickable-row ${isResolved ? 'resolved-row' : ''} ${next.length ? 'moved-on-row' : ''}`;
     tr.onclick = () => showInjectModal(incident);
     const timeLeft = getTimeLeft(incident);
+    const movedNote = next.length
+      ? `<div class="moved-on-note">Escalated. The story has moved on: start with ${next.map(i => escapeHtml(i.id)).join(', ')}.</div>`
+      : '';
     tr.innerHTML = `
       <td class="col-incident-id">${escapeHtml(incident.id)}</td>
-      <td>${escapeHtml(incident.title)}</td>
+      <td>${escapeHtml(incident.title)}${movedNote}</td>
       <td>${getSeverityBadge(incident.severity)}</td>
       <td>${formatTimeLimit(incident.timeLimit)}</td>
       <td>${getStateIndicator(incident.state)}</td>
@@ -789,6 +804,7 @@ function parseInjectRow(row) {
     openedAt: row.sim_time || '',
     timeLimit: parseInt(row.time_limit) || 10,
     state: row.state || 'open',
+    opensAfter: (row.opens_after || '').trim(),
     visibleTo: asList(row.visible_to),
     points: parseInt(row.points_resolve) || 0
   };
@@ -1097,7 +1113,7 @@ function updateResolvedToggle() {
   btn.style.display = 'inline-flex';
   btn.textContent = showResolved
     ? `Hide Resolved (${resolvedCount})`
-    : `Show Resolved (${resolvedCount}) · no longer graded`;
+    : `Show Resolved (${resolvedCount})`;
   btn.className = showResolved ? 'btn btn-toggle active' : 'btn btn-toggle';
 }
 
@@ -1179,6 +1195,16 @@ function renderClosedNote(inject) {
     desc.parentNode.insertBefore(el, desc);
   }
   if (!el) return;
+  if (inject.state === 'escalated') {
+    const role = window._currentTeam
+      ? (SIMULATION.teams.find(t => t.name === window._currentTeam) || {}).role : '';
+    const next = successorsOf(inject, role);
+    if (!next.length) { el.style.display = 'none'; return; }
+    el.textContent = `Escalated. The story has moved on: start with ${next.map(i => i.id).join(', ')}. `
+      + 'This incident can still be resolved, at a discount.';
+    el.style.display = '';
+    return;
+  }
   if (inject.state !== 'resolved') {
     el.style.display = 'none';
     return;
@@ -1187,7 +1213,7 @@ function renderClosedNote(inject) {
   const when = e && e.at ? new Date(e.at).toLocaleTimeString([], {
     hour: 'numeric', minute: '2-digit' }) : '';
   el.textContent = `Resolved${e && e.team ? ' by ' + e.team : ''}${when ? ' at ' + when : ''}. `
-    + 'Reports on this incident submitted after that are not graded — '
+    + 'Support filed after that still counts, up to partial credit; '
     + 'turn to what it opened, or to another incident.';
   el.style.display = '';
 }

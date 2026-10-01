@@ -1442,3 +1442,6 @@ body {
   font-weight: 600;
   background: rgba(59, 130, 246, 0.08);
 }
+
+.moved-on-row { opacity: 0.7; }
+.moved-on-note { margin-top: 4px; font-size: 0.85em; color: #B45309; font-weight: 600; }

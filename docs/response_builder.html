@@ -356,7 +356,7 @@ function validate(){const type=document.querySelector('input[name="reportType"]:
       else if(row.state==='hidden')
         warnings.push('That incident has not opened yet. Report the one on your dashboard now.');
       else if(row.state==='resolved')
-        warnings.push('That incident is already resolved. A report on it submitted now is not graded and nothing is charged — report on an open incident instead.');
+        warnings.push('That incident is already resolved. If your team did not close it, a report on it is graded as support, up to partial credit; the team that closed it earns nothing more there.');
       else if(val('role')&&!servesRole(row.visible_to,val('role')))
         warnings.push('This incident is not visible to '+val('role')+' in this phase. Check you are reporting the right one.');
     }

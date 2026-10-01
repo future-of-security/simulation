@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20260928a">
+  <link rel="stylesheet" href="css/styles.css?v=20261001b">
 </head>
 <body>
   <div class="container">
@@ -63,7 +63,7 @@
         <tr><td><span class="state state-pending"><span class="state-dot"></span>Pending</span></td><td>No team has addressed this yet</td></tr>
         <tr><td><span class="state state-in-progress"><span class="state-dot"></span>In Progress</span></td><td>Teams are working on it</td></tr>
         <tr><td><span class="state state-partial"><span class="state-dot"></span>Partial</span></td><td>Partially resolved &mdash; helped but not fully fixed</td></tr>
-        <tr><td><span class="state state-resolved"><span class="state-dot"></span>Resolved</span></td><td>Closed &mdash; reports on it submitted after that are not graded</td></tr>
+        <tr><td><span class="state state-resolved"><span class="state-dot"></span>Resolved</span></td><td>Closed &mdash; the team that closed it earns nothing more on it; support from other teams still counts, up to partial credit</td></tr>
         <tr><td><span class="state state-escalated"><span class="state-dot"></span>Escalated</span></td><td>Got worse due to inaction &mdash; a follow-on incident has been opened; teams may still earn partial credit for pre-deadline effort</td></tr>
       </table>
       <h3>Dashboard Tips</h3>
@@ -118,7 +118,7 @@
       <p><strong>An incident closes when a report takes the action that heads for its closing condition and says plainly what that action does.</strong> It does not have to be perfect or complete; close enough closes it, and the feedback suggests what would have made it stronger. A report that only helps, or takes the action that looks like the fix but is not, earns partial credit.</p>
       <pre><code>- A14 | Deploy backup generators | $1.2M | we own the distribution assets | generators running at the three rural clinics since 12:55; all three are seeing patients again</code></pre>
       <p>Be specific, whether you write it as done or as what will happen. "We will reassign the rail cars" says little. "Twelve idle coal hoppers carry diesel to the Wise and Buchanan stations, first train at 1:05" says what the action does.</p>
-      <p><strong>The first report to close an incident closes it.</strong> Reports are taken in the order they were submitted; once an incident is resolved, a report on it submitted after that is not graded and nothing is charged for it. The dashboard marks the incident Resolved and says who closed it &mdash; turn to what it opened, or to another incident.</p>
+      <p><strong>The first report to close an incident closes it.</strong> Reports are taken in the order they were submitted; once an incident is resolved, the team that closed it earns nothing more on it. Another team's later report is still graded as support, at most partial credit, and its actions are charged as usual. The dashboard marks the incident Resolved and says who closed it &mdash; turn to what it opened, or to another incident.</p>
 
       <h3>Collaboration and Transfers</h3>
       <p>One line per team you worked with. Leave <em>confirmed</em> as no if you have not heard back. Both teams file their own report, so a transfer only one side records is a dispute, not a mistake — and a cost split the other team never records is charged to you in full.</p>
@@ -202,6 +202,7 @@ Justification: we run the regional dispatch centre and already hold the trunk co
       <ul>
         <li>Teams take the same action <strong>independently</strong> on different incidents &mdash; each pays the full cost</li>
         <li>Teams take <strong>different actions</strong> on the same incident &mdash; each pays their own action's full cost</li>
+        <li><strong>The same team using one action on several incidents</strong> &mdash; the action is paid for once; its later uses cost nothing and still earn their own award</li>
         <li><strong>Custom actions</strong> &mdash; costs are evaluated per proposal, not split</li>
       </ul>
       <h3>Allocation</h3>
