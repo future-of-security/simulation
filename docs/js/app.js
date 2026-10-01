@@ -1083,7 +1083,12 @@ function updateResolvedToggle() {
   const btn = document.getElementById('toggle-resolved');
   if (!btn) return;
 
-  const resolvedCount = SIMULATION.incidents.filter(i => i.state === 'resolved').length;
+  // on a team page, only the resolved incidents this team's role can see: the
+  // rest never appear however the toggle is set, so counting them made the
+  // button promise rows that were not there
+  const viewer = window._currentTeam && SIMULATION.teams.find(t => t.name === window._currentTeam);
+  const resolvedCount = SIMULATION.incidents.filter(i => i.state === 'resolved'
+    && (!viewer || i.visibleTo.includes(viewer.role) || i.visibleTo.includes('ALL'))).length;
   if (resolvedCount === 0) {
     btn.style.display = 'none';
     return;
