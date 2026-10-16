@@ -74,7 +74,8 @@ async function initIndexPage() {
 
 // Reads _index.json and derives each phase's status from active_phase:
 // before it the phase is completed and stays readable, at it the phase is
-// open, after it the phase is still Coming Soon.
+// open, after it the phase is still Coming Soon. `completed_through` marks the
+// active phase Completed once it has ended, before the next one opens.
 function safeParsePhaseIndex(text) {
   if (!text) return [];
   try {
@@ -90,12 +91,13 @@ function parsePhaseIndex(text) {
   const sim = (data.simulations || []).find(s => s.id === CONFIG.simId);
   if (!sim) throw new Error(`No simulation "${CONFIG.simId}" in _index.json`);
   const active = sim.active_phase;
+  const done = Number.isInteger(sim.completed_through) ? sim.completed_through : -1;
   return (sim.phases || []).map(phase => ({
     num: phase.num,
     title: phase.title,
     practice: phase.practice === true,
-    completed: phase.num < active,
-    available: phase.num === active
+    completed: phase.num < active || phase.num <= done,
+    available: phase.num === active && phase.num > done
   }));
 }
 
