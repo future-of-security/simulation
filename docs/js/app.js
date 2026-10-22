@@ -686,6 +686,13 @@ async function pollData(phaseNum) {
       renderTeamCards();
     }
 
+    // An open pop-up is a snapshot of the incident at the click; redraw it from
+    // what the poll just fetched, or its log trails the page until it is reopened.
+    if (window._openInjectId) {
+      const fresh = SIMULATION.incidents.find(i => i.id === window._openInjectId);
+      if (fresh) showInjectModal(fresh);
+    }
+
     startCountdownTick();
 
   } catch (e) {
@@ -1174,6 +1181,9 @@ function showInjectModal(inject) {
   const stateEl = document.getElementById('modal-state');
   stateEl.innerHTML = getStateIndicator(inject.state);
 
+  // Remembered so a poll can redraw the pop-up while it is open.
+  window._openInjectId = inject.id;
+
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -1222,6 +1232,7 @@ function renderClosedNote(inject) {
 
 function closeInjectModal() {
   const modal = document.getElementById('inject-modal');
+  window._openInjectId = null;
   if (modal) {
     modal.classList.remove('active');
     document.body.style.overflow = '';
