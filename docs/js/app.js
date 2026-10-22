@@ -695,7 +695,7 @@ async function pollData(phaseNum) {
 
 function startPollLoop(phaseNum) {
   if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(() => pollData(phaseNum), 5 * 60 * 1000);
+  pollInterval = setInterval(() => pollData(phaseNum), 60 * 1000);
 }
 
 // ==================== DATA LOADING ====================
